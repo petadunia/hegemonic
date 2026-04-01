@@ -3,188 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hegemonic History — Interactive Atlas</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Hegemonic Atlas — Kekuatan Dominan Dunia</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --sand:#faf7f2;--sand2:#f3ede3;--sand3:#e8dfd0;--sand4:#d6c9b5;
-  --ink:#1c1a16;--ink2:#4a4640;--ink3:#8a8278;--ink4:#b8b0a6;
-  --accent:#8b4513;--accent2:#c17f3e;--accent3:#e8c07a;
-  --blue:#2c5f8a;--blue2:#d6e8f5;
-  --green:#2d6a4f;--green2:#d4edda;
-  --red:#7a2020;--red2:#f5d5d5;
-  --purple:#4a2d7a;--purple2:#e5d6f5;
-  --teal:#1a6b6b;--teal2:#d0eded;
-  --br:10px;--br2:6px;--br3:20px;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 4px 16px rgba(0,0,0,0.05);
-  --shadow2:0 2px 8px rgba(0,0,0,0.12),0 8px 32px rgba(0,0,0,0.08);
+  /* Palette — warm parchment meets deep scholars' ink */
+  --bg:#f5f0e8;
+  --bg2:#ede7d9;
+  --bg3:#e3dccf;
+  --bg4:#d8d0c0;
+  --panel:#faf7f1;
+  --panel2:#f2ece0;
+  --ink:#18160f;
+  --ink2:#3c3828;
+  --ink3:#6e6955;
+  --ink4:#a39e8c;
+  --ink5:#c9c4b5;
+  /* Accent system */
+  --gold:#b5862d;
+  --gold2:#d4a843;
+  --gold3:#f0cc78;
+  --gold-bg:#fdf6e3;
+  --rust:#9b3f22;
+  --rust2:#c4612e;
+  --teal:#1e6b6b;
+  --teal2:#2a8f8f;
+  --teal-bg:#e4f2f2;
+  --blue:#1e3f7a;
+  --blue2:#2d5faf;
+  --blue-bg:#e6ecf8;
+  --green:#2d6b3a;
+  --green2:#3d8c4e;
+  --green-bg:#e4f2e6;
+  --purple:#5c2d8a;
+  --purple2:#7a42b5;
+  --purple-bg:#ede6f8;
+  /* UI */
+  --br:12px;
+  --br2:8px;
+  --br3:24px;
+  --shadow:0 1px 2px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.08);
+  --shadow2:0 2px 6px rgba(0,0,0,.1),0 12px 40px rgba(0,0,0,.12);
+  --shadow3:0 0 0 2px var(--gold2)40;
+  /* Transitions */
+  --t:.2s ease;
 }
-body{font-family:'Inter',system-ui,sans-serif;background:var(--sand);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.5}
 
-/* ── Layout ── */
-.app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
-.sidebar{background:#fff;border-right:1px solid var(--sand3);padding:1.5rem 1.25rem;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:1.25rem}
-.main{padding:2rem 2.5rem 4rem;max-width:960px}
+/* ─── Base ─── */
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--gold3);color:var(--ink)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink4)}
 
-/* ── Sidebar ── */
-.logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);line-height:1.2}
-.logo span{display:block;font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
-.search-box{position:relative}
-.search-box input{width:100%;padding:8px 12px 8px 32px;border:1px solid var(--sand3);border-radius:var(--br2);background:var(--sand);color:var(--ink);font-size:12.5px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
-.search-box input:focus{border-color:var(--accent2)}
-.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.45;pointer-events:none}
-.filter-section{display:flex;flex-direction:column;gap:.5rem}
-.filter-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
-.filter-pills{display:flex;flex-wrap:wrap;gap:5px}
-.pill{font-size:11px;padding:4px 10px;border-radius:var(--br3);border:1px solid var(--sand3);background:var(--sand);color:var(--ink2);cursor:pointer;transition:all .15s;white-space:nowrap}
-.pill:hover{border-color:var(--accent2);color:var(--accent)}
-.pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.stat-mini{background:var(--sand);border-radius:var(--br2);padding:.75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-.stat-mini-item{text-align:center}
-.stat-mini-val{font-size:18px;font-weight:600;color:var(--accent);font-family:'Playfair Display',serif}
-.stat-mini-lbl{font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
-.view-toggle{display:flex;gap:4px;background:var(--sand);border-radius:var(--br2);padding:3px}
-.view-btn{flex:1;padding:5px;border-radius:5px;border:none;background:transparent;color:var(--ink3);font-size:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:4px}
-.view-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.result-count{font-size:11px;color:var(--ink3);text-align:center}
+/* ─── App Layout ─── */
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
 
-/* ── Main header ── */
-.main-hdr{margin-bottom:2rem}
-.main-hdr h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.02em}
-.main-hdr p{font-size:13px;color:var(--ink3);margin-top:4px}
-.sort-bar{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap}
-.sort-bar span{font-size:11px;color:var(--ink3);font-weight:500}
-.sort-btn{font-size:11px;padding:4px 10px;border-radius:var(--br3);border:1px solid var(--sand3);background:#fff;color:var(--ink2);cursor:pointer;transition:all .15s}
-.sort-btn.active{background:var(--sand2);border-color:var(--sand4);color:var(--ink)}
+/* ─── Sidebar ─── */
+.sidebar{background:var(--panel);border-right:1px solid var(--bg3);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:10}
+.sidebar-inner{padding:1.5rem 1.25rem;display:flex;flex-direction:column;gap:1.25rem;flex:1}
+.logo-area{padding-bottom:1rem;border-bottom:1px solid var(--bg3)}
+.logo{font-family:'Crimson Pro',serif;font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
+.logo-sub{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-top:3px}
+.logo-tagline{font-size:11.5px;color:var(--ink3);margin-top:6px;font-style:italic;font-family:'Crimson Pro',serif}
 
-/* ── Timeline view ── */
-.era-section{margin-bottom:2.5rem}
-.era-hdr{display:flex;align-items:baseline;gap:.75rem;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1.5px solid var(--sand3)}
-.era-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--ink)}
-.era-subtitle{font-size:11px;color:var(--ink3);font-style:italic}
-.era-count{margin-left:auto;font-size:10px;padding:2px 8px;background:var(--sand2);border-radius:var(--br3);color:var(--ink3)}
+/* Search */
+.search-wrap{position:relative}
+.search-input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--bg3);border-radius:var(--br2);background:var(--bg);color:var(--ink);font-size:12.5px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color var(--t),box-shadow var(--t)}
+.search-input::placeholder{color:var(--ink4)}
+.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)1a}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink4);pointer-events:none}
 
-/* ── Card ── */
-.card{background:#fff;border-radius:var(--br);border:1px solid var(--sand3);margin-bottom:.75rem;cursor:pointer;transition:box-shadow .2s,border-color .2s;overflow:hidden}
-.card:hover{box-shadow:var(--shadow);border-color:var(--sand4)}
-.card.open{box-shadow:var(--shadow2);border-color:var(--sand4)}
-.card-head{display:grid;grid-template-columns:8px 1fr auto;gap:.75rem;align-items:center;padding:.875rem 1rem}
-.card-stripe{width:8px;height:56px;border-radius:4px;flex-shrink:0}
-.card-meta{}
-.card-name{font-weight:600;font-size:14px;color:var(--ink);line-height:1.25}
-.card-sub{font-size:11.5px;color:var(--ink3);margin-top:2px}
-.card-badges{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
-.badge{font-size:10px;padding:2px 7px;border-radius:var(--br3);font-weight:500;white-space:nowrap}
+/* Filter sections */
+.filter-group{display:flex;flex-direction:column;gap:.5rem}
+.filter-label{font-size:9.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink4)}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.pill{font-size:11px;padding:4px 9px;border-radius:var(--br3);border:1.5px solid var(--bg3);background:transparent;color:var(--ink3);cursor:pointer;transition:all var(--t);white-space:nowrap;font-family:'DM Sans',sans-serif}
+.pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.pill.active{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:500}
+
+/* Stats dashboard in sidebar */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.stat-cell{background:var(--bg);border-radius:var(--br2);padding:.6rem .75rem;border:1px solid var(--bg3)}
+.stat-val{font-family:'Crimson Pro',serif;font-size:22px;font-weight:700;color:var(--gold);line-height:1}
+.stat-lbl{font-size:9.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+/* View toggle */
+.view-toggle{display:flex;background:var(--bg2);border-radius:var(--br2);padding:3px;gap:2px}
+.view-btn{flex:1;padding:5px 6px;border-radius:6px;border:none;background:transparent;color:var(--ink4);font-size:11px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;justify-content:center;gap:4px;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.view-btn.active{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:500}
+
+.result-count{font-size:11px;color:var(--ink4);text-align:center;padding:.25rem}
+.divider{border:none;border-top:1px solid var(--bg3)}
+
+/* ─── Main ─── */
+.main{min-width:0;display:flex;flex-direction:column}
+
+/* Tab nav */
+.tab-nav{background:var(--panel);border-bottom:1px solid var(--bg3);padding:0 2rem;display:flex;gap:0;position:sticky;top:0;z-index:9}
+.tab-btn{padding:.875rem 1.1rem;font-size:12.5px;font-weight:500;color:var(--ink3);border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all var(--t);font-family:'DM Sans',sans-serif;white-space:nowrap}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+
+/* Tab panels */
+.tab-panel{display:none;padding:1.75rem 2rem 4rem;flex:1}
+.tab-panel.active{display:block}
+
+/* Page header */
+.page-hdr{margin-bottom:1.5rem}
+.page-hdr h1{font-family:'Crimson Pro',serif;font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1.1}
+.page-hdr p{font-size:13px;color:var(--ink3);margin-top:5px;max-width:640px}
+
+/* Sort bar */
+.sort-bar{display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.sort-lbl{font-size:11px;color:var(--ink4);font-weight:500}
+.sort-btn{font-size:11px;padding:4px 11px;border-radius:var(--br3);border:1.5px solid var(--bg3);background:var(--panel);color:var(--ink3);cursor:pointer;transition:all var(--t);font-family:'DM Sans',sans-serif}
+.sort-btn:hover{border-color:var(--gold);color:var(--gold)}
+.sort-btn.active{background:var(--panel2);border-color:var(--bg4);color:var(--ink);font-weight:500}
+
+/* ─── Era sections ─── */
+.era-section{margin-bottom:2rem}
+.era-hdr{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.875rem;padding-bottom:.5rem;border-bottom:1.5px solid var(--bg3)}
+.era-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-bottom:2px}
+.era-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;color:var(--ink)}
+.era-sub{font-size:11px;color:var(--ink3);font-style:italic;font-family:'Crimson Pro',serif}
+.era-badge{margin-left:auto;font-size:9.5px;padding:2px 8px;background:var(--bg2);border-radius:var(--br3);color:var(--ink4);border:1px solid var(--bg3)}
+
+/* ─── Card ─── */
+.card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);margin-bottom:.625rem;cursor:pointer;transition:box-shadow var(--t),border-color var(--t),transform var(--t);overflow:hidden;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{box-shadow:var(--shadow);border-color:var(--bg4);transform:translateY(-1px)}
+.card.open{box-shadow:var(--shadow2);border-color:var(--gold2)88;transform:none}
+
+.card-head{display:grid;grid-template-columns:4px 1fr auto;gap:.875rem;align-items:start;padding:.875rem 1rem}
+.card-accent{width:4px;align-self:stretch;min-height:50px;border-radius:2px;flex-shrink:0;margin:2px 0}
+.card-info{}
+.card-name{font-weight:600;font-size:14px;color:var(--ink);line-height:1.25;font-family:'DM Sans',sans-serif}
+.card-sub{font-size:11.5px;color:var(--ink4);margin-top:1px;font-family:'DM Mono',monospace}
+.card-badges{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.badge{font-size:10px;padding:2px 8px;border-radius:var(--br3);font-weight:500;white-space:nowrap;font-family:'DM Sans',sans-serif}
+
 .card-right{text-align:right;flex-shrink:0}
-.card-years{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink2);line-height:1}
-.card-years-lbl{font-size:10px;color:var(--ink4);text-align:right}
-.card-chevron{font-size:10px;color:var(--ink4);transition:transform .2s;margin-top:4px;text-align:right}
-.card.open .card-chevron{transform:rotate(180deg)}
+.card-dur{font-family:'Crimson Pro',serif;font-size:24px;font-weight:700;color:var(--ink2);line-height:1}
+.card-dur-lbl{font-size:9.5px;color:var(--ink4);text-align:right}
+.card-chev{font-size:9px;color:var(--ink5);transition:transform .2s;margin-top:5px;text-align:right}
+.card.open .card-chev{transform:rotate(180deg)}
 
-/* Duration bar */
-.dur-track{height:3px;background:var(--sand2);margin:0 1rem .75rem;border-radius:2px;overflow:hidden}
-.dur-fill{height:100%;border-radius:2px;opacity:.7}
+/* Duration track */
+.dur-track{height:2px;background:var(--bg2);margin:0 1rem .75rem;border-radius:1px;overflow:hidden}
+.dur-fill{height:100%;border-radius:1px;opacity:.55;transition:width .8s ease}
 
-/* Expanded detail */
-.card-body{display:none;padding:0 1rem 1.25rem;border-top:1px solid var(--sand2);margin-top:.25rem}
+/* Card body */
+.card-body{display:none;padding:0 1rem 1.25rem;animation:slideIn .2s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 .card.open .card-body{display:block}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;margin:.875rem 0}
-.dg-item{background:var(--sand);border-radius:var(--br2);padding:.625rem .75rem}
-.dg-val{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
-.dg-lbl{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.desc-text{font-size:12.5px;color:var(--ink2);line-height:1.75;margin-bottom:.75rem}
-.insight-box{background:linear-gradient(135deg,var(--sand2),var(--sand));border-left:3px solid var(--accent2);border-radius:0 var(--br2) var(--br2) 0;padding:.625rem .875rem;margin-bottom:.75rem;font-size:12px;color:var(--ink2);font-style:italic;line-height:1.65}
-.tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.875rem}
-.tag{font-size:10.5px;padding:3px 9px;border-radius:var(--br3);background:var(--sand2);color:var(--ink2);border:1px solid var(--sand3)}
+.body-divider{border:none;border-top:1px solid var(--bg2);margin-bottom:1rem}
+
+/* Detail grid */
+.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem}
+.dg{background:var(--bg);border-radius:var(--br2);padding:.625rem .75rem;border:1px solid var(--bg3)}
+.dg-val{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.3;font-family:'DM Mono',monospace}
+.dg-lbl{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+.desc{font-size:12.5px;color:var(--ink2);line-height:1.8;margin-bottom:.875rem;font-family:'Crimson Pro',serif;font-size:14px}
+.insight-box{background:linear-gradient(135deg,var(--gold-bg),var(--panel2));border-left:3px solid var(--gold);border-radius:0 var(--br2) var(--br2) 0;padding:.7rem 1rem;margin-bottom:.875rem;font-size:13px;color:var(--ink2);font-style:italic;line-height:1.7;font-family:'Crimson Pro',serif}
+.insight-box strong{font-style:normal;color:var(--gold);font-weight:600}
 
 /* Power chart */
 .power-chart{margin:.875rem 0}
-.power-chart-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:.5rem}
-.power-rows{display:flex;flex-direction:column;gap:.35rem}
-.power-row{display:grid;grid-template-columns:90px 1fr 36px;align-items:center;gap:.5rem}
-.power-lbl{font-size:11px;color:var(--ink3);text-align:right}
-.power-bar-track{background:var(--sand2);border-radius:2px;height:8px;overflow:hidden}
-.power-bar-fill{height:100%;border-radius:2px;transition:width .6s ease}
-.power-val{font-size:10px;font-weight:600;color:var(--ink2);text-align:right}
+.power-chart-hdr{display:flex;align-items:center;gap:.5rem;margin-bottom:.625rem}
+.power-chart-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+.heg-score{margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;padding:2px 8px;border-radius:var(--br3);background:var(--gold)15;color:var(--gold);border:1px solid var(--gold)30}
+.power-rows{display:flex;flex-direction:column;gap:.3rem}
+.power-row{display:grid;grid-template-columns:85px 1fr 30px;align-items:center;gap:.5rem}
+.p-lbl{font-size:10.5px;color:var(--ink3);text-align:right;font-family:'DM Mono',monospace}
+.p-track{background:var(--bg2);border-radius:2px;height:7px;overflow:hidden}
+.p-fill{height:100%;border-radius:2px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.p-val{font-size:9.5px;font-weight:600;color:var(--ink3);text-align:right;font-family:'DM Mono',monospace}
 
-/* Collapse btn */
-.collapse-btn{font-size:11px;color:var(--ink3);background:var(--sand);border:1px solid var(--sand3);border-radius:var(--br2);padding:4px 12px;cursor:pointer;width:100%;text-align:center;margin-top:.25rem;transition:background .15s}
-.collapse-btn:hover{background:var(--sand2)}
+/* Theory tags */
+.tag-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:.875rem}
+.tag{font-size:10px;padding:3px 8px;border-radius:var(--br3);background:var(--bg2);color:var(--ink3);border:1px solid var(--bg3)}
 
-/* ── Grid view ── */
+/* Collapse */
+.collapse-btn{font-size:11px;color:var(--ink4);background:var(--bg);border:1.5px solid var(--bg3);border-radius:var(--br2);padding:5px 12px;cursor:pointer;width:100%;text-align:center;margin-top:.25rem;transition:background var(--t);font-family:'DM Sans',sans-serif}
+.collapse-btn:hover{background:var(--bg2)}
+
+/* Theory callout */
+.theory-callout{background:var(--blue-bg);border:1px solid var(--blue2)30;border-radius:var(--br2);padding:.625rem .875rem;margin-bottom:.75rem;font-size:11.5px;color:var(--blue);line-height:1.6}
+.theory-callout strong{color:var(--blue2)}
+
+/* ─── Grid view ─── */
 #grid-view{display:none}
-#grid-view.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+#grid-view.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem}
 #timeline-view.hidden{display:none}
-.grid-card{background:#fff;border-radius:var(--br);border:1px solid var(--sand3);padding:1rem;cursor:pointer;transition:box-shadow .2s,transform .15s;position:relative;overflow:hidden}
-.grid-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.grid-card:hover{box-shadow:var(--shadow2);transform:translateY(-2px)}
-.gc-name{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:3px}
-.gc-sub{font-size:11px;color:var(--ink3);margin-bottom:.5rem}
-.gc-stat-row{display:flex;gap:.5rem;margin-top:.5rem}
-.gc-stat{flex:1;background:var(--sand);border-radius:5px;padding:.4rem .5rem;text-align:center}
-.gc-stat-v{font-size:12px;font-weight:600;color:var(--accent)}
-.gc-stat-l{font-size:9px;color:var(--ink3);text-transform:uppercase}
+.gc{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
+.gc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.gc:hover{box-shadow:var(--shadow2);transform:translateY(-3px);border-color:var(--bg4)}
+.gc-name{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:2px}
+.gc-sub{font-size:10.5px;color:var(--ink4);font-family:'DM Mono',monospace;margin-bottom:.6rem}
+.gc-stats{display:flex;gap:.4rem}
+.gc-s{flex:1;background:var(--bg);border-radius:6px;padding:.4rem .3rem;text-align:center;border:1px solid var(--bg3)}
+.gc-sv{font-size:11px;font-weight:600;color:var(--gold);font-family:'DM Mono',monospace}
+.gc-sl{font-size:8.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.04em}
 
-/* ── No results ── */
-.no-results{text-align:center;padding:3rem;color:var(--ink3);font-size:13px}
+/* ─── Analytics Panel ─── */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+.analytics-full{grid-column:1/-1}
+.chart-card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1.25rem;overflow:hidden}
+.chart-card-hdr{margin-bottom:1rem}
+.chart-card-title{font-family:'Crimson Pro',serif;font-size:17px;font-weight:700;color:var(--ink)}
+.chart-card-sub{font-size:11px;color:var(--ink3);margin-top:2px}
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--sand)}
-::-webkit-scrollbar-thumb{background:var(--sand4);border-radius:3px}
+/* Bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:.4rem}
+.bc-row{display:grid;grid-template-columns:180px 1fr 50px;align-items:center;gap:.625rem}
+.bc-lbl{font-size:11px;color:var(--ink2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-track{background:var(--bg2);border-radius:3px;height:14px;overflow:hidden;cursor:pointer;transition:opacity var(--t)}
+.bc-track:hover{opacity:.8}
+.bc-fill{height:100%;border-radius:3px;transition:width 1s ease;position:relative}
+.bc-fill::after{content:attr(data-val);position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;color:rgba(255,255,255,.8);font-family:'DM Mono',monospace;font-weight:500}
+.bc-val{font-size:10px;font-family:'DM Mono',monospace;color:var(--ink3);text-align:right}
 
-/* ── Responsive ── */
-@media(max-width:860px){
+/* Comparison radar / pentagon chart */
+.radar-wrap{position:relative;display:flex;justify-content:center;align-items:center}
+.radar-legend{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem;justify-content:center}
+.rl-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink3)}
+.rl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* GDP timeline */
+.gdp-timeline{position:relative;overflow-x:auto}
+.gdp-canvas{display:block;width:100%}
+
+/* Cycle chart */
+.cycle-container{overflow-x:auto;padding-bottom:.5rem}
+.cycle-svg{display:block}
+
+/* Index table */
+.index-table{width:100%;border-collapse:collapse}
+.index-table th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);padding:.5rem .75rem;border-bottom:2px solid var(--bg3);text-align:left;font-weight:600}
+.index-table td{font-size:12px;padding:.5rem .75rem;border-bottom:1px solid var(--bg2);color:var(--ink2)}
+.index-table tr:hover td{background:var(--bg)}
+.index-table .rank{font-family:'DM Mono',monospace;font-weight:600;color:var(--ink4);width:36px}
+.index-table .score{font-family:'DM Mono',monospace;font-weight:700;color:var(--gold)}
+.score-bar-inline{height:6px;border-radius:3px;display:inline-block;vertical-align:middle;margin-left:6px}
+
+/* Theory panel */
+.theory-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.theory-card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1.25rem}
+.theory-card-icon{font-size:24px;margin-bottom:.625rem}
+.theory-card-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:.375rem}
+.theory-card-author{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.625rem;font-weight:600}
+.theory-card-body{font-size:12.5px;color:var(--ink2);line-height:1.75}
+.theory-card-kw{display:flex;flex-wrap:wrap;gap:4px;margin-top:.75rem}
+.theory-kw{font-size:10px;padding:2px 8px;border-radius:var(--br3);font-weight:500}
+
+/* Comparison selector */
+.compare-controls{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center}
+.compare-select{padding:7px 12px;border:1.5px solid var(--bg3);border-radius:var(--br2);background:var(--panel);color:var(--ink);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;transition:border-color var(--t)}
+.compare-select:focus{border-color:var(--gold)}
+.compare-btn{padding:7px 16px;background:var(--gold);color:#fff;border:none;border-radius:var(--br2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background var(--t)}
+.compare-btn:hover{background:var(--gold2)}
+
+/* Radar SVG */
+.radar-svg{overflow:visible}
+
+/* No results */
+.no-results{text-align:center;padding:3rem;color:var(--ink4);font-size:13px}
+
+/* Highlight match */
+.highlight{background:var(--gold3)60;border-radius:2px;padding:0 2px}
+
+/* ─── Responsive ─── */
+@media(max-width:900px){
   .app{grid-template-columns:1fr}
-  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--sand3)}
-  .main{padding:1.25rem 1rem 3rem}
-  #grid-view.active{grid-template-columns:1fr 1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--bg3)}
+  .tab-panel{padding:1.25rem 1rem 3rem}
+  .analytics-grid{grid-template-columns:1fr}
+  .theory-grid{grid-template-columns:1fr}
   .detail-grid{grid-template-columns:1fr 1fr}
+  .bc-row{grid-template-columns:120px 1fr 45px}
 }
 @media(max-width:520px){
   #grid-view.active{grid-template-columns:1fr}
-  .card-head{grid-template-columns:6px 1fr auto}
   .detail-grid{grid-template-columns:1fr}
+  .bc-row{grid-template-columns:90px 1fr 40px}
+  .tab-nav{gap:0;padding:0 .75rem}
+  .tab-btn{padding:.75rem .7rem;font-size:11.5px}
 }
+
+/* Fade-in animation for cards on filter */
+@keyframes cardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.card-animated{animation:cardIn .25s ease forwards}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- ─── SIDEBAR ─── -->
 <aside class="sidebar">
-  <div>
-    <div class="logo">Hegemonic Atlas<span>Kekuatan Dominan Dunia</span></div>
+<div class="sidebar-inner">
+
+  <div class="logo-area">
+    <div class="logo">Hegemonic Atlas</div>
+    <div class="logo-sub">World Power & Dominance</div>
+    <div class="logo-tagline">5.500 tahun kekuasaan manusia, terpetakan</div>
   </div>
 
-  <div class="search-box">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search" placeholder="Cari hegemoni, tokoh, konsep...">
+  <div class="search-wrap">
+    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="search-input" type="text" id="search" placeholder="Cari hegemoni, tokoh, konsep...">
   </div>
 
-  <div class="filter-section">
-    <div class="filter-label">Kawasan</div>
-    <div class="filter-pills" id="region-filters">
+  <div class="filter-group">
+    <div class="filter-label">Kawasan Geografis</div>
+    <div class="pills" id="region-filters">
       <span class="pill active" data-region="all">Semua</span>
       <span class="pill" data-region="mesopotamia">Mesopotamia</span>
       <span class="pill" data-region="nil">Nil / Afrika</span>
       <span class="pill" data-region="mediterania">Mediterania</span>
       <span class="pill" data-region="asia-selatan">Asia Selatan</span>
       <span class="pill" data-region="asia-timur">Asia Timur</span>
-      <span class="pill" data-region="islam">Islam / Timur Tengah</span>
+      <span class="pill" data-region="asia-tengah">Asia Tengah</span>
+      <span class="pill" data-region="islam">Islam / Timteng</span>
       <span class="pill" data-region="stepa">Stepa / Mongol</span>
-      <span class="pill" data-region="eropa">Eropa Modern</span>
+      <span class="pill" data-region="eropa">Eropa</span>
       <span class="pill" data-region="americas">Amerika</span>
-      <span class="pill" data-region="global">Era Global</span>
+      <span class="pill" data-region="global">Global</span>
     </div>
   </div>
 
-  <div class="filter-section">
-    <div class="filter-label">Era</div>
-    <div class="filter-pills" id="era-filters">
+  <div class="filter-group">
+    <div class="filter-label">Era Historis</div>
+    <div class="pills" id="era-filters">
       <span class="pill active" data-era="all">Semua</span>
-      <span class="pill" data-era="kuno">Kuno (&gt;500 SM)</span>
+      <span class="pill" data-era="kuno">Kuno (>500 SM)</span>
       <span class="pill" data-era="klasik">Klasik (500 SM–500 M)</span>
       <span class="pill" data-era="pertengahan">Pertengahan (500–1400)</span>
       <span class="pill" data-era="modern-awal">Modern Awal (1400–1800)</span>
@@ -193,564 +348,694 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--sand);color:var(-
     </div>
   </div>
 
-  <div class="filter-section">
+  <div class="filter-group">
     <div class="filter-label">Tipe Hegemoni</div>
-    <div class="filter-pills" id="type-filters">
+    <div class="pills" id="type-filters">
       <span class="pill active" data-type="all">Semua</span>
       <span class="pill" data-type="militer">Militer</span>
       <span class="pill" data-type="komersial">Komersial</span>
       <span class="pill" data-type="religius">Religius</span>
       <span class="pill" data-type="hukum">Hukum/Admin</span>
       <span class="pill" data-type="teknologi">Teknologi</span>
+      <span class="pill" data-type="finansial">Finansial</span>
     </div>
   </div>
 
+  <hr class="divider">
+
   <div class="view-toggle">
     <button class="view-btn active" id="btn-timeline" onclick="setView('timeline')">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       Timeline
     </button>
     <button class="view-btn" id="btn-grid" onclick="setView('grid')">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
       Grid
     </button>
   </div>
 
-  <div class="stat-mini">
-    <div class="stat-mini-item"><div class="stat-mini-val" id="s-total">38</div><div class="stat-mini-lbl">Hegemoni</div></div>
-    <div class="stat-mini-item"><div class="stat-mini-val" id="s-span">5.5K</div><div class="stat-mini-lbl">Tahun Sejarah</div></div>
-    <div class="stat-mini-item"><div class="stat-mini-val" id="s-avg">247</div><div class="stat-mini-lbl">Rata-rata Durasi</div></div>
-    <div class="stat-mini-item"><div class="stat-mini-val" id="s-longest">2030</div><div class="stat-mini-lbl">Terpanjang (thn)</div></div>
+  <div class="stats-grid" id="sidebar-stats">
+    <div class="stat-cell"><div class="stat-val" id="s-total">46</div><div class="stat-lbl">Hegemoni</div></div>
+    <div class="stat-cell"><div class="stat-val" id="s-span">5.5K</div><div class="stat-lbl">Tahun Sejarah</div></div>
+    <div class="stat-cell"><div class="stat-val" id="s-avg">~250</div><div class="stat-lbl">Rerata Durasi</div></div>
+    <div class="stat-cell"><div class="stat-val" id="s-longest">2030</div><div class="stat-lbl">Terpanjang (thn)</div></div>
   </div>
 
-  <div class="result-count" id="result-count">Menampilkan 38 hegemoni</div>
+  <div class="result-count" id="result-count">Menampilkan 46 hegemoni</div>
+</div>
 </aside>
 
-<!-- MAIN -->
+<!-- ─── MAIN ─── -->
 <main class="main">
-  <div class="main-hdr">
-    <h1>Atlas Kekuasaan Dunia</h1>
-    <p>5.500 tahun dominasi — dari Sumeria hingga Pax Americana. Klik kartu untuk analisis mendalam.</p>
+
+  <!-- Tab navigation -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('atlas')">📜 Atlas</button>
+    <button class="tab-btn" onclick="switchTab('analitik')">📊 Analitik</button>
+    <button class="tab-btn" onclick="switchTab('komparasi')">⚖️ Komparasi</button>
+    <button class="tab-btn" onclick="switchTab('siklus')">🔄 Siklus Hegemoni</button>
+    <button class="tab-btn" onclick="switchTab('teori')">📚 Teori</button>
+  </nav>
+
+  <!-- ─ TAB: ATLAS ─ -->
+  <div class="tab-panel active" id="tab-atlas">
+    <div class="page-hdr">
+      <h1>Atlas Kekuasaan Dunia</h1>
+      <p>5.500 tahun dominasi — dari Sumeria hingga Pax Americana. Klik kartu untuk analisis mendalam. Hegemonic Composite Index (HCI) dihitung dari 5 dimensi kekuatan.</p>
+    </div>
+    <div class="sort-bar">
+      <span class="sort-lbl">Urutkan:</span>
+      <button class="sort-btn active" onclick="setSort('chrono',this)">Kronologis</button>
+      <button class="sort-btn" onclick="setSort('duration',this)">Durasi Terpanjang</button>
+      <button class="sort-btn" onclick="setSort('area',this)">Luas Wilayah</button>
+      <button class="sort-btn" onclick="setSort('hci',this)">HCI Tertinggi</button>
+      <button class="sort-btn" onclick="setSort('name',this)">Nama A–Z</button>
+    </div>
+    <div id="timeline-view"></div>
+    <div id="grid-view"></div>
+    <div class="no-results" id="no-results" style="display:none">Tidak ada hasil untuk filter ini.</div>
   </div>
 
-  <div class="sort-bar">
-    <span>Urutkan:</span>
-    <button class="sort-btn active" onclick="setSort('chrono')">Kronologis</button>
-    <button class="sort-btn" onclick="setSort('duration')">Durasi Terpanjang</button>
-    <button class="sort-btn" onclick="setSort('area')">Luas Wilayah</button>
-    <button class="sort-btn" onclick="setSort('name')">Nama A–Z</button>
+  <!-- ─ TAB: ANALITIK ─ -->
+  <div class="tab-panel" id="tab-analitik">
+    <div class="page-hdr">
+      <h1>Analitik Hegemoni</h1>
+      <p>Visualisasi data komparatif — durasi, wilayah, HCI, dan distribusi kekuasaan sepanjang sejarah.</p>
+    </div>
+
+    <div class="analytics-grid">
+      <!-- Top by HCI -->
+      <div class="chart-card analytics-full">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Top 20 Hegemoni — Hegemonic Composite Index (HCI)</div>
+          <div class="chart-card-sub">Rata-rata tertimbang: Militer (20%) · Ekonomi (25%) · Budaya/Soft Power (20%) · Teknologi (15%) · Administrasi (20%)</div>
+        </div>
+        <div class="bar-chart" id="chart-hci"></div>
+      </div>
+
+      <!-- Longest -->
+      <div class="chart-card">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Hegemoni Terlama</div>
+          <div class="chart-card-sub">Top 15 berdasarkan durasi (tahun)</div>
+        </div>
+        <div class="bar-chart" id="chart-duration"></div>
+      </div>
+
+      <!-- Largest -->
+      <div class="chart-card">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Hegemoni Terluas</div>
+          <div class="chart-card-sub">Top 15 berdasarkan luas wilayah (ribu km²)</div>
+        </div>
+        <div class="bar-chart" id="chart-area"></div>
+      </div>
+
+      <!-- GDP Share timeline -->
+      <div class="chart-card analytics-full">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Estimasi Pangsa PDB Dunia — Garis Waktu</div>
+          <div class="chart-card-sub">Berdasarkan estimasi Maddison Project & historiografi ekonomi (Bairoch, Frank, Pomeranz)</div>
+        </div>
+        <canvas class="gdp-canvas" id="chart-gdp" height="220"></canvas>
+      </div>
+
+      <!-- Power distribution -->
+      <div class="chart-card">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Distribusi Tipe Hegemoni</div>
+          <div class="chart-card-sub">Berdasarkan basis kekuatan dominan</div>
+        </div>
+        <canvas id="chart-type" height="220"></canvas>
+      </div>
+
+      <!-- Era distribution -->
+      <div class="chart-card">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Distribusi per Era</div>
+          <div class="chart-card-sub">Jumlah hegemoni tercatat per periode sejarah</div>
+        </div>
+        <canvas id="chart-era" height="220"></canvas>
+      </div>
+    </div>
   </div>
 
-  <div id="timeline-view"></div>
-  <div id="grid-view"></div>
-  <div class="no-results" id="no-results" style="display:none">Tidak ada hasil untuk filter ini.</div>
+  <!-- ─ TAB: KOMPARASI ─ -->
+  <div class="tab-panel" id="tab-komparasi">
+    <div class="page-hdr">
+      <h1>Komparasi Kekuatan</h1>
+      <p>Bandingkan hingga 3 hegemoni secara bersamaan di 5 dimensi kekuatan. Pilih dari dropdown di bawah.</p>
+    </div>
+    <div class="compare-controls">
+      <select class="compare-select" id="cmp1"></select>
+      <select class="compare-select" id="cmp2"></select>
+      <select class="compare-select" id="cmp3"></select>
+      <button class="compare-btn" onclick="runComparison()">Bandingkan ▶</button>
+    </div>
+    <div class="analytics-grid">
+      <div class="chart-card analytics-full">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Radar Perbandingan Kekuatan</div>
+          <div class="chart-card-sub">5 dimensi: Militer · Ekonomi · Budaya · Teknologi · Administrasi</div>
+        </div>
+        <div class="radar-wrap">
+          <svg class="radar-svg" id="radar-svg" width="480" height="380" viewBox="0 0 480 380"></svg>
+        </div>
+        <div class="radar-legend" id="radar-legend"></div>
+      </div>
+      <div class="chart-card analytics-full">
+        <div class="chart-card-hdr">
+          <div class="chart-card-title">Profil Detail Perbandingan</div>
+          <div class="chart-card-sub">Data statistik dan HCI untuk setiap hegemoni yang dipilih</div>
+        </div>
+        <div id="compare-table"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ TAB: SIKLUS HEGEMONI ─ -->
+  <div class="tab-panel" id="tab-siklus">
+    <div class="page-hdr">
+      <h1>Siklus & Transisi Hegemoni</h1>
+      <p>Berdasarkan teori Long Cycle (Modelski) dan Hegemonic Stability (Gilpin, Kennedy, Wallerstein) — pola naik dan runtuhnya kekuasaan dominan.</p>
+    </div>
+
+    <!-- HCI Index Ranking Table -->
+    <div class="chart-card" style="margin-bottom:1.25rem">
+      <div class="chart-card-hdr">
+        <div class="chart-card-title">Hegemonic Composite Index — Peringkat Lengkap</div>
+        <div class="chart-card-sub">HCI = (Mil×0.20) + (Eko×0.25) + (Bud×0.20) + (Tek×0.15) + (Adm×0.20). Skala 0–100.</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="index-table" id="hci-table"></table>
+      </div>
+    </div>
+
+    <!-- Cycle visualization -->
+    <div class="chart-card">
+      <div class="chart-card-hdr">
+        <div class="chart-card-title">Peta Garis Waktu Hegemoni — 3500 SM hingga Sekarang</div>
+        <div class="chart-card-sub">Lebar bar = luas wilayah relatif · Warna = kawasan geografis</div>
+      </div>
+      <div class="cycle-container">
+        <svg class="cycle-svg" id="cycle-svg" height="520"></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─ TAB: TEORI ─ -->
+  <div class="tab-panel" id="tab-teori">
+    <div class="page-hdr">
+      <h1>Teori Hegemoni</h1>
+      <p>Kerangka teoritis yang digunakan untuk memahami dominasi, stabilitas, dan transisi kekuasaan dalam sejarah dan hubungan internasional.</p>
+    </div>
+
+    <div class="theory-grid" id="theory-grid"></div>
+  </div>
+
 </main>
 </div>
 
 <script>
-const DATA = [
-  // ── MESOPOTAMIA AWAL ──
-  {
-    id:1, name:"Peradaban Sumeria & Ur III", sub:"3500–2004 SM",
-    start:-3500,end:-2004,duration:1496,area:600,
-    region:"mesopotamia",era:"kuno",types:["hukum","militer"],
-    color:"#c17f3e",bg:"#fef3e2",
-    badge:"Teokratis-Agraris",
-    stats:[["~600 ribu km²","Pengaruh regional"],["Cuneiform","Tulisan pertama"],["Ur III","Puncak unifikasi"],["~100 ribu","Populasi Ur"]],
-    power:{militer:30,ekonomi:60,budaya:80,teknologi:70,administrasi:75},
-    desc:"Bukan kekaisaran tunggal, tapi sistem kota-negara Sumeria — Ur, Uruk, Lagash, Nippur — adalah cetak biru pertama peradaban urban. Ur III (2112–2004 SM) di bawah Ur-Nammu menciptakan kode hukum tertulis pertama, sistem pajak terpusat, dan birokrasi berbasis tulisan cuneiform.",
-    insight:"Kekuatan Sumeria bukan militer, tapi institusional — mereka menciptakan 'teknologi pemerintahan' berupa administrasi, pajak, dan hukum tertulis yang diwariskan ribuan tahun ke depan.",
-    tags:["Cuneiform","City-states","Kode Ur-Nammu","Irigasi","Kalender lunar","Ziggurat","Perdagangan Lapis Lazuli"]
-  },
-  {
-    id:2, name:"Kekaisaran Akkadia", sub:"2334–2154 SM · ~180 tahun",
-    start:-2334,end:-2154,duration:180,area:650,
-    region:"mesopotamia",era:"kuno",types:["militer","hukum"],
-    color:"#a0522d",bg:"#fef3e2",
-    badge:"Militeristik-Terpusat",
-    stats:[["~650 ribu km²","Luas puncak"],["Sargon Agung","Pendiri"],["1 bahasa admin","Akkadia sebagai lingua franca"],["~1 juta","Estimasi populasi"]],
-    power:{militer:85,ekonomi:60,budaya:55,teknologi:50,administrasi:80},
-    desc:"Sargon dari Akkad menciptakan kekaisaran pertama yang benar-benar terpadu di bawah satu otoritas. Menaklukkan seluruh Mesopotamia, mengenalkan gubernur pusat yang ditunjuk raja, bahasa Akkadia sebagai bahasa negara, dan jaringan pos kurir kerajaan. Runtuh akibat kekeringan panjang (~2200 SM) dan invasi Gutian.",
-    insight:"Model Akkadia — satu raja, satu bahasa administratif, gubernur yang diangkat pusat — menjadi template yang diulang oleh Persia, Roma, dan semua kekaisaran besar sesudahnya.",
-    tags:["Kekaisaran pertama","Lingua franca","Sargon Agung","Administrasi terpusat","Runtuh akibat iklim"]
-  },
-  {
-    id:3, name:"Kekaisaran Babilonia (Hammurabi)", sub:"1894–1595 SM · ~300 tahun",
-    start:-1894,end:-1595,duration:299,area:1000,
-    region:"mesopotamia",era:"kuno",types:["hukum","komersial"],
-    color:"#8b4513",bg:"#fef3e2",
-    badge:"Hukum & Administrasi",
-    stats:[["~1 juta km²","Luas puncak"],["282 pasal","Kode Hammurabi"],["~200.000","Penduduk Babel"],["12 kota","Kota besar bawahan"]],
-    power:{militer:65,ekonomi:80,budaya:75,teknologi:65,administrasi:90},
-    desc:"Hammurabi (1792–1750 SM) bukan hanya penakluk — dia legislator terbesar dunia kuno. Kode Hammurabi adalah korpus hukum tertulis terlengkap pertama: mengatur perniagaan, perburuhan, hak properti, pernikahan, hingga tarif dokter. Babilonia menjadi pusat perdagangan, astronomi, dan matematika Mesopotamia.",
-    insight:"Kode Hammurabi memperkenalkan prinsip yang masih hidup: proporsionalitas hukuman, perlindungan kontrak, dan bahwa hukum harus bisa dibaca publik — dipajang di tiang batu di alun-alun kota.",
-    tags:["Kode Hammurabi","282 pasal hukum","Hukum tertulis publik","Perdagangan lintas wilayah","Matematika Babilonia","Astronomi awal"]
-  },
-  {
-    id:4, name:"Kekaisaran Hittite", sub:"1650–1180 SM · ~470 tahun",
-    start:-1650,end:-1180,duration:470,area:500,
-    region:"mesopotamia",era:"kuno",types:["militer"],
-    color:"#6b4c11",bg:"#fef3e2",
-    badge:"Militer-Diplomatik",
-    stats:[["~500 ribu km²","Luas puncak"],["1259 SM","Perjanjian Kadesh"],["Besi","Teknologi metalurgi"],["~2 juta","Populasi Anatolia"]],
-    power:{militer:80,ekonomi:55,budaya:60,teknologi:85,administrasi:65},
-    desc:"Kekuatan besar Anatolia yang menjadi rival langsung Mesir di Levant. Hittite mempelopori penggunaan besi secara militer dan kereta perang canggih. Setelah Pertempuran Kadesh 1274 SM vs Ramesses II, mereka menandatangani Perjanjian Kadesh — traktat damai internasional pertama yang tercatat dalam sejarah.",
-    insight:"Perjanjian Kadesh antara Hittite dan Mesir adalah dokumen diplomasi internasional tertua yang masih ada. Salinannya kini dipajang di markas PBB, New York — simbol bahwa diplomasi mengalahkan perang.",
-    tags:["Teknologi besi","Kereta perang","Perjanjian Kadesh pertama","Anatolia","Rival Mesir","Diplomasi tertulis"]
-  },
-  // ── NIL / MESIR ──
-  {
-    id:5, name:"Kekaisaran Mesir Kuno", sub:"3100–1070 SM · ~2030 tahun",
-    start:-3100,end:-1070,duration:2030,area:1000,
-    region:"nil",era:"kuno",types:["religius","militer"],
-    color:"#b8860b",bg:"#fffbe6",
-    badge:"Teokratis-Agraris",
-    stats:[["~1 juta km²","Luas puncak"],["~5 juta","Populasi puncak"],["2030 tahun","Hegemoni terpanjang"],["130+ Firaun","Jumlah penguasa"]],
-    power:{militer:70,ekonomi:90,budaya:95,teknologi:70,administrasi:85},
-    desc:"Hegemoni paling panjang dalam sejarah manusia. Mesir mendominasi Afrika Utara dan Levant melalui tiga pilar: kendali Nil (surplus pangan), monopoli distribusi gandum ke wilayah tetangga, dan tatanan teokratis di mana Firaun adalah manifestasi dewa Ra dan Horus. Kerajaan Baru (1550–1070 SM) adalah puncak ekspansi territorial hingga Nubia dan Suriah.",
-    insight:"Hegemoni Mesir bukan dibangun di atas kekerasan saja, tapi pada ketergantungan tetangganya pada biji-bijian Nil — bentuk awal dari 'kekuatan sumber daya' sebagai instrumen geopolitik yang masih sangat relevan hari ini.",
-    tags:["Kendali Nil","Monopoli gandum","Nubia","Levant","Firaun sebagai dewa","Piramida","Hieroglif","Diplomasi cuneiform"]
-  },
-  // ── TIMUR DEKAT AKHIR ──
-  {
-    id:6, name:"Kekaisaran Asiria", sub:"900–612 SM · ~290 tahun",
-    start:-900,end:-612,duration:288,area:1400,
-    region:"mesopotamia",era:"kuno",types:["militer"],
-    color:"#7a3b00",bg:"#fef3e2",
-    badge:"Militer-Teror Sistematis",
-    stats:[["~1,4 juta km²","Luas puncak"],["Besi & kavaleri","Inovasi militer"],["Deportasi massal","Alat kontrol demografis"],["~20 juta","Populasi kekaisaran"]],
-    power:{militer:95,ekonomi:55,budaya:40,teknologi:80,administrasi:70},
-    desc:"Hegemoni berbasis teror yang paling canggih di zaman kuno. Asiria mempelopori penggunaan besi massal, kavaleri terorganisir, mesin pengepungan, dan deportasi massal sebagai alat kontrol demografis. Mereka memindahkan ratusan ribu penduduk taklukan untuk menghancurkan identitas kolektif dan mencegah pemberontakan.",
-    insight:"Teknik deportasi massal Asiria adalah bentuk rekayasa sosial pertama yang terdokumentasi — menggantikan populasi dengan kelompok asing agar loyalitas ke wilayah asal tidak bisa terbentuk. Efektif dalam jangka pendek, destruktif untuk legitimasi jangka panjang.",
-    tags:["Deportasi massal","Teknologi besi","Mesin pengepungan","Teror sistematis","Jaringan intelijen","Niniveh"]
-  },
-  {
-    id:7, name:"Babilonia Baru (Nebukadnezar II)", sub:"626–539 SM · ~87 tahun",
-    start:-626,end:-539,duration:87,area:1000,
-    region:"mesopotamia",era:"kuno",types:["religius","militer"],
-    color:"#5c3310",bg:"#fef3e2",
-    badge:"Kultural-Religius",
-    stats:[["~1 juta km²","Luas puncak"],["~250.000","Penduduk Babel"],["Taman Gantung","7 Keajaiban Dunia"],["586 SM","Yerusalem dihancurkan"]],
-    power:{militer:75,ekonomi:70,budaya:85,teknologi:65,administrasi:65},
-    desc:"Kebangkitan Babilonia setelah jatuhnya Asiria. Nebukadnezar II menghancurkan Yerusalem (586 SM), membawa bangsa Yahudi ke pembuangan Babel, membangun Taman Gantung, dan menjadikan Babel kota terbesar di dunia. Astronomi Babilonia mencapai puncaknya — kalender 12 bulan mereka adalah basis kalender yang kita gunakan.",
-    insight:"Pembuangan Babel adalah salah satu momen paling berpengaruh dalam sejarah monoteisme — dari trauma ini lahir penulisan ulang Taurat dan pembentukan identitas Yahudi modern yang bertahan 2.600 tahun.",
-    tags:["Pembuangan Babel","Astronomi","Kalender 12 bulan","Yerusalem","Taman Gantung","Babel kota terbesar dunia"]
-  },
-  // ── KLASIK ──
-  {
-    id:8, name:"Kekaisaran Persia Akhemeniyah", sub:"550–330 SM · ~220 tahun",
-    start:-550,end:-330,duration:220,area:5500,
-    region:"islam",era:"klasik",types:["militer","hukum","komersial"],
-    color:"#8b4513",bg:"#fce8d5",
-    badge:"Administratif-Toleran",
-    stats:[["~5,5 juta km²","Terbesar saat itu"],["~44 juta","50% populasi dunia"],["2.700 km","Jalan Kerajaan"],["23 satrapi","Provinsi administrasi"]],
-    power:{militer:80,ekonomi:85,budaya:75,teknologi:70,administrasi:95},
-    desc:"Kekaisaran pertama yang benar-benar lintas-benua: Asia, Afrika, Eropa. Cyrus Agung membangun fondasi dengan toleransi budaya radikal — berbeda dengan Asiria, ia membiarkan bangsa taklukan mempertahankan agama, bahasa, dan hukum lokal. Sistem satrapi, Jalan Kerajaan 2.700 km, dan pos kurir adalah inovasi administratif tanpa tandingan.",
-    insight:"Piagam Cyrus (539 SM) — deklarasi toleransi dan hak-hak dasar — menandai pergeseran konseptual: kekaisaran bisa bertahan bukan dengan penindasan, tapi akomodasi. Salinannya disimpan di British Museum.",
-    tags:["3 benua","Satrapi","Piagam Cyrus","Jalan Kerajaan","Toleransi agama","Pos kurir","50% populasi dunia"]
-  },
-  {
-    id:9, name:"Kekaisaran Makedonia (Alexander Agung)", sub:"336–323 SM · ~13 tahun",
-    start:-336,end:-323,duration:13,area:5200,
-    region:"mediterania",era:"klasik",types:["militer"],
-    color:"#2c5f8a",bg:"#e8f4fc",
-    badge:"Penaklukan Kilat",
-    stats:[["~5,2 juta km²","Luas puncak"],["13 tahun","Durasi ekspansi"],["70+ kota","Alexandrias didirikan"],["33 tahun","Usia wafat Alexander"]],
-    power:{militer:100,ekonomi:60,budaya:70,teknologi:65,administrasi:50},
-    desc:"Ekspansi teritorial tercepat dalam sejarah. Dari Makedonia ke India dalam 11 tahun — menghancurkan Persia, Mesir, Baktria, hingga Punjab. Yang lebih penting dari penaklukannya adalah after-effect: Hellenisme menyebar ke seluruh Near East, menciptakan sintesis Yunani-Timur yang melahirkan Neoplatonisme dan ilmu pengetahuan Helenistik.",
-    insight:"Kematian Alexander pada 323 SM di usia 32 tahun adalah 'what-if' terbesar sejarah. Kekaisarannya hancur seketika, tapi ide-idenya hidup lebih lama dari semua penerusnya. Budaya Yunani masih mendominasi Near East 300 tahun setelah kematiannya.",
-    tags:["Ekspansi tercepat sejarah","Hellenisme","Sintesis Yunani-Timur","Alexandria","Diadochi","Phalanx Makedonia"]
-  },
-  {
-    id:10, name:"Kekaisaran Maurya", sub:"322–185 SM · ~137 tahun",
-    start:-322,end:-185,duration:137,area:5000,
-    region:"asia-selatan",era:"klasik",types:["religius","hukum"],
-    color:"#2d6a4f",bg:"#d4f5e3",
-    badge:"Buddhis-Etis",
-    stats:[["~5 juta km²","Luas puncak"],["~50 juta","~30% populasi Asia"],["Ashoka","Raja-filosof terbesar"],["Pilar Ashoka","33 pilar tersebar"]],
-    power:{militer:75,ekonomi:70,budaya:90,teknologi:55,administrasi:80},
-    desc:"Kekaisaran pertama yang menyatukan hampir seluruh anak benua India. Ashoka (268–232 SM), setelah menyaksikan pembantaian Kalinga (~100.000 tewas), bertobat dan memeluk Buddhisme. Ia mengubah kebijakan negara dari penaklukan ke dhamma (kebijaksanaan etis), mendirikan rumah sakit, jalan, sumur, dan kebun binatang publik.",
-    insight:"Ashoka adalah satu-satunya penguasa besar dalam sejarah yang secara terbuka menyesal atas penaklukannya dan mengubah haluan ke arah etika publik. Ia melarang perburuan, memerintahkan penanaman pohon sepanjang jalan, dan membangun rumah sakit untuk manusia dan hewan.",
-    tags:["India pertama bersatu","Ashoka","Buddhisme negara","Dhamma","Pilar Ashoka","Rumah sakit publik","Anti-perang"]
-  },
-  {
-    id:11, name:"Kekaisaran Parthia", sub:"247 SM–224 M · ~471 tahun",
-    start:-247,end:224,duration:471,area:2800,
-    region:"islam",era:"klasik",types:["militer","komersial"],
-    color:"#6b4c11",bg:"#fce8d5",
-    badge:"Buffer Strategis",
-    stats:[["~2,8 juta km²","Luas puncak"],["471 tahun","Durasi hegemoni"],["Carrhae 53 SM","Mengalahkan Crassus"],["Jalur Sutra","Kendali perdagangan"]],
-    power:{militer:80,ekonomi:75,budaya:55,teknologi:60,administrasi:60},
-    desc:"Sering diabaikan, Parthia adalah kekuatan yang menghentikan ekspansi Roma ke timur selama hampir 5 abad. Kemenangan di Carrhae (53 SM) menghancurkan 7 legio Crassus dan membuktikan kavaleri berkuda Parthia mampu mengalahkan infanteri Roma. Mereka juga mengendalikan rute perdagangan Jalur Sutra antara Roma dan Tiongkok.",
-    insight:"Tanpa Parthia sebagai tembok timur, sejarah Roma — dan mungkin seluruh sejarah Barat — akan sangat berbeda. Mereka adalah kekuatan 'negatif' yang kekuatannya justru dalam kemampuannya menolak ekspansi musuh lebih kuat.",
-    tags:["Rival abadi Roma","Jalur Sutra","Carrhae","Kavaleri cataphract","Buffer strategis","Arsacid dynasty"]
-  },
-  {
-    id:12, name:"Republik & Kekaisaran Romawi", sub:"264 SM–476 M · ~740 tahun",
-    start:-264,end:476,duration:740,area:5000,
-    region:"mediterania",era:"klasik",types:["militer","hukum","komersial"],
-    color:"#8b2222",bg:"#fce8e8",
-    badge:"Hukum, Jalan & Legio",
-    stats:[["~5 juta km²","Luas puncak"],["~70 juta","Populasi puncak"],["80.000 km","Jaringan jalan Roma"],["~740 tahun","Dominasi Mediterania"]],
-    power:{militer:95,ekonomi:90,budaya:85,teknologi:80,administrasi:95},
-    desc:"Hegemoni yang paling formatif bagi peradaban Barat. Roma membangun dominasinya di atas tiga pilar: legio (mesin militer paling profesional zamannya), via romana (80.000 km jalan memungkinkan mobilisasi cepat), dan ius romanum (hukum yang bisa diterapkan pada puluhan suku berbeda). Pax Romana (27 SM–180 M) adalah 200 tahun kemakmuran relatif tanpa preseden.",
-    insight:"Warisan Roma bukan wilayahnya tapi strukturnya: hukum Romawi adalah basis hukum perdata Eropa, Amerika Latin, dan sebagian Afrika hingga hari ini. Bahasa Latin masih hidup dalam Prancis, Spanyol, Italia, Portugis, dan Romania — dituturkan oleh >1 miliar orang.",
-    tags:["Pax Romana","Hukum Romawi","Via Romana","Legio","Senat","Basis hukum perdata dunia","Latin","Colosseum"]
-  },
-  {
-    id:13, name:"Dinasti Han", sub:"206 SM–220 M · ~426 tahun",
-    start:-206,end:220,duration:426,area:6000,
-    region:"asia-timur",era:"klasik",types:["hukum","komersial","militer"],
-    color:"#1a5276",bg:"#d6eaf8",
-    badge:"Konfusian-Birokrasi",
-    stats:[["~6 juta km²","Luas puncak"],["~60 juta","~30% populasi dunia"],["Jalur Sutra","Rute perdagangan global"],["426 tahun","Durasi dominasi"]],
-    power:{militer:80,ekonomi:85,budaya:85,teknologi:70,administrasi:90},
-    desc:"Paralel dengan Roma di ujung timur Eurasia — sama-sama mendominasi dunia masing-masing secara bersamaan. Han membangun birokrasi berbasis ujian konfusian (cikal bakal sistem PNS modern), mendominasi Jalur Sutra, menaklukkan Xiongnu, dan menetapkan identitas 'Han' yang 1,4 miliar orang China masih gunakan.",
-    insight:"Sistem ujian birokrasi Han adalah meritokrasi pertama dalam sejarah pemerintahan — gagasan bahwa jabatan harus diisi berdasarkan kemampuan, bukan kelahiran. Konsep ini baru diadopsi Eropa 1.800 tahun kemudian melalui sistem merit kolonial.",
-    tags:["Jalur Sutra","Ujian birokrasi","Konfusianisme","Meritokrasi pertama","Xiongnu","Kertas","Kompas awal","Identitas Han"]
-  },
-  // ── TRANSISI ──
-  {
-    id:14, name:"Kekaisaran Sassanid (Persia Baru)", sub:"224–651 M · ~427 tahun",
-    start:224,end:651,duration:427,area:3500,
-    region:"islam",era:"pertengahan",types:["religius","militer"],
-    color:"#7b3f00",bg:"#fce8d5",
-    badge:"Zoroastrian-Militer",
-    stats:[["~3,5 juta km²","Luas puncak"],["427 tahun","Rival abadi Byzantium"],["Ctesiphon","Ibu kota terbesar dunia"],["~30 juta","Populasi kekaisaran"]],
-    power:{militer:85,ekonomi:70,budaya:75,teknologi:65,administrasi:75},
-    desc:"Kebangkitan Persia pasca-Parthia, dan rival terbesar Byzantium selama empat abad. Sassanid membangun negara berbasis Zoroastrianisme dengan administrasi lebih terpusat. Perang abadi Byzantium-Sassanid yang berlangsung ratusan tahun menguras kedua belah pihak — memudahkan penaklukan Arab Muslim dalam dekade sesudahnya.",
-    insight:"Perang abadi Byzantium-Sassanid adalah contoh klasik 'hegemonic exhaustion' — dua raksasa yang saling melemahkan hingga keduanya rentan terhadap kekuatan ketiga yang jauh lebih kecil namun lebih energik: Islam.",
-    tags:["Zoroastrianisme","Rival Byzantium","Ctesiphon","Administrasi Persia","Exhausted hegemony","Pra-Islam"]
-  },
-  {
-    id:15, name:"Kekaisaran Byzantium (Romawi Timur)", sub:"330–1453 M · ~1123 tahun",
-    start:330,end:1453,duration:1123,area:3500,
-    region:"mediterania",era:"pertengahan",types:["religius","hukum"],
-    color:"#4a2d7a",bg:"#ede5f5",
-    badge:"Kristen-Hukum Romawi",
-    stats:[["~3,5 juta km²","Luas puncak (abad 6)"],["1123 tahun","Kekaisaran terpanjang"],["Konstantinopel","Kota terbesar Eropa"],["Codex Justinianus","Hukum lengkap"]],
-    power:{militer:70,ekonomi:85,budaya:90,teknologi:65,administrasi:85},
-    desc:"Sering disalah-pahami sebagai 'Romawi yang bertahan' — padahal Byzantium adalah entitas sendiri yang berkembang lebih dari seribu tahun. Mereka menjaga hukum Romawi (Codex Justinianus), Kristen Ortodoks, dan budaya Yunani sekaligus. Konstantinopel adalah kota terbesar dan terkaya di Eropa selama berabad-abad.",
-    insight:"Jatuhnya Konstantinopel 1453 mendorong para sarjana Yunani-Byzantium mengungsi ke Italia — membawa manuskrip Yunani kuno yang memicu Renaisans. Secara paradoks, kehancuran Byzantium berkontribusi pada kelahiran modernitas Barat.",
-    tags:["1000+ tahun","Codex Justinianus","Ortodoks Timur","Konstantinopel","Warisan ke Renaisans","Api Yunani","Tembok Theodosian"]
-  },
-  {
-    id:16, name:"Kekaisaran Gupta", sub:"320–550 M · ~230 tahun",
-    start:320,end:550,duration:230,area:3500,
-    region:"asia-selatan",era:"pertengahan",types:["teknologi","religius"],
-    color:"#1e6b1e",bg:"#d4f5e3",
-    badge:"Hindu-Ilmiah",
-    stats:[["~3,5 juta km²","Luas puncak"],["Aryabhata","Matematikawan terbesar"],["Angka nol","Kontribusi terbesar ke dunia"],["~30 juta","Populasi"]],
-    power:{militer:60,ekonomi:75,budaya:95,teknologi:100,administrasi:70},
-    desc:"Zaman Keemasan India klasik. Aryabhata menghitung nilai pi, mengembangkan trigonometri, dan mengusulkan bumi berputar pada porosnya sebelum Copernicus. Sistem angka desimal dan konsep nol — yang kemudian diambil Arab dan disebarkan ke Eropa — lahir di era ini. Sastra Sansekerta (Kalidasa) juga mencapai puncaknya.",
-    insight:"Tanpa angka nol dan sistem desimal Gupta-India, matematika modern, komputer, dan semua teknologi digital tidak mungkin ada. Itu mungkin kontribusi intelektual tunggal terbesar satu peradaban kepada seluruh umat manusia.",
-    tags:["Angka nol","Sistem desimal","Aryabhata","Trigonometri","Zaman Keemasan India","Sastra Sansekerta","Kalidasa"]
-  },
-  {
-    id:17, name:"Dinasti Tang", sub:"618–907 M · ~289 tahun",
-    start:618,end:907,duration:289,area:6500,
-    region:"asia-timur",era:"pertengahan",types:["militer","komersial"],
-    color:"#0d4f6c",bg:"#d6eaf8",
-    badge:"Kosmopolitan-Militer",
-    stats:[["~6,5 juta km²","Luas puncak"],["Chang'an","Kota 1 juta penduduk"],["~80 juta","Populasi"],["Jalur Sutra","Puncak kapasitas"]],
-    power:{militer:85,ekonomi:85,budaya:90,teknologi:75,administrasi:85},
-    desc:"Periode paling kosmopolitan dalam sejarah Tiongkok. Chang'an (Xi'an) dengan 1 juta penduduk adalah kota terbesar di dunia — dihuni pedagang Persia, Arab, Turki, India, dan Korea. Tang mendominasi Asia Tengah dan memproyeksikan budaya Tiongkok ke Korea, Jepang, dan Vietnam.",
-    insight:"Model Tang — pemerintahan meritokratis, keterbukaan budaya, dan proyeksi kekuatan lunak melalui seni dan administrasi — memengaruhi hampir semua peradaban Asia Timur. Alfabet Korea, aksara Jepang, dan birokrasi Vietnam semuanya berakar dari era Tang.",
-    tags:["Jalur Sutra","Chang'an","Kosmopolitanisme","Li Bai","Du Fu","Dominasi Asia Tengah","Pengaruh Korea-Jepang"]
-  },
-  // ── ISLAM & PERTENGAHAN ──
-  {
-    id:18, name:"Kekhalifahan Rasyidin & Umayyah", sub:"632–750 M · ~118 tahun",
-    start:632,end:750,duration:118,area:11000,
-    region:"islam",era:"pertengahan",types:["militer","religius"],
-    color:"#1a5276",bg:"#fce8d5",
-    badge:"Ekspansi Agama-Militer",
-    stats:[["~11 juta km²","Luas puncak Umayyah"],["118 tahun","Tercepat kedua dalam sejarah"],["3 benua","Jangkauan ekspansi"],["~50 juta","Populasi Umayyah"]],
-    power:{militer:90,ekonomi:65,budaya:70,teknologi:55,administrasi:65},
-    desc:"Setelah kematian Nabi Muhammad (632 M), Arab Muslim melakukan ekspansi militer yang kecepatannya hanya tertandingi Alexander Agung. Dalam satu abad, mereka menaklukkan Persia, Mesir, Levant, Afrika Utara, Spanyol, hingga Afghanistan. Faktor utama: semangat ideologis, kavaleri ringan yang cepat, dan kelelahan Byzantium-Sassanid.",
-    insight:"Ekspansi Islam awal mengubah peta dunia secara permanen dalam waktu yang sangat singkat. Lebih dari 1,8 miliar Muslim saat ini adalah warisan langsung dari ekspansi 118 tahun ini.",
-    tags:["Ekspansi Islam","3 benua","100 tahun","Al-Andalus","Sassanid runtuh","Kavaleri Arab","Damaskus"]
-  },
-  {
-    id:19, name:"Kekhalifahan Abbasiyah", sub:"750–1258 M · ~508 tahun",
-    start:750,end:1258,duration:508,area:11000,
-    region:"islam",era:"pertengahan",types:["teknologi","komersial","religius"],
-    color:"#0d4c3d",bg:"#d4f0e6",
-    badge:"Islami-Ilmiah",
-    stats:[["~11 juta km²","Luas puncak"],["Baghdad","Kota terbesar dunia"],["Bayt al-Hikma","Pusat terjemahan global"],["~1 juta","Penduduk Baghdad"]],
-    power:{militer:70,ekonomi:90,budaya:95,teknologi:90,administrasi:80},
-    desc:"Zaman Keemasan Islam. Baghdad di bawah Harun al-Rashid dan al-Ma'mun menjadi pusat intelektual dunia: aljabar (al-Khwarizmi), optik (Ibn al-Haytham), kedokteran (Ibnu Sina/Avicenna), filsafat (al-Farabi) lahir di sini. Pax Islamica menghubungkan perdagangan dari China ke Spanyol.",
-    insight:"Tanpa Abbasiyah, banyak karya Aristoteles dan matematika Yunani akan hilang. Mereka adalah 'arsiparis peradaban' yang menjaga dan mengembangkan pengetahuan saat Eropa memasuki Abad Kegelapan — lalu meneruskannya lewat terjemahan ke Latin.",
-    tags:["Bayt al-Hikma","Aljabar","Ibnu Sina","Al-Khwarizmi","Pax Islamica","Terjemahan Yunani","Optik","Kedokteran Islam"]
-  },
-  {
-    id:20, name:"Dinasti Song", sub:"960–1279 M · ~319 tahun",
-    start:960,end:1279,duration:319,area:2000,
-    region:"asia-timur",era:"pertengahan",types:["teknologi","komersial"],
-    color:"#1a4a6b",bg:"#d6eaf8",
-    badge:"Inovatif-Komersial",
-    stats:[["~2 juta km²","Luas (lebih kecil dari Han)"],["~100 juta","Populasi"],["Mesin cetak 1040","Bi Sheng"],["25-30% PDB dunia","Ekonomi terkaya"]],
-    power:{militer:45,ekonomi:95,budaya:85,teknologi:100,administrasi:85},
-    desc:"Bukan kekaisaran terbesar, tapi mungkin paling inovatif dalam sejarah Tiongkok. Era Song melihat lahirnya: mesin cetak (Bi Sheng, 1040 M), uang kertas pertama, kompas magnetik, bubuk mesiu untuk artileri, dan industri baja pertama. GDP Song diperkirakan 25-30% PDB dunia — negara terkaya di bumi saat itu.",
-    insight:"Hampir semua teknologi yang mendorong ekspansi Eropa — kompas, bubuk mesiu, mesin cetak — ditemukan di Tiongkok Song, tapi dieksploitasi ke skala global oleh Eropa. Paradoks Song: inovator terbesar yang hasilnya dipanen orang lain.",
-    tags:["Mesin cetak","Uang kertas","Kompas","Bubuk mesiu","Baja","25% PDB dunia","Inovasi teknologi terbanyak"]
-  },
-  {
-    id:21, name:"Kekaisaran Mali", sub:"1235–1600 M · ~365 tahun",
-    start:1235,end:1600,duration:365,area:1200,
-    region:"nil",era:"pertengahan",types:["komersial","religius"],
-    color:"#7d4c00",bg:"#fffbe6",
-    badge:"Emas & Perdagangan",
-    stats:[["~1,2 juta km²","Luas puncak"],["Mansa Musa","Terkaya dalam sejarah"],["Timbuktu","25.000 mahasiswa"],["12 ton emas","Dibawa saat haji 1324"]],
-    power:{militer:60,ekonomi:95,budaya:80,teknologi:45,administrasi:70},
-    desc:"Hegemoni Afrika Barat yang sering diabaikan. Mali mengendalikan rute emas dan garam trans-Sahara. Mansa Musa (1312–1337 M) melakukan haji 1324 M dengan 60.000 orang dan 12 ton emas — menyebabkan depresiasi harga emas di Mesir dan Arab selama satu dekade. Timbuktu memiliki lebih dari 25.000 mahasiswa.",
-    insight:"Mansa Musa membawa begitu banyak emas ke Mesir hingga harga emas di kawasan Mediterania jatuh selama 10 tahun — inflasi yang disebabkan oleh kekayaan seorang individu. Tidak ada yang pernah melakukan ini sebelum atau sesudahnya.",
-    tags:["Mansa Musa","Emas trans-Sahara","Timbuktu","Universitas Islam","Orang terkaya sejarah","Haji 1324","Inflasi emas"]
-  },
-  {
-    id:22, name:"Kekaisaran Mongol", sub:"1206–1368 M · ~162 tahun",
-    start:1206,end:1368,duration:162,area:24000,
-    region:"stepa",era:"pertengahan",types:["militer"],
-    color:"#555",bg:"#f0f0f0",
-    badge:"Predasional-Integrasi",
-    stats:[["~24 juta km²","Terbesar dalam sejarah"],["~40 juta tewas","Dari penaklukan"],["Pax Mongolica","Integrasi perdagangan Eurasia"],["13% daratan bumi","Pangsa wilayah"]],
-    power:{militer:100,ekonomi:55,budaya:30,teknologi:50,administrasi:50},
-    desc:"Kekaisaran daratan terbesar yang pernah ada — dari Pasifik hingga Eropa Timur. Dibangun di atas kehancuran masif, tapi Pax Mongolica memungkinkan pertukaran teknologi, budaya, dan perdagangan lintas Eurasia yang belum pernah ada sebelumnya. Black Death (wabah Hitam) juga tersebar lewat jalur perdagangan Mongol.",
-    insight:"Paradoks Mongol: mereka membangun sistem konektivitas Eurasia terbesar melalui kehancuran terbesar. Tanpa Pax Mongolica, Marco Polo tidak bisa melakukan perjalanannya — dan tanpa Black Death yang tersebar lewat rute Mongol, Renaisans Eropa mungkin tidak akan terjadi.",
-    tags:["24 juta km²","Pax Mongolica","Jalur Sutra","Black Death","Marco Polo","Genghis Khan","Kubilai Khan","Invasi Jepang"]
-  },
-  {
-    id:23, name:"Kekaisaran Utsmaniyah", sub:"1299–1922 M · ~623 tahun",
-    start:1299,end:1922,duration:623,area:5200,
-    region:"islam",era:"modern-awal",types:["militer","religius","hukum"],
-    color:"#6b1a1a",bg:"#fce8e8",
-    badge:"Religius-Militer",
-    stats:[["~5,2 juta km²","Luas puncak"],["623 tahun","Salah satu terpanjang"],["Sistem millet","Inovasi multikultur"],["3 benua","Asia, Eropa, Afrika"]],
-    power:{militer:85,ekonomi:75,budaya:75,teknologi:60,administrasi:80},
-    desc:"Kekaisaran yang menghubungkan tiga benua selama enam abad. Setelah menaklukkan Konstantinopel 1453, Utsmaniyah mengendalikan persimpangan perdagangan Eropa-Asia, memaksa Eropa mencari rute laut ke India — yang langsung memicu ekspedisi Kolumbus dan Vasco da Gama.",
-    insight:"Ironisnya, dominasi Utsmaniyah atas rute darat Eropa-Asia adalah penyebab tidak langsung Era Penjelajahan Eropa dan kolonialisasi Amerika. Tanpa 'blokade' Utsmaniyah, tidak ada urgensi mencari rute alternatif.",
-    tags:["Konstantinopel 1453","Sistem millet","Janissari","Pemicu Era Penjelajahan","Suleiman Agung","3 benua"]
-  },
-  // ── PRE-KOLUMBUS ──
-  {
-    id:24, name:"Kekaisaran Khmer", sub:"802–1431 M · ~629 tahun",
-    start:802,end:1431,duration:629,area:1000,
-    region:"americas",era:"pertengahan",types:["religius","teknologi"],
-    color:"#2d6a4f",bg:"#d4edda",
-    badge:"Hindu-Buddhis Agraris",
-    stats:[["~1 juta km²","Luas puncak"],["Angkor Wat","Kompleks candi terbesar"],["~1 juta","Penduduk Angkor (abad 12)"],["3x panen","Per tahun berkat irigasi"]],
-    power:{militer:65,ekonomi:75,budaya:90,teknologi:80,administrasi:70},
-    desc:"Hegemoni terbesar Asia Tenggara daratan. Kekaisaran Khmer membangun jaringan irigasi paling kompleks di dunia pra-industri yang memungkinkan tiga kali panen padi per tahun. Angkor dengan sekitar 1 juta penduduk adalah kota terbesar di dunia pada abad 12 M.",
-    insight:"Keruntuhan Khmer kemungkinan besar disebabkan oleh mega-droughts yang menghancurkan sistem irigasi mereka — salah satu contoh paling jelas dari 'climate collapse' dalam sejarah hegemoni, sangat relevan untuk diskusi iklim hari ini.",
-    tags:["Angkor Wat","Irigasi raksasa","Asia Tenggara","Hindu-Buddha","1 juta penduduk","Climate collapse","Kota terbesar abad 12"]
-  },
-  {
-    id:25, name:"Kekaisaran Aztec (Mexica)", sub:"1300–1521 M · ~221 tahun",
-    start:1300,end:1521,duration:221,area:200,
-    region:"americas",era:"modern-awal",types:["militer","religius"],
-    color:"#3d6b2d",bg:"#e8f5de",
-    badge:"Ritual-Militer",
-    stats:[["~200 ribu km²","Luas puncak"],["~300.000","Penduduk Tenochtitlan"],["Triple Alliance","Mexica, Texcoco, Tlacopan"],["~6 juta","Populasi kekaisaran"]],
-    power:{militer:75,ekonomi:70,budaya:80,teknologi:65,administrasi:75},
-    desc:"Hegemoni Mesoamerika yang didominasi Triple Alliance. Tenochtitlan adalah kota dengan sistem drainase, pasar, dan administrasi yang mengungguli semua kota Eropa sezamannya. Jatuh karena koalisi suku-suku yang membenci dominasi Aztec bergabung dengan pasukan Spanyol Cortés.",
-    insight:"Tenochtitlan saat Cortés tiba adalah kota dengan ~300.000 penduduk — 5 kali lebih besar dari London pada waktu yang sama. Pengabaian ini selama berabad-abad adalah distorsi historis yang baru mulai dikoreksi dalam historiografi modern.",
-    tags:["Tenochtitlan","Triple Alliance","Pasar Tlatelolco","Chinampas","Kalender Aztec","Jatuh 1521","Cortés"]
-  },
-  {
-    id:26, name:"Kekaisaran Inca (Tawantinsuyu)", sub:"1438–1533 M · ~95 tahun",
-    start:1438,end:1533,duration:95,area:2000,
-    region:"americas",era:"modern-awal",types:["hukum","teknologi"],
-    color:"#4a6b1a",bg:"#e8f5de",
-    badge:"Administrasi Tanpa Tulisan",
-    stats:[["~2 juta km²","Luas puncak"],["40.000 km","Jaringan jalan"],["Quipu","Sistem pencatatan unik"],["~12 juta","Populasi"]],
-    power:{militer:70,ekonomi:70,budaya:75,teknologi:70,administrasi:85},
-    desc:"Kekaisaran terbesar di Amerika pra-Kolumbus, memanjang 4.500 km. Inca membangun kekaisaran kompleks tanpa tulisan — menggunakan quipu (simpul tali). Jaringan jalan 40.000 km dengan pos relay (chasqui) memungkinkan pesan berjalan 240 km per hari. Jatuh karena cacar membunuh 90% populasi sebelum penaklukan fisik.",
-    insight:"Inca adalah bukti bahwa tulisan bukanlah prasyarat peradaban kompleks. Quipu — sistem simpul tali yang juga bisa berfungsi sebagai narasi — masih belum sepenuhnya dipecahkan oleh peneliti modern.",
-    tags:["Tanpa tulisan","Quipu","40.000 km jalan","Chasqui","Cacar Eropa","Machu Picchu","Tawantinsuyu"]
-  },
-  // ── MODERN AWAL ──
-  {
-    id:27, name:"Dinasti Ming", sub:"1368–1644 M · ~276 tahun",
-    start:1368,end:1644,duration:276,area:6500,
-    region:"asia-timur",era:"modern-awal",types:["militer"],
-    color:"#0d3b5c",bg:"#d6eaf8",
-    badge:"Isolasionis-Agraris",
-    stats:[["~6,5 juta km²","Luas puncak"],["Tembok Besar","Dibangun ulang"],["7 ekspedisi","Armada Zheng He"],["Kapal Zheng He","5x lebih besar dari Columbus"]],
-    power:{militer:75,ekonomi:80,budaya:80,teknologi:65,administrasi:85},
-    desc:"Ming adalah paradoks besar sejarah: memiliki kapasitas untuk menjadi hegemon maritim global — Armada Zheng He (1405–1433) mencapai Afrika dengan kapal 5x lebih besar dari kapal Columbus — tapi secara sadar memilih isolasionisme. Setelah Zheng He, Ming melarang kapal besar dan membakar sebagian arsip ekspedisi.",
-    insight:"Jika Ming melanjutkan ekspedisi Zheng He, sejarah globalisasi mungkin akan didominasi Tiongkok, bukan Eropa. Keputusan isolasi Ming adalah salah satu 'turning points' paling berdampak yang jarang dibahas.",
-    tags:["Zheng He","Isolasionisme","Armada besar","Tembok Besar","Anti-ekspansi","Paradoks sejarah","Kapal terbesar dunia"]
-  },
-  {
-    id:28, name:"Hegemoni Portugal & Spanyol", sub:"1415–1650 M · ~235 tahun",
-    start:1415,end:1650,duration:235,area:10000,
-    region:"eropa",era:"modern-awal",types:["militer","komersial"],
-    color:"#6b1a1a",bg:"#fce8e8",
-    badge:"Maritim-Merkantilis",
-    stats:[["Global","Hegemoni laut pertama"],["1494","Perjanjian Tordesillas"],["~85% dunia","Klaim teritorial"],["Columbian Exchange","Dampak ekologi global"]],
-    power:{militer:80,ekonomi:85,budaya:65,teknologi:80,administrasi:65},
-    desc:"Hegemoni maritim global pertama dalam sejarah. Portugal menguasai rute Afrika-India; Spanyol menguasai Amerika. Perjanjian Tordesillas (1494) membagi seluruh dunia menjadi dua — dokumen yang paling arogan sekaligus paling berpengaruh dalam sejarah kolonialisme awal.",
-    insight:"Perjanjian Tordesillas (1494) adalah contoh pertama dua kekuatan 'membagi dunia' di atas meja — dengan bangsa-bangsa yang dibagi tidak diajak bicara. Template ini diulang di Berlin (1885) saat Eropa membagi Afrika.",
-    tags:["Hegemoni laut pertama","Tordesillas","Estado da India","Encomienda","Pertukaran Kolumbus","Merkantilisme","Rempah-rempah"]
-  },
-  {
-    id:29, name:"Kekaisaran Safavid", sub:"1501–1736 M · ~235 tahun",
-    start:1501,end:1736,duration:235,area:2500,
-    region:"islam",era:"modern-awal",types:["religius","militer"],
-    color:"#1a5c3a",bg:"#d4f0e6",
-    badge:"Syiah-Militer",
-    stats:[["~2,5 juta km²","Luas puncak"],["Isfahan","Kota terindah dunia"],["Syiah","Islamisasi Iran"],["235 tahun","Durasi"]],
-    power:{militer:75,ekonomi:70,budaya:85,teknologi:55,administrasi:70},
-    desc:"Safavid mengubah Persia menjadi benteng Syiah Islam — keputusan yang membentuk geopolitik Timur Tengah hingga hari ini. Isfahan menjadi salah satu kota terindah di dunia. Persaingan sengit dengan Utsmaniyah Sunni membentuk pola konflik Syiah-Sunni yang berlanjut berabad-abad.",
-    insight:"Konversi Iran ke Syiah oleh Safavid pada abad 16 adalah keputusan geopolitik yang dampaknya masih sangat terasa: konflik Arab-Iran dan perebutan pengaruh di Irak, Suriah, Lebanon semuanya berakar langsung di sini.",
-    tags:["Syiah Islam","Isfahan","Rival Utsmaniyah","Persia modern","Konversi religius","Geopolitik Timur Tengah","Abbas I"]
-  },
-  {
-    id:30, name:"Kekaisaran Mughal", sub:"1526–1857 M · ~331 tahun",
-    start:1526,end:1857,duration:331,area:4000,
-    region:"asia-selatan",era:"modern-awal",types:["religius","militer","komersial"],
-    color:"#5c3310",bg:"#fce8d5",
-    badge:"Indo-Islam Sinkretis",
-    stats:[["~4 juta km²","Luas puncak"],["~25% PDB dunia","Era Akbar (1600)"],["Taj Mahal","Warisan arsitektur"],["~150 juta","Populasi puncak"]],
-    power:{militer:80,ekonomi:90,budaya:90,teknologi:60,administrasi:80},
-    desc:"Hegemoni yang menyatukan anak benua India di bawah dinasti Turco-Mongol. Di puncaknya (era Akbar, 1556–1605), Mughal menguasai ~25% PDB global. Akbar terkenal dengan toleransi agama Din-i-Ilahi dan penghapusan jizyah. Kejatuhan dimulai dengan fanatisisme Aurangzeb yang mengalienasi mayoritas Hindu.",
-    insight:"Mughal mewakili percobaan serius pertama 'composite nationalism' di Asia Selatan — sintesis Hindu-Muslim yang dihancurkan oleh Aurangzeb dari dalam, sebelum diselesaikan oleh Inggris dari luar.",
-    tags:["Akbar","25% PDB dunia","Taj Mahal","Toleransi agama","Din-i-Ilahi","Composite nationalism","Aurangzeb"]
-  },
-  {
-    id:31, name:"Hegemoni Belanda (Dutch Golden Age)", sub:"1600–1720 M · ~120 tahun",
-    start:1600,end:1720,duration:120,area:1500,
-    region:"eropa",era:"modern-awal",types:["komersial","teknologi"],
-    color:"#1a3a6b",bg:"#d6e8f5",
-    badge:"Finansial-Komersial",
-    stats:[["VOC","Korporasi pertama dunia"],["Amsterdam","Pusat keuangan global"],["~50% kargo","Pangsa perdagangan laut"],["1609","Bank Amsterdam didirikan"]],
-    power:{militer:65,ekonomi:95,budaya:80,teknologi:85,administrasi:80},
-    desc:"Hegemoni berbasis kapital, bukan wilayah. VOC (1602) adalah korporasi multinasional pertama dengan saham yang diperdagangkan publik. Amsterdam menciptakan instrumen keuangan modern: bursa saham, obligasi pemerintah, asuransi maritim, bank sentral. Model ini adalah blueprint kapitalisme finansial.",
-    insight:"VOC pada puncaknya memiliki armada kapal, tentara, dan kemampuan mencetak uang sendiri — sebuah negara-korporasi yang lebih berkuasa dari banyak pemerintah. Model ini diulang oleh East India Company Inggris, dan beberapa berpendapat, oleh korporasi teknologi raksasa hari ini.",
-    tags:["VOC","Bursa saham pertama","Bank Amsterdam","Obligasi pemerintah","Kapitalisme finansial","Negara-korporasi","Tulip mania"]
-  },
-  {
-    id:32, name:"Dinasti Qing", sub:"1644–1912 M · ~268 tahun",
-    start:1644,end:1912,duration:268,area:14000,
-    region:"asia-timur",era:"industri",types:["militer","hukum"],
-    color:"#1a3b6b",bg:"#d6eaf8",
-    badge:"Multietnis-Konfusian",
-    stats:[["~14 juta km²","Luas puncak (terbesar China)"],["~400 juta","Populasi 1800"],["35% PDB global","Puncak kekayaan"],["268 tahun","Dinasti terakhir China"]],
-    power:{militer:65,ekonomi:85,budaya:75,teknologi:40,administrasi:80},
-    desc:"Dinasti terakhir dan terbesar dalam sejarah Tiongkok — dibangun oleh Manchu, bukan Han. Pada 1800, Qing menguasai ~30-35% PDB global. Kejatuhan dimulai dengan Perang Opium (1839–1842). 'Abad Penghinaan' (1839–1949) yang ditinggalkan Qing membentuk trauma nasional yang masih mendorong kebijakan luar negeri China.",
-    insight:"'Abad Penghinaan' China (1839–1949) adalah lensa utama yang digunakan pemimpin China saat ini untuk membaca geopolitik. Xi Jinping kerap mereferensikannya dalam pidato — ini bukan retorika, ini genuine historical trauma yang membentuk keputusan strategis.",
-    tags:["Manchu","14 juta km²","Perang Opium","Abad Penghinaan","35% PDB global","Dinasti terakhir","Great Wall diperpanjang"]
-  },
-  // ── INDUSTRI ──
-  {
-    id:33, name:"Kekaisaran Rusia / Romanov", sub:"1721–1917 M · ~196 tahun",
-    start:1721,end:1917,duration:196,area:22000,
-    region:"eropa",era:"industri",types:["militer"],
-    color:"#3d3d6b",bg:"#e8e8f5",
-    badge:"Ekspansionis-Darat",
-    stats:[["~22 juta km²","1/6 daratan bumi"],["196 tahun","Dinasti Romanov"],["Siberia","Mencapai Pasifik 1637"],["~170 juta","Populasi akhir Romanov"]],
-    power:{militer:85,ekonomi:65,budaya:70,teknologi:55,administrasi:65},
-    desc:"Kekaisaran darat terbesar kedua dalam sejarah (setelah Mongol). Ekspansi Rusia ke timur melintasi Siberia mencapai Pasifik pada 1637 — kurang dari 60 tahun setelah dimulai. Sebagai hegemon Eurasia, Rusia selalu dalam ketegangan antara modernisasi Barat dan identitas Slavik-Ortodoks.",
-    insight:"Obsesi Rusia terhadap 'buffer zones' (zona penyangga di perbatasan) — yang sangat terlihat dalam perang Ukraina hari ini — adalah warisan langsung pengalaman Romanov: kekaisaran yang berkali-kali diinvasi dari barat dan tak pernah merasa aman.",
-    tags:["1/6 daratan bumi","Ekspansi Siberia","Pan-Slavisme","Buffer zones","Perang Krimea","Pra-Soviet","Peter the Great"]
-  },
-  {
-    id:34, name:"Hegemoni Napoleon / Prancis", sub:"1804–1815 M · ~11 tahun",
-    start:1804,end:1815,duration:11,area:2800,
-    region:"eropa",era:"industri",types:["militer","hukum"],
-    color:"#1a3d7a",bg:"#d6e8f5",
-    badge:"Ideologis-Militer",
-    stats:[["~2,8 juta km²","Luas puncak (1812)"],["11 tahun","Dominasi Eropa"],["Code Napoléon","Warisan hukum global"],["600.000 tentara","Invasi Rusia 1812"]],
-    power:{militer:95,ekonomi:70,budaya:80,teknologi:70,administrasi:85},
-    desc:"Singkat tapi transformatif. Napoleon menguasai hampir seluruh Eropa daratan dan menghancurkan tatanan feudal dengan membawa prinsip Revolusi Prancis. Code Napoléon masih menjadi basis hukum perdata di Prancis, Belgia, Quebec, Louisiana, dan sebagian besar Amerika Latin.",
-    insight:"Paradoks Napoleon: ia dikalahkan secara militer oleh koalisi monarki Eropa, tapi ide-idenya — persamaan hukum, nasionalisme, merit-based promotion — akhirnya menghancurkan semua monarki absolut itu. Ia kalah perang, tapi menang gagasan.",
-    tags:["Code Napoléon","Revolusi Prancis","Waterloo","Nasionalisme modern","Hukum perdata Eropa","Invasi Rusia","11 tahun"]
-  },
-  {
-    id:35, name:"Kekaisaran Britania", sub:"1700–1960 M · ~260 tahun",
-    start:1700,end:1960,duration:260,area:35000,
-    region:"eropa",era:"industri",types:["militer","komersial","teknologi","hukum"],
-    color:"#1a1a4d",bg:"#e8e8f5",
-    badge:"Industri-Finansial-Maritim",
-    stats:[["~35 juta km²","25% daratan bumi"],["~450 juta","25% populasi dunia"],["Pound sterling","Mata uang cadangan"],["80.000+ km","Rel kereta di seluruh koloni"]],
-    power:{militer:90,ekonomi:95,budaya:85,teknologi:95,administrasi:90},
-    desc:"Hegemoni terluas dalam sejarah. Britania menggabungkan Revolusi Industri (teknologi produksi), Royal Navy (dominasi laut), dan City of London (sistem keuangan global) secara simultan — kombinasi yang belum pernah dimiliki satu kekuatan sebelumnya.",
-    insight:"'The sun never sets on the British Empire' — bukan retorika, tapi fakta literal pada 1920-an. Namun dua Perang Dunia menghabisi kekaisaran yang memerlukan lebih banyak biaya untuk dipertahankan dari yang bisa diekstraknya.",
-    tags:["25% daratan bumi","Revolusi Industri","Pound sterling","Royal Navy","Common law","Bahasa Inggris global","Pax Britannica","Revolusi Industrial"]
-  },
-  // ── KONTEMPORER ──
-  {
-    id:36, name:"Bipolaritas: AS vs Uni Soviet", sub:"1947–1991 M · ~44 tahun",
-    start:1947,end:1991,duration:44,area:0,
-    region:"global",era:"kontemporer",types:["militer","teknologi"],
-    color:"#333",bg:"#f0f0f0",
-    badge:"Ideologis-Nuklir",
-    stats:[["2 superpower","Struktur bipolar"],["MAD","Deterensi nuklir"],["~70.000","Hulu ledak nuklir gabungan"],["44 tahun","Perang Dingin"]],
-    power:{militer:100,ekonomi:80,budaya:70,teknologi:90,administrasi:75},
-    desc:"Pertama kalinya dalam sejarah, hegemoni global terbagi antara dua kekuatan dengan ideologi bertentangan. Perang langsung tak pernah terjadi justru karena kehancurannya terlalu pasti (MAD). Pertarungan dilakukan melalui proxy wars (Korea, Vietnam, Angola, Afghanistan), perlombaan ruang angkasa, dan persaingan ideologi.",
-    insight:"Perang Dingin membuktikan bahwa nuklir tidak hanya mencegah perang besar — tapi secara paradoks juga memungkinkan lebih banyak perang kecil, karena kedua superpower tahu eskalasi penuh adalah bunuh diri.",
-    tags:["MAD","Proxy wars","Perlombaan ruang angkasa","NATO vs Warsawa","Korea","Vietnam","Afghanistan","Sputnik","Moon landing"]
-  },
-  {
-    id:37, name:"Hegemoni Amerika Serikat (Pax Americana)", sub:"1991–sekarang · ~35 tahun",
-    start:1991,end:2026,duration:35,area:0,
-    region:"global",era:"kontemporer",types:["militer","komersial","teknologi","hukum"],
-    color:"#1a3a6b",bg:"#d6e8f5",
-    badge:"Liberal-Teknologi-Institusi",
-    stats:[["~800+ pangkalan","Militer 70+ negara"],["USD","~60% cadangan devisa dunia"],["~25% PDB global","Dominasi ekonomi"],["~18 trilion USD","PDB 2024"]],
-    power:{militer:95,ekonomi:90,budaya:90,teknologi:95,administrasi:80},
-    desc:"Hegemoni unipolar pasca-Soviet dengan karakter unik: dominasi melalui institusi, bukan hanya kekuatan militer. AS mengendalikan sistem keuangan global (dolar, SWIFT, IMF, World Bank), produksi pengetahuan (universitas, paten, Silicon Valley), dan norma internasional. Kini menghadapi tantangan terbesar sejak 1991: kebangkitan China.",
-    insight:"Hegemoni AS adalah yang paling 'tak kasat mata' dalam sejarah — beroperasi melalui norma, institusi, dan dolar, bukan legio atau armada. Ini juga yang membuatnya paling sulit dilawan: untuk menentang AS, China harus membangun alternatif untuk seluruh sistem, bukan hanya mengalahkan satu tentara.",
-    tags:["Dolar cadangan dunia","Silicon Valley","IMF/WB/WTO","800+ pangkalan","Tantangan China","Unipolaritas","Hegemoni institusional","SWIFT"]
-  },
-  {
-    id:38, name:"Kebangkitan China (Transisi Hegemoni?)", sub:"2000–sekarang · sedang berlangsung",
-    start:2000,end:2026,duration:26,area:9600,
-    region:"asia-timur",era:"kontemporer",types:["militer","komersial","teknologi"],
-    color:"#1a5c1a",bg:"#d4f0d4",
-    badge:"Negara-Kapital Otoriter",
-    stats:[["~18% PDB global","No.2 (PPP: No.1)"],["BRI","140+ negara"],["2049","Target 'abad kedua'"],["~1,4 miliar","Populasi"]],
-    power:{militer:75,ekonomi:85,budaya:60,teknologi:80,administrasi:80},
-    desc:"China tidak secara resmi mengklaim hegemoni, tapi akumulasi kekuatannya sistematis: Belt and Road Initiative mengikat 140+ negara dalam dependensi infrastruktur, militer tumbuh tercepat di dunia, teknologi (Huawei, TikTok, AI) bersaing langsung dengan AS.",
-    insight:"Graham Allison menyebutnya 'Thucydides Trap' — dari 16 kasus sejarah di mana kekuatan baru menantang kekuatan dominan, 12 berakhir dengan perang. Yang membuat AS-China unik: keduanya memiliki senjata nuklir dan ekonomi yang saling bergantung.",
-    tags:["Belt and Road","Thucydides Trap","AI & teknologi","2049 target","Dependensi infrastruktur","Bipolar baru?","Sedang berlangsung"]
-  }
+// ══════════════════════════════════════════════════════════════════
+//  DATA — 46 hegemoni + teori
+// ══════════════════════════════════════════════════════════════════
+const THEORIES = [
+  {icon:"🏛️",title:"Hegemonic Stability Theory",author:"Kindleberger · Gilpin · Keohane (1973–1984)",
+   body:"Sistem internasional yang stabil memerlukan satu kekuatan dominan ('hegemon') yang bersedia menyediakan public goods: mata uang cadangan, aturan perdagangan bebas, dan keamanan kolektif. Tanpa hegemon, sistem rentan terhadap free-riding dan fragmentasi. Krisis 1930-an dipandang sebagai akibat tidak adanya hegemon tunggal setelah melemahnya Inggris.",
+   kw:["Robert Gilpin","Charles Kindleberger","Robert Keohane","Public Goods","Free Rider","Dollar Hegemony"],
+   kwColor:"#1e3f7a"},
+  {icon:"🔄",title:"Long Cycle Theory",author:"George Modelski · William Thompson (1978–2000)",
+   body:"Sistem dunia bergerak dalam siklus sekitar 100 tahun, masing-masing dengan hegemon yang dominan. Setiap siklus: Aglobal war → world power → delegitimasi → deconcentration → new global war. Portugal (1494), Belanda (1609), Inggris I (1714), Inggris II (1815), AS (1945). Siklus berikutnya diperkirakan sekitar 2050.",
+   kw:["100-year cycles","World leadership","Portugal","Netherlands","Britain","USA","2050 transition"],
+   kwColor:"#2d6b3a"},
+  {icon:"🌐",title:"World-Systems Theory",author:"Immanuel Wallerstein (1974–2004)",
+   body:"Sistem dunia terdiri dari Core (pusat industri), Semi-periphery, dan Periphery (sumber bahan mentah). Hegemoni adalah posisi Core yang mendominasi seluruh sistem melalui kontrol produksi, perdagangan, dan keuangan. Wallerstein mengidentifikasi tiga hegemoni penuh: Belanda (1620s–1672), Inggris (1815–1873), AS (1945–1967/1973).",
+   kw:["Core-Periphery","Semi-periphery","Wallerstein","Three hegemonies","Capitalism","Commodification"],
+   kwColor:"#5c2d8a"},
+  {icon:"⚡",title:"Power Transition Theory",author:"A.F.K. Organski · Jacek Kugler (1958–1980)",
+   body:"Konflik besar terjadi ketika kekuatan penantang mendekati paritas dengan hegemon yang ada. Jika penantang puas dengan status quo → damai. Jika tidak puas → perang transisi. Aplikasi modern: debat AS-China sebagai 'power transition in progress'. Kugler memperkirakan China mencapai paritas ekonomi dengan AS ~2020–2030.",
+   kw:["Power parity","Challenger","Satisfied vs dissatisfied","US-China","War probability","GDP crossover"],
+   kwColor:"#9b3f22"},
+  {icon:"🪤",title:"Thucydides Trap",author:"Graham Allison (2012, berdasarkan Thucydides 430 SM)",
+   body:"Dari 16 kasus historis di mana kekuatan baru menantang kekuatan dominan selama 500 tahun terakhir, 12 (75%) berakhir dengan perang. Allison menggunakan konsep Thucydides tentang ketakutan Sparta terhadap naiknya Athena sebagai model. Satu-satunya yang menghindari perang umumnya melalui pergeseran gradual (Inggris→AS) atau institusi bersama.",
+   kw:["16 cases","75% war rate","Athens vs Sparta","US vs China","Avoiding trap","Structural fear"],
+   kwColor:"#b5862d"},
+  {icon:"📉",title:"Imperial Overstretch",author:"Paul Kennedy (1987) — The Rise and Fall of Great Powers",
+   body:"Kekaisaran runtuh ketika biaya mempertahankan dominasi militer melebihi kapasitas ekonomi untuk menanggungnya — 'imperial overstretch'. Spanyol (1600s), Inggris (1914–1945), dan kemungkinan AS (800+ pangkalan militer) mengikuti pola ini. Kennedy melihat kekuatan ekonomi sebagai basis utama yang menentukan sustainabilitas hegemoni.",
+   kw:["Military spending","GDP ratio","Spain","Britain","USA","Overextension","Economic base"],
+   kwColor:"#1e6b6b"},
+  {icon:"💡",title:"Soft Power Theory",author:"Joseph Nye (1990) — Bound to Lead",
+   body:"Soft power adalah kemampuan membentuk preferensi orang lain tanpa paksaan — melalui budaya yang menarik, nilai-nilai politik yang dianggap legitimate, dan kebijakan luar negeri yang dilihat bermoral. Berbeda dengan hard power (militer, ekonomi). AS mendominasi soft power melalui Hollywood, universitas, dan norma-norma liberal. China berusaha membangun lewat BRI dan media global.",
+   kw:["Culture","Values","Legitimacy","Hollywood","Universities","Co-option","Agenda setting"],
+   kwColor:"#2d6b3a"},
+  {icon:"🏗️",title:"Institutional Hegemony",author:"John Ikenberry (2001) — After Victory",
+   body:"Hegemoni paling berkelanjutan adalah yang mengikat dirinya sendiri ke dalam institusi multilateral yang memberikan jaminan kepada negara-negara lemah bahwa hegemon tidak akan bertindak sewenang-wenang. AS membangun 'liberal international order' — WTO, IMF, NATO, PBB — yang membuat hegemoni tampak sah dan sukarela. Ini disebut 'hegemony by consent' (Gramsci).",
+   kw:["Multilateral institutions","IMF/WB/WTO","NATO","Liberal order","Gramsci","Consent","Lock-in"],
+   kwColor:"#1e3f7a"},
 ];
 
-const REGION_COLORS = {
-  mesopotamia:"#c17f3e",nil:"#b8860b","asia-selatan":"#2d6a4f",
-  mediterania:"#8b2222",islam:"#8b4513","asia-timur":"#1a5276",
-  stepa:"#555",eropa:"#4a2d7a",americas:"#3d6b2d",global:"#333"
-};
+const DATA = [
+  // ── MESOPOTAMIA ──
+  {id:1,name:"Peradaban Sumeria & Ur III",sub:"3500–2004 SM",start:-3500,end:-2004,duration:1496,area:600,
+   region:"mesopotamia",era:"kuno",types:["hukum","militer"],color:"#c17f3e",
+   badge:"Teokratis-Agraris",gdpShare:6,
+   stats:[["~600K km²","Pengaruh regional"],["Cuneiform","Tulisan pertama"],["Ur III","Puncak unifikasi"],["~100 ribu","Populasi Ur"]],
+   power:{militer:30,ekonomi:60,budaya:82,teknologi:72,administrasi:78},
+   desc:"Bukan kekaisaran tunggal, tapi sistem kota-negara Sumeria — Ur, Uruk, Lagash, Nippur — adalah cetak biru pertama peradaban urban. Ur III (2112–2004 SM) di bawah Ur-Nammu menciptakan kode hukum tertulis pertama, sistem pajak terpusat, dan birokrasi berbasis tulisan cuneiform. Surplus pertanian irigasi Tigris-Efrat memungkinkan spesialisasi kerja, lahirnya pedagang, pendeta, administrator, dan prajurit profesional.",
+   insight:"Kekuatan Sumeria bukan militer, tapi <strong>institusional</strong> — mereka menciptakan 'teknologi pemerintahan' berupa administrasi, pajak, dan hukum tertulis yang diwariskan ribuan tahun ke depan.",
+   tags:["Cuneiform","City-states","Kode Ur-Nammu","Irigasi","Kalender lunar","Ziggurat","Lapis Lazuli","Tulisan pertama"],
+   theory:"Wallerstein: Core pertama sistem dunia; Modelski: proto-hegemoni pertama"},
+  {id:2,name:"Kekaisaran Akkadia",sub:"2334–2154 SM · ~180 tahun",start:-2334,end:-2154,duration:180,area:650,
+   region:"mesopotamia",era:"kuno",types:["militer","hukum"],color:"#a0522d",
+   badge:"Militeristik-Terpusat",gdpShare:5,
+   stats:[["~650K km²","Luas puncak"],["Sargon Agung","Pendiri"],["1 bahasa admin","Akkadia"],["~1 juta","Est. populasi"]],
+   power:{militer:85,ekonomi:60,budaya:57,teknologi:52,administrasi:82},
+   desc:"Sargon dari Akkad menciptakan kekaisaran pertama yang benar-benar terpadu di bawah satu otoritas. Menaklukkan seluruh Mesopotamia, mengenalkan gubernur pusat yang ditunjuk raja, bahasa Akkadia sebagai bahasa negara, dan jaringan pos kurir kerajaan. Runtuh akibat kekeringan panjang (~2200 SM) dan invasi Gutian.",
+   insight:"Model Akkadia — satu raja, satu bahasa administratif, gubernur yang diangkat pusat — menjadi <strong>template</strong> yang diulang oleh Persia, Roma, dan semua kekaisaran besar sesudahnya.",
+   tags:["Kekaisaran pertama","Lingua franca","Sargon Agung","Admin terpusat","Runtuh akibat iklim","Posting system"],
+   theory:"Gilpin: First systemic hegemon; Kennedy: Overstretch dari ekspansi cepat"},
+  {id:3,name:"Kekaisaran Babilonia (Hammurabi)",sub:"1894–1595 SM · ~299 tahun",start:-1894,end:-1595,duration:299,area:1000,
+   region:"mesopotamia",era:"kuno",types:["hukum","komersial"],color:"#8b4513",
+   badge:"Hukum & Administrasi",gdpShare:7,
+   stats:[["~1 juta km²","Luas puncak"],["282 pasal","Kode Hammurabi"],["~200K","Penduduk Babel"],["12 kota besar","Bawahan"]],
+   power:{militer:65,ekonomi:82,budaya:77,teknologi:67,administrasi:92},
+   desc:"Hammurabi (1792–1750 SM) bukan hanya penakluk — dia legislator terbesar dunia kuno. Kode Hammurabi adalah korpus hukum tertulis terlengkap pertama: mengatur perniagaan, perburuhan, hak properti, pernikahan, hingga tarif dokter. Babilonia menjadi pusat perdagangan, astronomi, dan matematika.",
+   insight:"Kode Hammurabi memperkenalkan prinsip yang masih hidup: <strong>proporsionalitas hukuman</strong>, perlindungan kontrak, dan bahwa hukum harus bisa dibaca publik — dipajang di tiang batu di alun-alun kota.",
+   tags:["282 pasal","Hukum tertulis publik","Perdagangan lintas wilayah","Matematika Babilonia","Astronomi","Rule of law awal"],
+   theory:"Ikenberry: Hukum tertulis sebagai proto-institusional hegemoni"},
+  {id:4,name:"Kekaisaran Hittite",sub:"1650–1180 SM · ~470 tahun",start:-1650,end:-1180,duration:470,area:500,
+   region:"mesopotamia",era:"kuno",types:["militer"],color:"#6b4c11",
+   badge:"Militer-Diplomatik",gdpShare:3,
+   stats:[["~500K km²","Luas puncak"],["1259 SM","Perjanjian Kadesh"],["Besi","Teknologi metalurgi"],["~2 juta","Populasi Anatolia"]],
+   power:{militer:82,ekonomi:57,budaya:62,teknologi:88,administrasi:67},
+   desc:"Kekuatan besar Anatolia yang menjadi rival langsung Mesir di Levant. Hittite mempelopori penggunaan besi secara militer dan kereta perang canggih. Setelah Pertempuran Kadesh 1274 SM vs Ramesses II, mereka menandatangani Perjanjian Kadesh — traktat damai internasional pertama.",
+   insight:"Perjanjian Kadesh antara Hittite dan Mesir adalah <strong>dokumen diplomasi internasional tertua</strong> yang masih ada. Salinannya kini dipajang di markas PBB.",
+   tags:["Teknologi besi","Kereta perang","Perjanjian Kadesh","Anatolia","Rival Mesir","Diplomasi tertulis"],
+   theory:"Nye: Hard power teknologi besi sebagai keunggulan komparatif"},
+  {id:5,name:"Kekaisaran Mesir Kuno",sub:"3100–1070 SM · ~2030 tahun",start:-3100,end:-1070,duration:2030,area:1000,
+   region:"nil",era:"kuno",types:["religius","militer"],color:"#b8860b",
+   badge:"Teokratis-Agraris",gdpShare:14,
+   stats:[["~1 juta km²","Luas puncak"],["~5 juta","Populasi puncak"],["2030 tahun","Hegemoni terpanjang"],["130+ Firaun","Jumlah penguasa"]],
+   power:{militer:72,ekonomi:92,budaya:97,teknologi:73,administrasi:88},
+   desc:"Hegemoni paling panjang dalam sejarah manusia. Mesir mendominasi Afrika Utara dan Levant melalui tiga pilar: kendali Nil (surplus pangan), monopoli distribusi gandum ke wilayah tetangga, dan tatanan teokratis di mana Firaun adalah manifestasi dewa Ra dan Horus. Kerajaan Baru (1550–1070 SM) adalah puncak ekspansi territorial.",
+   insight:"Hegemoni Mesir bukan dibangun di atas kekerasan saja, tapi pada <strong>ketergantungan tetangganya pada biji-bijian Nil</strong> — bentuk awal dari 'kekuatan sumber daya' sebagai instrumen geopolitik.",
+   tags:["Kendali Nil","Monopoli gandum","Nubia","Levant","Firaun-dewa","Piramida","Hieroglif","Resource power"],
+   theory:"Kindleberger: Kontrol sumber daya esensial (gandum) sebagai mekanisme hegemoni"},
+  {id:6,name:"Kekaisaran Asiria",sub:"900–612 SM · ~290 tahun",start:-900,end:-612,duration:288,area:1400,
+   region:"mesopotamia",era:"kuno",types:["militer"],color:"#7a3b00",
+   badge:"Militer-Teror Sistematis",gdpShare:8,
+   stats:[["~1.4 juta km²","Luas puncak"],["Besi & kavaleri","Inovasi militer"],["Deportasi massal","Kontrol demografis"],["~20 juta","Populasi kekaisaran"]],
+   power:{militer:97,ekonomi:57,budaya:42,teknologi:83,administrasi:73},
+   desc:"Hegemoni berbasis teror yang paling canggih di zaman kuno. Asiria mempelopori penggunaan besi massal, kavaleri terorganisir, mesin pengepungan, dan deportasi massal sebagai alat kontrol demografis. Mereka memindahkan ratusan ribu penduduk taklukan untuk menghancurkan identitas kolektif.",
+   insight:"Teknik deportasi massal Asiria adalah bentuk <strong>rekayasa sosial pertama</strong> yang terdokumentasi — efektif dalam jangka pendek, destruktif untuk legitimasi jangka panjang.",
+   tags:["Deportasi massal","Teknologi besi","Mesin pengepungan","Teror sistematis","Niniveh","Jaringan intelijen"],
+   theory:"Kennedy: Hard power tanpa soft power → sustainabilitas rendah"},
+  {id:7,name:"Kekaisaran Babilonia Baru",sub:"626–539 SM · ~87 tahun",start:-626,end:-539,duration:87,area:1000,
+   region:"mesopotamia",era:"kuno",types:["religius","militer"],color:"#5c3310",
+   badge:"Kultural-Religius",gdpShare:9,
+   stats:[["~1 juta km²","Luas puncak"],["~250K","Penduduk Babel"],["Taman Gantung","7 Keajaiban Dunia"],["586 SM","Yerusalem dihancurkan"]],
+   power:{militer:77,ekonomi:73,budaya:88,teknologi:68,administrasi:68},
+   desc:"Kebangkitan Babilonia setelah jatuhnya Asiria. Nebukadnezar II menghancurkan Yerusalem (586 SM), membawa bangsa Yahudi ke pembuangan Babel, membangun Taman Gantung, dan menjadikan Babel kota terbesar di dunia. Astronomi Babilonia mencapai puncaknya — kalender 12 bulan mereka adalah basis kalender yang kita gunakan.",
+   insight:"Pembuangan Babel adalah salah satu momen paling berpengaruh dalam sejarah monoteisme — dari trauma ini lahir penulisan ulang Taurat dan <strong>pembentukan identitas Yahudi modern</strong> yang bertahan 2.600 tahun.",
+   tags:["Pembuangan Babel","Astronomi","Kalender 12 bulan","Yerusalem","Taman Gantung","Babel terbesar dunia"],
+   theory:"Nye: Soft power budaya melampaui durasi kekaisaran fisik"},
+  {id:8,name:"Kekaisaran Persia Akhemeniyah",sub:"550–330 SM · ~220 tahun",start:-550,end:-330,duration:220,area:5500,
+   region:"islam",era:"klasik",types:["militer","hukum","komersial"],color:"#8b4513",
+   badge:"Administratif-Toleran",gdpShare:44,
+   stats:[["~5.5 juta km²","Terbesar saat itu"],["~44 juta","50% pop. dunia"],["2.700 km","Jalan Kerajaan"],["23 satrapi","Provinsi"]],
+   power:{militer:82,ekonomi:88,budaya:78,teknologi:73,administrasi:97},
+   desc:"Kekaisaran pertama yang benar-benar lintas-benua: Asia, Afrika, Eropa. Cyrus Agung membangun fondasi dengan toleransi budaya radikal — berbeda dari Asiria, ia membiarkan bangsa taklukan mempertahankan agama, bahasa, dan hukum lokal. Sistem satrapi, Jalan Kerajaan 2.700 km, dan pos kurir adalah inovasi administratif tanpa tandingan.",
+   insight:"Piagam Cyrus (539 SM) — deklarasi toleransi dan hak-hak dasar — menandai pergeseran konseptual: kekaisaran bisa bertahan bukan dengan <strong>penindasan, tapi akomodasi</strong>.",
+   tags:["3 benua","Satrapi","Piagam Cyrus","Jalan Kerajaan","Toleransi agama","Pos kurir","50% pop dunia","Persepolis"],
+   theory:"Ikenberry: Hegemoni by consent; Kindleberger: Sistem keuangan dan jalan = public goods"},
+  {id:9,name:"Kekaisaran Makedonia (Alexander Agung)",sub:"336–323 SM · ~13 tahun",start:-336,end:-323,duration:13,area:5200,
+   region:"mediterania",era:"klasik",types:["militer"],color:"#2c5f8a",
+   badge:"Penaklukan Kilat",gdpShare:30,
+   stats:[["~5.2 juta km²","Luas puncak"],["13 tahun","Durasi ekspansi"],["70+ kota","Alexandria"],["33 tahun","Usia wafat"]],
+   power:{militer:100,ekonomi:62,budaya:73,teknologi:68,administrasi:53},
+   desc:"Ekspansi teritorial tercepat dalam sejarah. Dari Makedonia ke India dalam 11 tahun — menghancurkan Persia, Mesir, Baktria, hingga Punjab. Hellenisme menyebar ke seluruh Near East, menciptakan sintesis Yunani-Timur yang melahirkan Neoplatonisme dan ilmu pengetahuan Helenistik.",
+   insight:"Kematian Alexander pada 323 SM di usia 32 adalah 'what-if' terbesar sejarah. Kekaisarannya hancur seketika, tapi <strong>ide-idenya hidup lebih lama</strong> dari semua penerusnya. Hellenisme mendominasi Near East 300 tahun setelah kematiannya.",
+   tags:["Ekspansi tercepat","Hellenisme","Sintesis Yunani-Timur","Alexandria","Diadochi","Phalanx","Koin universal"],
+   theory:"Nye: Soft power Hellenisme lebih tahan lama dari hard power militer"},
+  {id:10,name:"Kekaisaran Maurya",sub:"322–185 SM · ~137 tahun",start:-322,end:-185,duration:137,area:5000,
+   region:"asia-selatan",era:"klasik",types:["religius","hukum"],color:"#2d6a4f",
+   badge:"Buddhis-Etis",gdpShare:33,
+   stats:[["~5 juta km²","Luas puncak"],["~50 juta","~30% pop Asia"],["Ashoka","Raja-filosof"],["33 pilar Ashoka","Tersebar"]],
+   power:{militer:77,ekonomi:73,budaya:93,teknologi:58,administrasi:83},
+   desc:"Kekaisaran pertama yang menyatukan hampir seluruh anak benua India. Ashoka (268–232 SM), setelah menyaksikan pembantaian Kalinga (~100.000 tewas), bertobat dan memeluk Buddhisme. Ia mengubah kebijakan negara dari penaklukan ke dhamma — mendirikan rumah sakit, jalan, sumur, dan kebun binatang publik.",
+   insight:"Ashoka adalah <strong>satu-satunya penguasa besar dalam sejarah</strong> yang secara terbuka menyesal atas penaklukannya dan mengubah haluan ke arah etika publik.",
+   tags:["India pertama bersatu","Ashoka","Buddhisme negara","Dhamma","Pilar Ashoka","Rumah sakit publik","Anti-perang"],
+   theory:"Nye: Soft power Buddhis menyebar tanpa tentara hingga Asia Tenggara-Timur"},
+  {id:11,name:"Kekaisaran Parthia",sub:"247 SM–224 M · ~471 tahun",start:-247,end:224,duration:471,area:2800,
+   region:"islam",era:"klasik",types:["militer","komersial"],color:"#6b4c11",
+   badge:"Buffer Strategis",gdpShare:10,
+   stats:[["~2.8 juta km²","Luas puncak"],["471 tahun","Durasi"],["Carrhae 53 SM","Kalahkan Crassus"],["Jalur Sutra","Kendali"]],
+   power:{militer:82,ekonomi:77,budaya:57,teknologi:63,administrasi:63},
+   desc:"Sering diabaikan, Parthia adalah kekuatan yang menghentikan ekspansi Roma ke timur selama hampir 5 abad. Kemenangan di Carrhae (53 SM) menghancurkan 7 legio Crassus. Mereka juga mengendalikan rute perdagangan Jalur Sutra antara Roma dan Tiongkok.",
+   insight:"Tanpa Parthia sebagai tembok timur, sejarah Roma — dan mungkin seluruh sejarah Barat — akan sangat berbeda. Mereka adalah kekuatan '<strong>negatif</strong>' yang kekuatannya justru dalam kemampuan menolak ekspansi musuh lebih kuat.",
+   tags:["Rival abadi Roma","Jalur Sutra","Carrhae","Kavaleri cataphract","Buffer strategis","Arsacid","Silk Road control"],
+   theory:"Power Transition: Berhasil menahan hegemoni lebih besar tanpa perang total"},
+  {id:12,name:"Republik & Kekaisaran Romawi",sub:"264 SM–476 M · ~740 tahun",start:-264,end:476,duration:740,area:5000,
+   region:"mediterania",era:"klasik",types:["militer","hukum","komersial"],color:"#8b2222",
+   badge:"Hukum, Jalan & Legio",gdpShare:21,
+   stats:[["~5 juta km²","Luas puncak"],["~70 juta","Populasi puncak"],["80.000 km","Jaringan jalan"],["~740 tahun","Dominasi"]],
+   power:{militer:97,ekonomi:93,budaya:88,teknologi:83,administrasi:97},
+   desc:"Hegemoni yang paling formatif bagi peradaban Barat. Roma membangun dominasinya di atas tiga pilar: legio (mesin militer paling profesional zamannya), via romana (80.000 km jalan), dan ius romanum (hukum yang bisa diterapkan pada puluhan suku berbeda). Pax Romana (27 SM–180 M) adalah 200 tahun kemakmuran relatif.",
+   insight:"Warisan Roma bukan wilayahnya tapi strukturnya: hukum Romawi adalah basis hukum perdata Eropa, Amerika Latin, dan sebagian Afrika hingga hari ini. Bahasa Latin masih hidup di >1 miliar penutur.",
+   tags:["Pax Romana","Hukum Romawi","Via Romana","Legio","Senat","Latin","Colosseum","Mare Nostrum"],
+   theory:"Ikenberry: Hukum & institusi sebagai mekanisme hegemoni; Kindleberger: Pax Romana = public goods"},
+  {id:13,name:"Dinasti Han",sub:"206 SM–220 M · ~426 tahun",start:-206,end:220,duration:426,area:6000,
+   region:"asia-timur",era:"klasik",types:["hukum","komersial","militer"],color:"#1a5276",
+   badge:"Konfusian-Birokrasi",gdpShare:26,
+   stats:[["~6 juta km²","Luas puncak"],["~60 juta","~30% pop dunia"],["Jalur Sutra","Perdagangan global"],["426 tahun","Dominasi"]],
+   power:{militer:82,ekonomi:88,budaya:88,teknologi:73,administrasi:93},
+   desc:"Paralel dengan Roma di ujung timur Eurasia. Han membangun birokrasi berbasis ujian konfusian, mendominasi Jalur Sutra, menaklukkan Xiongnu, dan menetapkan identitas 'Han' yang 1,4 miliar orang China masih gunakan. Teknologi: kertas, seismograf, kompas awal, dan bajak besi.",
+   insight:"Sistem ujian birokrasi Han adalah <strong>meritokrasi pertama</strong> dalam sejarah pemerintahan — gagasan bahwa jabatan harus diisi berdasarkan kemampuan, bukan kelahiran. Konsep ini baru diadopsi Eropa 1.800 tahun kemudian.",
+   tags:["Jalur Sutra","Ujian birokrasi","Konfusianisme","Meritokrasi pertama","Xiongnu","Kertas","Kompas awal","Identitas Han"],
+   theory:"Modelski: Han sebagai world leader Asia-Pacific cycle pertama"},
+  {id:14,name:"Kekaisaran Sassanid",sub:"224–651 M · ~427 tahun",start:224,end:651,duration:427,area:3500,
+   region:"islam",era:"pertengahan",types:["religius","militer"],color:"#7b3f00",
+   badge:"Zoroastrian-Militer",gdpShare:8,
+   stats:[["~3.5 juta km²","Luas puncak"],["427 tahun","Rival Byzantium"],["Ctesiphon","Ibu kota terbesar"],["~30 juta","Populasi"]],
+   power:{militer:87,ekonomi:72,budaya:77,teknologi:68,administrasi:78},
+   desc:"Kebangkitan Persia pasca-Parthia, dan rival terbesar Byzantium selama empat abad. Sassanid membangun negara berbasis Zoroastrianisme dengan administrasi lebih terpusat. Perang abadi Byzantium-Sassanid menguras kedua belah pihak — memudahkan penaklukan Arab Muslim.",
+   insight:"Perang abadi Byzantium-Sassanid adalah contoh klasik '<strong>hegemonic exhaustion</strong>' — dua raksasa yang saling melemahkan hingga keduanya rentan terhadap kekuatan ketiga yang lebih kecil namun lebih energik: Islam.",
+   tags:["Zoroastrianisme","Rival Byzantium","Ctesiphon","Exhausted hegemony","Pra-Islam","Shapur","Kavadh"],
+   theory:"Kennedy: Imperial overstretch melalui perang abadi"},
+  {id:15,name:"Kekaisaran Byzantium",sub:"330–1453 M · ~1123 tahun",start:330,end:1453,duration:1123,area:3500,
+   region:"mediterania",era:"pertengahan",types:["religius","hukum"],color:"#4a2d7a",
+   badge:"Kristen-Hukum Romawi",gdpShare:9,
+   stats:[["~3.5 juta km²","Luas puncak"],["1123 tahun","Kekaisaran terpanjang"],["Konstantinopel","Kota terbesar Eropa"],["Codex Justinianus","Hukum lengkap"]],
+   power:{militer:72,ekonomi:88,budaya:93,teknologi:68,administrasi:88},
+   desc:"Sering disalah-pahami sebagai 'Romawi yang bertahan' — padahal Byzantium adalah entitas sendiri yang berkembang lebih dari seribu tahun. Mereka menjaga hukum Romawi (Codex Justinianus), Kristen Ortodoks, dan budaya Yunani sekaligus. Konstantinopel adalah kota terbesar dan terkaya di Eropa selama berabad-abad.",
+   insight:"Jatuhnya Konstantinopel 1453 mendorong sarjana Yunani-Byzantium mengungsi ke Italia — membawa manuskrip Yunani kuno yang <strong>memicu Renaisans</strong>. Kehancuran Byzantium berkontribusi pada kelahiran modernitas Barat.",
+   tags:["1000+ tahun","Codex Justinianus","Ortodoks Timur","Konstantinopel","Api Yunani","Tembok Theodosian","Greek Fire"],
+   theory:"Nye: Soft power Ortodoks menyebar ke Rusia, Balkan tanpa penaklukan"},
+  {id:16,name:"Kekaisaran Gupta",sub:"320–550 M · ~230 tahun",start:320,end:550,duration:230,area:3500,
+   region:"asia-selatan",era:"pertengahan",types:["teknologi","religius"],color:"#1e6b1e",
+   badge:"Hindu-Ilmiah",gdpShare:10,
+   stats:[["~3.5 juta km²","Luas puncak"],["Aryabhata","Matematikawan terbesar"],["Angka nol","Kontribusi terbesar"],["~30 juta","Populasi"]],
+   power:{militer:62,ekonomi:78,budaya:97,teknologi:100,administrasi:73},
+   desc:"Zaman Keemasan India klasik. Aryabhata menghitung nilai pi, mengembangkan trigonometri, dan mengusulkan bumi berputar pada porosnya sebelum Copernicus. Sistem angka desimal dan konsep nol — yang kemudian diambil Arab dan disebarkan ke Eropa — lahir di era ini.",
+   insight:"Tanpa angka nol dan sistem desimal Gupta-India, matematika modern, komputer, dan semua teknologi digital tidak mungkin ada. Itu mungkin <strong>kontribusi intelektual tunggal terbesar</strong> satu peradaban kepada seluruh umat manusia.",
+   tags:["Angka nol","Sistem desimal","Aryabhata","Trigonometri","Zaman Keemasan India","Kalidasa","Nalanda"],
+   theory:"Nye: Soft power intelektual melampaui batas geografis dan waktu"},
+  {id:17,name:"Dinasti Tang",sub:"618–907 M · ~289 tahun",start:618,end:907,duration:289,area:6500,
+   region:"asia-timur",era:"pertengahan",types:["militer","komersial"],color:"#0d4f6c",
+   badge:"Kosmopolitan-Militer",gdpShare:22,
+   stats:[["~6.5 juta km²","Luas puncak"],["Chang'an","Kota 1 juta penduduk"],["~80 juta","Populasi"],["Jalur Sutra","Puncak kapasitas"]],
+   power:{militer:87,ekonomi:88,budaya:93,teknologi:78,administrasi:88},
+   desc:"Periode paling kosmopolitan dalam sejarah Tiongkok. Chang'an (Xi'an) dengan 1 juta penduduk adalah kota terbesar di dunia — dihuni pedagang Persia, Arab, Turki, India, dan Korea. Tang mendominasi Asia Tengah dan memproyeksikan budaya Tiongkok ke Korea, Jepang, dan Vietnam.",
+   insight:"Model Tang — pemerintahan meritokratis, keterbukaan budaya, dan <strong>proyeksi kekuatan lunak</strong> melalui seni dan administrasi — memengaruhi hampir semua peradaban Asia Timur.",
+   tags:["Jalur Sutra","Chang'an","Kosmopolitanisme","Li Bai","Dominasi Asia Tengah","Pengaruh Korea-Jepang","Xuanzang"],
+   theory:"Modelski: Tang sebagai world leader dalam Asia-Pacific cycle ke-2"},
+  {id:18,name:"Kekhalifahan Rasyidin & Umayyah",sub:"632–750 M · ~118 tahun",start:632,end:750,duration:118,area:11000,
+   region:"islam",era:"pertengahan",types:["militer","religius"],color:"#1a5276",
+   badge:"Ekspansi Agama-Militer",gdpShare:12,
+   stats:[["~11 juta km²","Luas Umayyah"],["118 tahun","Tercepat ke-2"],["3 benua","Jangkauan"],["~50 juta","Populasi Umayyah"]],
+   power:{militer:93,ekonomi:68,budaya:73,teknologi:58,administrasi:68},
+   desc:"Setelah kematian Nabi Muhammad (632 M), Arab Muslim melakukan ekspansi militer yang kecepatannya hanya tertandingi Alexander Agung. Dalam satu abad, menaklukkan Persia, Mesir, Levant, Afrika Utara, Spanyol, hingga Afghanistan.",
+   insight:"Ekspansi Islam awal mengubah peta dunia secara permanen dalam waktu sangat singkat. Lebih dari <strong>1,8 miliar Muslim saat ini</strong> adalah warisan langsung dari ekspansi 118 tahun ini.",
+   tags:["Ekspansi Islam","3 benua","100 tahun","Al-Andalus","Sassanid runtuh","Kavaleri Arab","Damaskus","Futuh"],
+   theory:"Modelski: Agama sebagai mobilizing ideology dalam hegemonic expansion"},
+  {id:19,name:"Kekhalifahan Abbasiyah",sub:"750–1258 M · ~508 tahun",start:750,end:1258,duration:508,area:11000,
+   region:"islam",era:"pertengahan",types:["teknologi","komersial","religius"],color:"#0d4c3d",
+   badge:"Islami-Ilmiah",gdpShare:29,
+   stats:[["~11 juta km²","Luas puncak"],["Baghdad","Kota terbesar dunia"],["Bayt al-Hikma","Pusat terjemahan"],["~1 juta","Penduduk Baghdad"]],
+   power:{militer:72,ekonomi:93,budaya:97,teknologi:93,administrasi:83},
+   desc:"Zaman Keemasan Islam. Baghdad di bawah Harun al-Rashid dan al-Ma'mun menjadi pusat intelektual dunia: aljabar (al-Khwarizmi), optik (Ibn al-Haytham), kedokteran (Ibnu Sina/Avicenna), filsafat (al-Farabi) lahir di sini. Pax Islamica menghubungkan perdagangan dari China ke Spanyol.",
+   insight:"Tanpa Abbasiyah, banyak karya Aristoteles dan matematika Yunani akan hilang. Mereka adalah '<strong>arsiparis peradaban</strong>' yang menjaga pengetahuan saat Eropa memasuki Abad Kegelapan.",
+   tags:["Bayt al-Hikma","Aljabar","Ibnu Sina","Al-Khwarizmi","Pax Islamica","Optik","Kedokteran","Algebra"],
+   theory:"Wallerstein: Baghdad sebagai Core ekonomi Dunia Lama abad 8–13"},
+  {id:20,name:"Dinasti Song",sub:"960–1279 M · ~319 tahun",start:960,end:1279,duration:319,area:2000,
+   region:"asia-timur",era:"pertengahan",types:["teknologi","komersial"],color:"#1a4a6b",
+   badge:"Inovatif-Komersial",gdpShare:30,
+   stats:[["~2 juta km²","Luas"],["~100 juta","Populasi"],["Mesin cetak 1040","Bi Sheng"],["25-30% PDB","Ekonomi terkaya"]],
+   power:{militer:47,ekonomi:97,budaya:88,teknologi:100,administrasi:88},
+   desc:"Mungkin paling inovatif dalam sejarah Tiongkok. Era Song: mesin cetak (Bi Sheng, 1040 M), uang kertas pertama, kompas magnetik, bubuk mesiu untuk artileri, dan industri baja pertama. GDP Song diperkirakan 25-30% PDB dunia.",
+   insight:"Hampir semua teknologi yang mendorong ekspansi Eropa — kompas, bubuk mesiu, mesin cetak — ditemukan di Tiongkok Song, tapi dieksploitasi oleh Eropa. <strong>Paradoks Song: inovator terbesar yang hasilnya dipanen orang lain.</strong>",
+   tags:["Mesin cetak","Uang kertas","Kompas","Bubuk mesiu","Baja","25% PDB dunia","Inovasi teknologi","Paper money"],
+   theory:"Wallerstein: Paradoks core tanpa hegemoni global; Modelski: Kekuatan ekonomi tanpa power projection"},
+  {id:21,name:"Kekaisaran Mali",sub:"1235–1600 M · ~365 tahun",start:1235,end:1600,duration:365,area:1200,
+   region:"nil",era:"pertengahan",types:["komersial","religius"],color:"#7d4c00",
+   badge:"Emas & Perdagangan",gdpShare:7,
+   stats:[["~1.2 juta km²","Luas puncak"],["Mansa Musa","Terkaya dalam sejarah"],["Timbuktu","25.000 mahasiswa"],["12 ton emas","Haji 1324"]],
+   power:{militer:62,ekonomi:97,budaya:83,teknologi:47,administrasi:73},
+   desc:"Hegemoni Afrika Barat yang sering diabaikan. Mali mengendalikan rute emas dan garam trans-Sahara. Mansa Musa (1312–1337 M) melakukan haji 1324 M dengan 60.000 orang dan 12 ton emas — menyebabkan depresiasi harga emas di Mesir dan Arab selama satu dekade.",
+   insight:"Mansa Musa membawa begitu banyak emas ke Mesir hingga harga emas di Mediterania jatuh selama <strong>10 tahun</strong> — inflasi yang disebabkan oleh kekayaan seorang individu.",
+   tags:["Mansa Musa","Emas trans-Sahara","Timbuktu","Universitas Islam","Haji 1324","Inflasi emas","Djenne","Sundiata"],
+   theory:"Wallerstein: Mali sebagai core regional; Kindleberger: Monopoli emas-garam = kontrol medium of exchange"},
+  {id:22,name:"Kekaisaran Mongol",sub:"1206–1368 M · ~162 tahun",start:1206,end:1368,duration:162,area:24000,
+   region:"stepa",era:"pertengahan",types:["militer"],color:"#555",
+   badge:"Predasional-Integrasi",gdpShare:24,
+   stats:[["~24 juta km²","Terbesar dalam sejarah"],["~40 juta tewas","Dari penaklukan"],["Pax Mongolica","Integrasi Eurasia"],["13% daratan bumi","Pangsa wilayah"]],
+   power:{militer:100,ekonomi:57,budaya:33,teknologi:53,administrasi:53},
+   desc:"Kekaisaran daratan terbesar yang pernah ada — dari Pasifik hingga Eropa Timur. Dibangun di atas kehancuran masif, tapi Pax Mongolica memungkinkan pertukaran teknologi, budaya, dan perdagangan lintas Eurasia. Black Death juga tersebar lewat jalur perdagangan Mongol.",
+   insight:"Paradoks Mongol: mereka membangun sistem konektivitas Eurasia terbesar melalui kehancuran terbesar. Tanpa Pax Mongolica, Marco Polo tidak bisa melakukan perjalanannya — dan tanpa Black Death yang tersebar lewat rute Mongol, <strong>Renaisans Eropa mungkin tidak akan terjadi</strong>.",
+   tags:["24 juta km²","Pax Mongolica","Jalur Sutra","Black Death","Marco Polo","Genghis Khan","Yam postal","Kublai Khan"],
+   theory:"Modelski: Destruction-integration cycle; Kennedy: Kekaisaran tanpa basis ekonomi = fragmentation cepat"},
+  {id:23,name:"Kekaisaran Utsmaniyah",sub:"1299–1922 M · ~623 tahun",start:1299,end:1922,duration:623,area:5200,
+   region:"islam",era:"modern-awal",types:["militer","religius","hukum"],color:"#6b1a1a",
+   badge:"Religius-Militer",gdpShare:11,
+   stats:[["~5.2 juta km²","Luas puncak"],["623 tahun","Terpanjang ke-3"],["Sistem millet","Inovasi multikultur"],["3 benua","Asia, Eropa, Afrika"]],
+   power:{militer:87,ekonomi:78,budaya:78,teknologi:63,administrasi:83},
+   desc:"Kekaisaran yang menghubungkan tiga benua selama enam abad. Setelah menaklukkan Konstantinopel 1453, Utsmaniyah mengendalikan persimpangan perdagangan Eropa-Asia, memaksa Eropa mencari rute laut ke India — langsung memicu ekspedisi Kolumbus dan Vasco da Gama.",
+   insight:"Ironisnya, dominasi Utsmaniyah atas rute darat Eropa-Asia adalah <strong>penyebab tidak langsung Era Penjelajahan Eropa</strong> dan kolonialisasi Amerika. Tanpa 'blokade' Utsmaniyah, tidak ada urgensi mencari rute alternatif.",
+   tags:["Konstantinopel 1453","Sistem millet","Janissari","Pemicu Era Penjelajahan","Suleiman Agung","Devshirme","Topkapi"],
+   theory:"Ikenberry: Sistem millet sebagai proto-pluralisme dalam hegemoni; Kennedy: Militer-birokrasi overstretch abad 18"},
+  {id:24,name:"Kekaisaran Khmer",sub:"802–1431 M · ~629 tahun",start:802,end:1431,duration:629,area:1000,
+   region:"asia-tengah",era:"pertengahan",types:["religius","teknologi"],color:"#2d6a4f",
+   badge:"Hindu-Buddhis Agraris",gdpShare:4,
+   stats:[["~1 juta km²","Luas puncak"],["Angkor Wat","Kompleks candi terbesar"],["~1 juta","Penduduk Angkor"],["3x panen/tahun","Berkat irigasi"]],
+   power:{militer:67,ekonomi:78,budaya:93,teknologi:83,administrasi:73},
+   desc:"Hegemoni terbesar Asia Tenggara daratan. Kekaisaran Khmer membangun jaringan irigasi paling kompleks di dunia pra-industri yang memungkinkan tiga kali panen padi per tahun. Angkor dengan ~1 juta penduduk adalah kota terbesar di dunia pada abad 12 M.",
+   insight:"Keruntuhan Khmer kemungkinan besar disebabkan oleh mega-droughts yang menghancurkan sistem irigasi — salah satu contoh paling jelas dari '<strong>climate collapse</strong>' dalam sejarah hegemoni.",
+   tags:["Angkor Wat","Irigasi raksasa","Asia Tenggara","Hindu-Buddha","1 juta penduduk","Climate collapse","Jayavarman"],
+   theory:"Kennedy: Ketergantungan pada satu sumber daya (irigasi) = kerentanan sistemik"},
+  {id:25,name:"Kekaisaran Aztec",sub:"1300–1521 M · ~221 tahun",start:1300,end:1521,duration:221,area:200,
+   region:"americas",era:"modern-awal",types:["militer","religius"],color:"#3d6b2d",
+   badge:"Ritual-Militer",gdpShare:3,
+   stats:[["~200K km²","Luas puncak"],["~300K","Penduduk Tenochtitlan"],["Triple Alliance","Mexica-Texcoco-Tlacopan"],["~6 juta","Populasi kekaisaran"]],
+   power:{militer:77,ekonomi:73,budaya:83,teknologi:68,administrasi:78},
+   desc:"Hegemoni Mesoamerika yang didominasi Triple Alliance. Tenochtitlan adalah kota dengan sistem drainase, pasar, dan administrasi yang mengungguli semua kota Eropa sezamannya. Jatuh karena koalisi suku-suku yang membenci dominasi Aztec bergabung dengan Spanyol Cortés.",
+   insight:"Tenochtitlan saat Cortés tiba adalah kota dengan ~300.000 penduduk — <strong>5 kali lebih besar dari London</strong> pada waktu yang sama. Pengabaian ini selama berabad-abad adalah distorsi historis yang baru mulai dikoreksi.",
+   tags:["Tenochtitlan","Triple Alliance","Pasar Tlatelolco","Chinampas","Kalender Aztec","Jatuh 1521","Cortés","Huitzilopochtli"],
+   theory:"Power Transition: Internal resistance + external challenger = rapid collapse"},
+  {id:26,name:"Kekaisaran Inca",sub:"1438–1533 M · ~95 tahun",start:1438,end:1533,duration:95,area:2000,
+   region:"americas",era:"modern-awal",types:["hukum","teknologi"],color:"#4a6b1a",
+   badge:"Administrasi Tanpa Tulisan",gdpShare:3,
+   stats:[["~2 juta km²","Luas puncak"],["40.000 km","Jaringan jalan"],["Quipu","Sistem pencatatan"],["~12 juta","Populasi"]],
+   power:{militer:73,ekonomi:73,budaya:78,teknologi:73,administrasi:88},
+   desc:"Kekaisaran terbesar di Amerika pra-Kolumbus, memanjang 4.500 km. Inca membangun kekaisaran kompleks tanpa tulisan — menggunakan quipu (simpul tali). Jaringan jalan 40.000 km dengan pos relay (chasqui) memungkinkan pesan berjalan 240 km per hari.",
+   insight:"Inca adalah bukti bahwa <strong>tulisan bukanlah prasyarat peradaban kompleks</strong>. Quipu — sistem simpul tali yang juga berfungsi sebagai narasi — masih belum sepenuhnya dipecahkan peneliti modern.",
+   tags:["Tanpa tulisan","Quipu","40.000 km jalan","Chasqui","Cacar Eropa","Machu Picchu","Tawantinsuyu","Mit'a"],
+   theory:"Gilpin: Teknoadvantage (besi + kuda + penyakit) mengubah power balance secara drastis"},
+  {id:27,name:"Dinasti Ming",sub:"1368–1644 M · ~276 tahun",start:1368,end:1644,duration:276,area:6500,
+   region:"asia-timur",era:"modern-awal",types:["militer"],color:"#0d3b5c",
+   badge:"Isolasionis-Agraris",gdpShare:29,
+   stats:[["~6.5 juta km²","Luas puncak"],["Tembok Besar","Dibangun ulang"],["7 ekspedisi","Armada Zheng He"],["Kapal Zheng He","5x lebih besar dari Columbus"]],
+   power:{militer:77,ekonomi:83,budaya:83,teknologi:68,administrasi:88},
+   desc:"Ming adalah paradoks besar sejarah: memiliki kapasitas untuk menjadi hegemon maritim global — Armada Zheng He (1405–1433) mencapai Afrika dengan kapal 5x lebih besar dari kapal Columbus — tapi secara sadar memilih isolasionisme. Setelah Zheng He, Ming melarang kapal besar.",
+   insight:"Jika Ming melanjutkan ekspedisi Zheng He, sejarah globalisasi mungkin akan <strong>didominasi Tiongkok, bukan Eropa</strong>. Keputusan isolasi Ming adalah salah satu 'turning points' paling berdampak yang jarang dibahas.",
+   tags:["Zheng He","Isolasionisme","Armada besar","Tembok Besar","Anti-ekspansi","Paradoks sejarah","Kapal terbesar dunia"],
+   theory:"Modelski: Pilihan isolasionisme sebagai hegemonic abdication; Wallerstein: Retreat from world system"},
+  {id:28,name:"Hegemoni Portugal & Spanyol",sub:"1415–1650 M · ~235 tahun",start:1415,end:1650,duration:235,area:10000,
+   region:"eropa",era:"modern-awal",types:["militer","komersial"],color:"#6b1a1a",
+   badge:"Maritim-Merkantilis",gdpShare:8,
+   stats:[["Global","Hegemoni laut pertama"],["1494","Perjanjian Tordesillas"],["~85% dunia","Klaim teritorial"],["Columbian Exchange","Dampak ekologi"]],
+   power:{militer:83,ekonomi:88,budaya:68,teknologi:83,administrasi:68},
+   desc:"Hegemoni maritim global pertama dalam sejarah. Portugal menguasai rute Afrika-India; Spanyol menguasai Amerika. Perjanjian Tordesillas (1494) membagi seluruh dunia menjadi dua — dokumen yang paling arogan sekaligus paling berpengaruh dalam sejarah kolonialisme awal.",
+   insight:"Perjanjian Tordesillas (1494) adalah contoh pertama dua kekuatan '<strong>membagi dunia</strong>' di atas meja — dengan bangsa-bangsa yang dibagi tidak diajak bicara. Template ini diulang di Berlin (1885).",
+   tags:["Hegemoni laut pertama","Tordesillas","Estado da India","Encomienda","Pertukaran Kolumbus","Merkantilisme","Rempah"],
+   theory:"Modelski: Portugal sebagai world leader siklus 1 (1494–1580); Wallerstein: Merkantilisme = sistem-dunia Eropa"},
+  {id:29,name:"Kekaisaran Safavid",sub:"1501–1736 M · ~235 tahun",start:1501,end:1736,duration:235,area:2500,
+   region:"islam",era:"modern-awal",types:["religius","militer"],color:"#1a5c3a",
+   badge:"Syiah-Militer",gdpShare:5,
+   stats:[["~2.5 juta km²","Luas puncak"],["Isfahan","Kota terindah dunia"],["Syiah","Islamisasi Iran"],["235 tahun","Durasi"]],
+   power:{militer:77,ekonomi:73,budaya:88,teknologi:58,administrasi:73},
+   desc:"Safavid mengubah Persia menjadi benteng Syiah Islam — keputusan yang membentuk geopolitik Timur Tengah hingga hari ini. Isfahan menjadi salah satu kota terindah di dunia. Persaingan sengit dengan Utsmaniyah Sunni membentuk pola konflik Syiah-Sunni.",
+   insight:"Konversi Iran ke Syiah oleh Safavid pada abad 16 adalah keputusan geopolitik yang dampaknya masih sangat terasa: konflik Arab-Iran dan perebutan pengaruh di Irak, Suriah, Lebanon semuanya berakar langsung di sini.",
+   tags:["Syiah Islam","Isfahan","Rival Utsmaniyah","Persia modern","Konversi religius","Abbas I","Geopolitik Timteng"],
+   theory:"Nye: Religious identity sebagai soft power yang mendefinisikan negara hingga sekarang"},
+  {id:30,name:"Kekaisaran Mughal",sub:"1526–1857 M · ~331 tahun",start:1526,end:1857,duration:331,area:4000,
+   region:"asia-selatan",era:"modern-awal",types:["religius","militer","komersial"],color:"#5c3310",
+   badge:"Indo-Islam Sinkretis",gdpShare:24,
+   stats:[["~4 juta km²","Luas puncak"],["~25% PDB dunia","Era Akbar 1600"],["Taj Mahal","Warisan arsitektur"],["~150 juta","Populasi puncak"]],
+   power:{militer:83,ekonomi:93,budaya:93,teknologi:63,administrasi:83},
+   desc:"Hegemoni yang menyatukan anak benua India di bawah dinasti Turco-Mongol. Di puncaknya (era Akbar, 1556–1605), Mughal menguasai ~25% PDB global. Akbar terkenal dengan toleransi agama Din-i-Ilahi dan penghapusan jizyah. Kejatuhan dimulai dengan fanatisisme Aurangzeb.",
+   insight:"Mughal mewakili percobaan serius pertama '<strong>composite nationalism</strong>' di Asia Selatan — sintesis Hindu-Muslim yang dihancurkan oleh Aurangzeb dari dalam, sebelum diselesaikan oleh Inggris dari luar.",
+   tags:["Akbar","25% PDB dunia","Taj Mahal","Toleransi agama","Din-i-Ilahi","Composite nationalism","Aurangzeb"],
+   theory:"Ikenberry: Tolerance = hegemonic stability; Fanatic reversal = delegitimation"},
+  {id:31,name:"Hegemoni Belanda (Dutch Golden Age)",sub:"1600–1720 M · ~120 tahun",start:1600,end:1720,duration:120,area:1500,
+   region:"eropa",era:"modern-awal",types:["komersial","teknologi","finansial"],color:"#1a3a6b",
+   badge:"Finansial-Komersial",gdpShare:6,
+   stats:[["VOC","Korporasi pertama dunia"],["Amsterdam","Pusat keuangan global"],["~50% kargo","Pangsa perdagangan laut"],["1609","Bank Amsterdam"]],
+   power:{militer:67,ekonomi:97,budaya:83,teknologi:88,administrasi:83},
+   desc:"Hegemoni berbasis kapital, bukan wilayah. VOC (1602) adalah korporasi multinasional pertama dengan saham yang diperdagangkan publik. Amsterdam menciptakan instrumen keuangan modern: bursa saham, obligasi pemerintah, asuransi maritim, bank sentral.",
+   insight:"VOC pada puncaknya memiliki armada kapal, tentara, dan kemampuan mencetak uang sendiri — sebuah <strong>negara-korporasi</strong> yang lebih berkuasa dari banyak pemerintah. Model ini diulang oleh East India Company dan, beberapa berpendapat, oleh korporasi teknologi raksasa hari ini.",
+   tags:["VOC","Bursa saham pertama","Bank Amsterdam","Obligasi pemerintah","Kapitalisme finansial","Negara-korporasi","Tulip mania"],
+   theory:"Wallerstein: Belanda = hegemoni penuh pertama (1620–1672); Modelski: World leader siklus ke-2"},
+  {id:32,name:"Dinasti Qing",sub:"1644–1912 M · ~268 tahun",start:1644,end:1912,duration:268,area:14000,
+   region:"asia-timur",era:"industri",types:["militer","hukum"],color:"#1a3b6b",
+   badge:"Multietnis-Konfusian",gdpShare:33,
+   stats:[["~14 juta km²","Terbesar China"],["~400 juta","Populasi 1800"],["35% PDB global","Puncak kekayaan"],["268 tahun","Dinasti terakhir"]],
+   power:{militer:67,ekonomi:88,budaya:78,teknologi:43,administrasi:83},
+   desc:"Dinasti terakhir dan terbesar dalam sejarah Tiongkok — dibangun oleh Manchu. Pada 1800, Qing menguasai ~30-35% PDB global. Kejatuhan dimulai dengan Perang Opium (1839–1842). 'Abad Penghinaan' yang ditinggalkan Qing membentuk trauma nasional yang masih mendorong kebijakan luar negeri China.",
+   insight:"'Abad Penghinaan' China (1839–1949) adalah lensa utama yang digunakan pemimpin China saat ini untuk membaca geopolitik. Xi Jinping kerap mereferensikannya — ini bukan retorika, ini <strong>genuine historical trauma</strong>.",
+   tags:["Manchu","14 juta km²","Perang Opium","Abad Penghinaan","35% PDB global","Dinasti terakhir","Self-strengthening"],
+   theory:"Kennedy: Imperial overstretch + technology gap = hegemonic decline; Power Transition: Teknologi barat vs kekuatan darat"},
+  {id:33,name:"Kekaisaran Rusia / Romanov",sub:"1721–1917 M · ~196 tahun",start:1721,end:1917,duration:196,area:22000,
+   region:"eropa",era:"industri",types:["militer"],color:"#3d3d6b",
+   badge:"Ekspansionis-Darat",gdpShare:6,
+   stats:[["~22 juta km²","1/6 daratan bumi"],["196 tahun","Dinasti Romanov"],["Siberia","Mencapai Pasifik 1637"],["~170 juta","Populasi"]],
+   power:{militer:87,ekonomi:67,budaya:73,teknologi:58,administrasi:68},
+   desc:"Kekaisaran darat terbesar kedua dalam sejarah (setelah Mongol). Ekspansi Rusia ke timur melintasi Siberia mencapai Pasifik pada 1637. Sebagai hegemon Eurasia, Rusia selalu dalam ketegangan antara modernisasi Barat dan identitas Slavik-Ortodoks.",
+   insight:"Obsesi Rusia terhadap '<strong>buffer zones</strong>' — yang sangat terlihat dalam perang Ukraina hari ini — adalah warisan langsung pengalaman Romanov: kekaisaran yang berkali-kali diinvasi dari barat dan tak pernah merasa aman.",
+   tags:["1/6 daratan bumi","Ekspansi Siberia","Pan-Slavisme","Buffer zones","Perang Krimea","Peter the Great","Catherine the Great"],
+   theory:"Kennedy: Kekuatan darat tanpa naval = half-hegemon; Gilpin: Geopolitical insecurity drives expansion"},
+  {id:34,name:"Hegemoni Napoleon / Prancis",sub:"1804–1815 M · ~11 tahun",start:1804,end:1815,duration:11,area:2800,
+   region:"eropa",era:"industri",types:["militer","hukum"],color:"#1a3d7a",
+   badge:"Ideologis-Militer",gdpShare:6,
+   stats:[["~2.8 juta km²","Luas puncak (1812)"],["11 tahun","Dominasi Eropa"],["Code Napoléon","Warisan hukum"],["600.000 tentara","Invasi Rusia 1812"]],
+   power:{militer:97,ekonomi:73,budaya:83,teknologi:73,administrasi:88},
+   desc:"Singkat tapi transformatif. Napoleon menguasai hampir seluruh Eropa daratan dan menghancurkan tatanan feudal dengan membawa prinsip Revolusi Prancis. Code Napoléon masih menjadi basis hukum perdata di Prancis, Belgia, Quebec, Louisiana, dan sebagian Amerika Latin.",
+   insight:"Paradoks Napoleon: ia dikalahkan secara militer, tapi <strong>ide-idenya menghancurkan semua monarki absolut</strong> yang mengalahkannya. Ia kalah perang, tapi menang gagasan.",
+   tags:["Code Napoléon","Revolusi Prancis","Waterloo","Nasionalisme modern","Hukum perdata Eropa","Invasi Rusia","Conscription"],
+   theory:"Modelski: Challenger yang gagal tapi mengubah ideological landscape; Nye: Ideological soft power > military victory"},
+  {id:35,name:"Kekaisaran Britania",sub:"1700–1960 M · ~260 tahun",start:1700,end:1960,duration:260,area:35000,
+   region:"eropa",era:"industri",types:["militer","komersial","teknologi","hukum","finansial"],color:"#1a1a4d",
+   badge:"Industri-Finansial-Maritim",gdpShare:10,
+   stats:[["~35 juta km²","25% daratan bumi"],["~450 juta","25% pop dunia"],["Pound sterling","Mata uang cadangan"],["80K+ km","Rel kereta di koloni"]],
+   power:{militer:93,ekonomi:97,budaya:88,teknologi:97,administrasi:93},
+   desc:"Hegemoni terluas dalam sejarah. Britania menggabungkan Revolusi Industri (teknologi produksi), Royal Navy (dominasi laut), dan City of London (sistem keuangan global) secara simultan — kombinasi yang belum pernah dimiliki satu kekuatan sebelumnya.",
+   insight:"'The sun never sets on the British Empire' — bukan retorika, tapi fakta literal pada 1920-an. Namun dua Perang Dunia menghabisi kekaisaran yang memerlukan lebih banyak biaya untuk dipertahankan dari yang bisa diekstraknya.",
+   tags:["25% daratan bumi","Revolusi Industri","Pound sterling","Royal Navy","Common law","Bahasa Inggris global","Pax Britannica"],
+   theory:"Wallerstein: Inggris = hegemoni penuh 2 (1815–1873); Modelski: World leader siklus 3 & 4; Kennedy: Imperial overstretch setelah WW1"},
+  {id:36,name:"Kekaisaran Jepang (Meiji-Militer)",sub:"1868–1945 M · ~77 tahun",start:1868,end:1945,duration:77,area:7400,
+   region:"asia-timur",era:"industri",types:["militer","teknologi"],color:"#8b2222",
+   badge:"Imperialis-Industri",gdpShare:7,
+   stats:[["~7.4 juta km²","Luas puncak 1942"],["Meiji","Modernisasi non-Barat pertama"],["77 tahun","Ekspansi agresif"],["~100 juta","Populasi 1940"]],
+   power:{militer:87,ekonomi:73,budaya:63,teknologi:83,administrasi:83},
+   desc:"Satu-satunya negara non-Barat yang berhasil mengadopsi industrialisme dan membangun kekaisaran modern sebelum 1945. Meiji Restoration (1868) mengubah Jepang dari feodalisme ke industri dalam satu generasi. Ekspansi ke Korea, China, Manchuria, dan akhirnya Asia Tenggara berakhir dengan kekalahan total di Hiroshima dan Nagasaki.",
+   insight:"Jepang adalah kasus '<strong>late industrializer yang menjadi challenger</strong>' yang paling dramatis dalam sejarah — membuktikan bahwa modernisasi teknologi bisa dilakukan tanpa demokratisasi, dan bahwa power transition tanpa legitimasi internasional berakhir konflik.",
+   tags:["Meiji Restoration","Non-Barat pertama","Korea","Manchuria","Pearl Harbor","Hiroshima","Greater East Asia"],
+   theory:"Power Transition: Late industrializer challenger; Kennedy: Overstretch militer tanpa basis ekonomi"},
+  {id:37,name:"Amerika Serikat (Era Antar Perang)",sub:"1918–1941 M · ~23 tahun",start:1918,end:1941,duration:23,area:0,
+   region:"americas",era:"industri",types:["komersial","finansial"],color:"#2c5f8a",
+   badge:"Hegemon yang Menolak",gdpShare:33,
+   stats:[["~40% PDB industri","Dominasi manufaktur"],["Dollar 1920s","Mulai dominan"],["Isolasionisme","Menolak peran global"],["Wall Street 1929","Krisis global"]],
+   power:{militer:67,ekonomi:97,budaya:78,teknologi:93,administrasi:73},
+   desc:"Setelah WW1, AS menjadi kreditur terbesar dunia namun menolak bergabung dengan Liga Bangsa-Bangsa dan menarik diri dari keterlibatan global. Ini adalah contoh klasik yang diidentifikasi Kindleberger: kekuatan terbesar yang tidak mau memimpin — menghasilkan ketidakstabilan global dan depresi 1930-an.",
+   insight:"'Kindleberger Trap': ketika hegemon potensial <strong>menolak menyediakan public goods</strong>, sistem internasional collapse. Isolasionisme AS 1920s–30s mungkin berkontribusi langsung pada Great Depression dan WW2.",
+   tags:["Isolasionisme","Kindleberger Trap","Great Depression","Liga Bangsa-Bangsa","Industrial dominance","Bretton Woods precursor"],
+   theory:"Kindleberger: Hegemonic stability requires willingness to lead; Gilpin: Power without responsibility = instability"},
+  {id:38,name:"Bipolaritas: AS vs Uni Soviet",sub:"1947–1991 M · ~44 tahun",start:1947,end:1991,duration:44,area:0,
+   region:"global",era:"kontemporer",types:["militer","teknologi"],color:"#333",
+   badge:"Ideologis-Nuklir",gdpShare:0,
+   stats:[["2 superpower","Struktur bipolar"],["MAD","Deterensi nuklir"],["~70.000","Hulu ledak nuklir gabungan"],["44 tahun","Perang Dingin"]],
+   power:{militer:100,ekonomi:82,budaya:73,teknologi:93,administrasi:78},
+   desc:"Pertama kalinya dalam sejarah, hegemoni global terbagi antara dua kekuatan dengan ideologi bertentangan. Perang langsung tak pernah terjadi justru karena kehancurannya terlalu pasti (MAD). Pertarungan dilakukan melalui proxy wars, perlombaan ruang angkasa, dan persaingan ideologi.",
+   insight:"Perang Dingin membuktikan bahwa nuklir tidak hanya mencegah perang besar — tapi secara paradoks juga memungkinkan lebih banyak perang kecil, karena kedua superpower tahu eskalasi penuh adalah <strong>bunuh diri mutual</strong>.",
+   tags:["MAD","Proxy wars","Perlombaan ruang angkasa","NATO vs Warsawa","Korea","Vietnam","Afghanistan","Sputnik","Moon landing"],
+   theory:"Gilpin: Bipolar stability lebih stabil dari multipolar tapi lebih tidak stabil dari unipolar; Wallerstein: Sistem dunia tanpa hegemon tunggal"},
+  {id:39,name:"Hegemoni Amerika Serikat (Pax Americana)",sub:"1991–sekarang · ~35 tahun",start:1991,end:2026,duration:35,area:0,
+   region:"global",era:"kontemporer",types:["militer","komersial","teknologi","hukum","finansial"],color:"#1a3a6b",
+   badge:"Liberal-Teknologi-Institusi",gdpShare:28,
+   stats:[["800+ pangkalan","Militer global"],["USD","~60% cadangan devisa"],["~25% PDB global","Dominasi ekonomi"],["Silicon Valley","Tech hegemony"]],
+   power:{militer:97,ekonomi:93,budaya:93,teknologi:97,administrasi:83},
+   desc:"Hegemoni unipolar pasca-Soviet dengan karakter unik: dominasi melalui institusi, bukan hanya kekuatan militer. AS mengendalikan sistem keuangan global (dolar, SWIFT, IMF, World Bank), produksi pengetahuan (universitas, paten, Silicon Valley), dan norma internasional. Kini menghadapi tantangan terbesar sejak 1991: kebangkitan China.",
+   insight:"Hegemoni AS adalah yang paling '<strong>tak kasat mata</strong>' dalam sejarah — beroperasi melalui norma, institusi, dan dolar, bukan legio atau armada. Ini juga yang membuatnya paling sulit dilawan.",
+   tags:["Dolar cadangan dunia","Silicon Valley","IMF/WB/WTO","800+ pangkalan","Tantangan China","Unipolaritas","SWIFT","Pax Americana"],
+   theory:"Ikenberry: Liberal international order; Kindleberger: Dolar sebagai global reserve currency = public good"},
+  {id:40,name:"Kebangkitan China (Transisi Hegemoni?)",sub:"2000–sekarang · sedang berlangsung",start:2000,end:2026,duration:26,area:9600,
+   region:"asia-timur",era:"kontemporer",types:["militer","komersial","teknologi"],color:"#1a5c1a",
+   badge:"Negara-Kapital Otoriter",gdpShare:18,
+   stats:[["~18% PDB global","No.2 (PPP: No.1)"],["BRI","140+ negara"],["2049","Target 'abad kedua'"],["~1.4 miliar","Populasi"]],
+   power:{militer:78,ekonomi:88,budaya:63,teknologi:83,administrasi:83},
+   desc:"China tidak secara resmi mengklaim hegemoni, tapi akumulasi kekuatannya sistematis: Belt and Road Initiative mengikat 140+ negara dalam dependensi infrastruktur, militer tumbuh tercepat di dunia, teknologi (Huawei, TikTok, AI) bersaing langsung dengan AS.",
+   insight:"Graham Allison menyebutnya '<strong>Thucydides Trap</strong>' — dari 16 kasus sejarah di mana kekuatan baru menantang kekuatan dominan, 12 berakhir dengan perang. Yang membuat AS-China unik: keduanya memiliki senjata nuklir dan ekonomi yang saling bergantung.",
+   tags:["Belt and Road","Thucydides Trap","AI & teknologi","2049 target","Dependensi infrastruktur","Bipolar baru?","Sedang berlangsung"],
+   theory:"Allison: Thucydides Trap; Organski: Power Transition Theory; Wallerstein: Hegemonic succession in progress"},
+  // Bonus entries
+  {id:41,name:"Kekhalifahan Fatimiyah",sub:"909–1171 M · ~262 tahun",start:909,end:1171,duration:262,area:4000,
+   region:"nil",era:"pertengahan",types:["religius","komersial"],color:"#1a5c3a",
+   badge:"Syiah-Komersial",gdpShare:8,
+   stats:[["~4 juta km²","Luas puncak"],["Kairo","Pusat intelektual"],["Al-Azhar","Universitas tertua"],["262 tahun","Durasi"]],
+   power:{militer:68,ekonomi:83,budaya:87,teknologi:68,administrasi:78},
+   desc:"Kekhalifahan Syiah yang menguasai Afrika Utara, Mesir, Levant, dan sebagian Arabia. Mendirikan Kairo sebagai pusat kekuasaan dan universitas Al-Azhar (970 M) — institusi pendidikan Islam tertua yang masih beroperasi. Mengendalikan rute perdagangan Laut Merah yang vital.",
+   insight:"Al-Azhar yang didirikan Fatimiyah masih menjadi pusat otoritas Islam Sunni terbesar dunia — ironi bahwa universitas yang didirikan oleh Syiah kini menjadi referensi utama Islam Sunni.",
+   tags:["Fatimiyah","Kairo","Al-Azhar","Syiah","Laut Merah","Afrika Utara","Ismaili"],
+   theory:"Nye: Educational institution sebagai enduring soft power"},
+  {id:42,name:"Kekaisaran Songhai",sub:"1464–1591 M · ~127 tahun",start:1464,end:1591,duration:127,area:1400,
+   region:"nil",era:"modern-awal",types:["komersial","militer"],color:"#8b6914",
+   badge:"Kekaisaran Emas Afrika",gdpShare:4,
+   stats:[["~1.4 juta km²","Luas puncak"],["Askia Muhammad","Puncak kejayaan"],["Timbuktu","Pusat perdagangan"],["127 tahun","Durasi"]],
+   power:{militer:78,ekonomi:83,budaya:78,teknologi:53,administrasi:73},
+   desc:"Kekaisaran terbesar di Afrika Barat, penerus Mali. Di bawah Askia Muhammad (1493–1528), Songhai mencapai puncak: menguasai rute perdagangan emas-garam, mewajibkan sistem bobot standar di seluruh pasar, dan menjadikan Timbuktu pusat pendidikan Islam Afrika. Runtuh akibat invasi Maroko dengan senjata api.",
+   insight:"Kekalahan Songhai dari Maroko (1591) adalah salah satu kasus pertama di mana perbedaan teknologi senjata api secara dramatis membalik balance of power regional — pelajaran tentang teknologi gap yang berlanjut hingga Perang Opium.",
+   tags:["Songhai","Afrika Barat","Timbuktu","Emas-garam","Askia Muhammad","Senjata api","Technology gap"],
+   theory:"Kennedy: Technology advantage as decisive power factor"},
+  {id:43,name:"Kekaisaran Maratha",sub:"1674–1818 M · ~144 tahun",start:1674,end:1818,duration:144,area:2500,
+   region:"asia-selatan",era:"modern-awal",types:["militer"],color:"#c4612e",
+   badge:"Militer Hindu",gdpShare:5,
+   stats:[["~2.5 juta km²","Luas puncak"],["Shivaji","Pendiri"],["144 tahun","Durasi"],["Lawan Mughal","dan Inggris"]],
+   power:{militer:83,ekonomi:63,budaya:73,teknologi:58,administrasi:68},
+   desc:"Kekaisaran Hindu terakhir yang menantang dominasi di anak benua India. Shivaji (1627–1680) membangun kekuatan berbasis guerrilla warfare di dataran tinggi Deccan. Pada puncaknya menguasai sebagian besar India. Secara tragis, dihancurkan oleh Inggris yang mengeksploitasi perpecahan internal.",
+   insight:"Maratha adalah contoh kekuatan yang berhasil mengalahkan Mughal tapi gagal menghadapi British East India Company — karena Inggris tidak hanya membawa militer, tapi sistem keuangan dan logistik yang jauh lebih superior.",
+   tags:["Shivaji","Deccan","Guerrilla warfare","Hindu nationalism","Peshwa","Panipat 1761","EIC"],
+   theory:"Gilpin: Institutional power (EIC) mengalahkan military power (Maratha)"},
+  {id:44,name:"Kekaisaran Inggris / India Britania (Raj)",sub:"1858–1947 M · ~89 tahun",start:1858,end:1947,duration:89,area:4500,
+   region:"asia-selatan",era:"industri",types:["militer","komersial","hukum"],color:"#4a1a6b",
+   badge:"Kolonial-Industrial",gdpShare:4,
+   stats:[["~4.5 juta km²","British India"],["~320 juta","Populasi 1900"],["Kereta api","67.000 km jalur"],["Opium trade","Neraca perdagangan"]],
+   power:{militer:83,ekonomi:73,budaya:68,teknologi:87,administrasi:87},
+   desc:"British India adalah jantung Kekaisaran Britania — menghasilkan setidaknya 25% pendapatan kekaisaran, menyediakan 1,5 juta tentara dalam WW1. Kereta api 67.000 km dibangun untuk mengekstraksi sumber daya, bukan melayani rakyat. Pemisahan Pakistan-India 1947 meninggalkan konflik yang berlanjut hingga hari ini.",
+   insight:"British Raj adalah bukti bahwa hegemoni bisa beroperasi dengan <strong>consent yang dipaksakan</strong> — melalui kolaborasi elite lokal, pendidikan gaya Inggris, dan hukum yang tampak netral namun sistematis mengekstrak kekayaan.",
+   tags:["British Raj","Kereta api","Opium trade","ICS","Indian Army","Drain of wealth","1947 partition"],
+   theory:"Wallerstein: Core-periphery extraction; Gramsci: Hegemony through cultural domination"},
+  {id:45,name:"Uni Soviet",sub:"1922–1991 M · ~69 tahun",start:1922,end:1991,duration:69,area:22400,
+   region:"eropa",era:"kontemporer",types:["militer","teknologi"],color:"#8b1a1a",
+   badge:"Komunis-Militeristik",gdpShare:14,
+   stats:[["~22.4 juta km²","Terbesar (1/6 bumi)"],["Sputnik 1957","Space race"],["~45.000","Hulu ledak nuklir"],["69 tahun","Durasi"]],
+   power:{militer:95,ekonomi:73,budaya:68,teknologi:87,administrasi:73},
+   desc:"Superpower komunis yang mengimbangi AS selama Perang Dingin. Soviet mencapai paritas militer melalui mobilisasi sumber daya luar biasa, tapi sistem ekonomi terpusat tidak mampu bersaing dengan inovasi pasar bebas di jangka panjang. Runtuh karena beban militer, ketidakefisienan ekonomi, dan delegitimasi ideologis.",
+   insight:"Soviet adalah kasus '<strong>military superpower tanpa economic foundation</strong>' — menghabiskan 15-20% GDP untuk militer vs 5-6% AS. Reagan memahami ini dan mengakselerasi perlombaan senjata untuk menguras Soviet.",
+   tags:["Komunisme","Space race","Nuclear parity","Gulag","Planned economy","Cold War","Reagan doctrine","Gorbachev"],
+   theory:"Kennedy: Military overstretch; Gilpin: Economic inefficiency as hegemonic weakness; Wallerstein: Semi-peripheral position"},
+  {id:46,name:"Kesultanan Mataram Islam",sub:"1587–1755 M · ~168 tahun",start:1587,end:1755,duration:168,area:190,
+   region:"asia-tengah",era:"modern-awal",types:["religius","militer"],color:"#2d6a4f",
+   badge:"Islam-Agraris Jawa",gdpShare:2,
+   stats:[["~190K km²","Jawa & sekitar"],["Sultan Agung","Puncak kejayaan"],["168 tahun","Durasi"],["Lawan VOC","1628-1629"]],
+   power:{militer:68,ekonomi:58,budaya:83,budaya:83,teknologi:43,administrasi:72},
+   desc:"Kekuatan hegemonis terbesar di kepulauan Nusantara. Sultan Agung (1613–1645) menyatukan Jawa dan dua kali mengepung Batavia (markas VOC) pada 1628–1629. Mataram mengembangkan tradisi budaya Jawa-Islam yang kaya: seni, arsitektur, dan sastra yang masih berpengaruh.",
+   insight:"Pengepungan Batavia oleh Sultan Agung adalah salah satu momen paling mendekati di mana kekuatan pribumi hampir berhasil mengusir VOC dari Nusantara. Kegagalan karena logistik — bukan kekurangan keberanian militer.",
+   tags:["Sultan Agung","Jawa","Batavia","VOC","Nusantara","Gamelan","Wayang","Keraton"],
+   theory:"Kennedy: Logistics gap sebagai faktor kritis dalam power projection"},
+];
 
+// ══════════════════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════════════════
+function calcHCI(d) {
+  const w = {militer:.20,ekonomi:.25,budaya:.20,teknologi:.15,administrasi:.20};
+  return Math.round(
+    (d.power.militer||0)*w.militer +
+    (d.power.ekonomi||0)*w.ekonomi +
+    (d.power.budaya||0)*w.budaya +
+    (d.power.teknologi||0)*w.teknologi +
+    (d.power.administrasi||0)*w.administrasi
+  );
+}
+DATA.forEach(d => d.hci = calcHCI(d));
+
+// ── State ──
 let currentView = 'timeline';
 let currentSort = 'chrono';
 let activeRegion = 'all';
 let activeEra = 'all';
 let activeType = 'all';
 let searchQuery = '';
-
-function filteredData() {
-  let d = [...DATA];
-  if (activeRegion !== 'all') d = d.filter(x => x.region === activeRegion);
-  if (activeEra !== 'all') d = d.filter(x => x.era === activeEra);
-  if (activeType !== 'all') d = d.filter(x => x.types.includes(activeType));
-  if (searchQuery) {
-    const q = searchQuery.toLowerCase();
-    d = d.filter(x =>
-      x.name.toLowerCase().includes(q) ||
-      x.desc.toLowerCase().includes(q) ||
-      x.insight.toLowerCase().includes(q) ||
-      x.tags.some(t => t.toLowerCase().includes(q)) ||
-      x.badge.toLowerCase().includes(q)
-    );
-  }
-  if (currentSort === 'duration') d.sort((a,b) => b.duration - a.duration);
-  else if (currentSort === 'area') d.sort((a,b) => b.area - a.area);
-  else if (currentSort === 'name') d.sort((a,b) => a.name.localeCompare(b.name));
-  else d.sort((a,b) => a.start - b.start);
-  return d;
-}
 
 const ERA_ORDER = ["kuno","klasik","pertengahan","modern-awal","industri","kontemporer"];
 const ERA_LABELS = {
@@ -769,95 +1054,139 @@ const ERA_NOTES = {
   industri:"Revolusi Industri dan imperialisme global",
   kontemporer:"Tatanan dunia pasca-perang dan transisi hegemoni"
 };
+const ERA_COLORS = {
+  kuno:"#c17f3e",klasik:"#8b2222",pertengahan:"#4a2d7a","modern-awal":"#1a6b6b",
+  industri:"#1a3a6b",kontemporer:"#2d6b3a"
+};
+const POWER_COLS = {
+  militer:"#b5432d",ekonomi:"#2d8b4a",budaya:"#8b6014",teknologi:"#1a4a8b",administrasi:"#6b1a8b"
+};
+const POWER_LABELS = {militer:"Militer",ekonomi:"Ekonomi",budaya:"Budaya/Soft",teknologi:"Teknologi",administrasi:"Administrasi"};
 
-const MAX_DURATION = Math.max(...DATA.map(d => d.duration));
-const MAX_AREA = Math.max(...DATA.map(d => d.area));
+const MAX_DUR = Math.max(...DATA.map(d=>d.duration));
+const MAX_AREA = Math.max(...DATA.map(d=>d.area));
 
-function powerBar(label, val) {
-  const cols = {
-    militer:"#c0392b", ekonomi:"#1a6b3a", budaya:"#8b4513",
-    teknologi:"#1a4a7a", administrasi:"#6b1a6b"
-  };
-  return `<div class="power-row">
-    <div class="power-lbl">${label}</div>
-    <div class="power-bar-track"><div class="power-bar-fill" style="width:${val}%;background:${cols[label.toLowerCase()]||'#888'}"></div></div>
-    <div class="power-val">${val}</div>
-  </div>`;
+// ══════════════════════════════════════════════════════════════════
+//  FILTER / SORT
+// ══════════════════════════════════════════════════════════════════
+function filteredData() {
+  let d = [...DATA];
+  if (activeRegion !== 'all') d = d.filter(x => x.region === activeRegion);
+  if (activeEra !== 'all') d = d.filter(x => x.era === activeEra);
+  if (activeType !== 'all') d = d.filter(x => x.types.includes(activeType));
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    d = d.filter(x =>
+      x.name.toLowerCase().includes(q) ||
+      (x.desc||'').toLowerCase().includes(q) ||
+      (x.insight||'').toLowerCase().includes(q) ||
+      x.tags.some(t => t.toLowerCase().includes(q)) ||
+      x.badge.toLowerCase().includes(q)
+    );
+  }
+  if (currentSort === 'duration') d.sort((a,b)=>b.duration-a.duration);
+  else if (currentSort === 'area') d.sort((a,b)=>b.area-a.area);
+  else if (currentSort === 'hci') d.sort((a,b)=>b.hci-a.hci);
+  else if (currentSort === 'name') d.sort((a,b)=>a.name.localeCompare(b.name));
+  else d.sort((a,b)=>a.start-b.start);
+  return d;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  CARD RENDERING
+// ══════════════════════════════════════════════════════════════════
+function highlightText(text, query) {
+  if (!query) return text;
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return text.replace(re, '<span class="highlight">$1</span>');
+}
+
+function powerBar(key) {
+  const val = 0; // placeholder, replaced below
+  return '';
 }
 
 function makeCard(h) {
   const dur = h.duration;
-  const durW = Math.round((dur / MAX_DURATION) * 100);
-  const badgeStyle = `background:${h.color}18;color:${h.color};border:1px solid ${h.color}30`;
-  const eraStyle = `background:${h.bg};color:${h.color};border:1px solid ${h.color}25`;
-  const regionLabel = {
-    mesopotamia:"Mesopotamia",nil:"Afrika / Nil",
-    "asia-selatan":"Asia Selatan","asia-timur":"Asia Timur",
-    mediterania:"Mediterania",islam:"Timur Tengah / Islam",
-    stepa:"Stepa / Mongol",eropa:"Eropa",americas:"Amerika",global:"Global"
-  }[h.region] || h.region;
+  const durW = Math.round((dur/MAX_DUR)*100);
+  const badgeStyle = `background:${h.color}15;color:${h.color};border:1px solid ${h.color}28`;
+  const eraBadgeStyle = `background:${ERA_COLORS[h.era]||'#888'}12;color:${ERA_COLORS[h.era]||'#888'};border:1px solid ${ERA_COLORS[h.era]||'#888'}25`;
 
-  const statsHtml = h.stats.map(s =>
-    `<div class="dg-item"><div class="dg-val">${s[0]}</div><div class="dg-lbl">${s[1]}</div></div>`
-  ).join('');
+  const statsHtml = h.stats.map(s=>`<div class="dg"><div class="dg-val">${s[0]}</div><div class="dg-lbl">${s[1]}</div></div>`).join('');
 
-  const powerKeys = Object.keys(h.power);
-  const powerHtml = powerKeys.map(k =>
-    powerBar(k.charAt(0).toUpperCase()+k.slice(1), h.power[k])
-  ).join('');
+  const powerHtml = Object.keys(h.power).map(k=>{
+    const val = h.power[k];
+    const col = POWER_COLS[k]||'#888';
+    return `<div class="power-row">
+      <div class="p-lbl">${POWER_LABELS[k]}</div>
+      <div class="p-track"><div class="p-fill" style="width:${val}%;background:${col}"></div></div>
+      <div class="p-val">${val}</div>
+    </div>`;
+  }).join('');
 
-  return `<div class="card" id="card-${h.id}" onclick="toggleCard(${h.id})">
+  const durLabel = dur>=1000?(dur/1000).toFixed(1)+'K':dur;
+  const nm = searchQuery ? highlightText(h.name, searchQuery) : h.name;
+
+  return `<div class="card card-animated" id="card-${h.id}" onclick="toggleCard(${h.id})">
     <div class="card-head">
-      <div class="card-stripe" style="background:${h.color};"></div>
-      <div class="card-meta">
-        <div class="card-name">${h.name}</div>
+      <div class="card-accent" style="background:${h.color}"></div>
+      <div class="card-info">
+        <div class="card-name">${nm}</div>
         <div class="card-sub">${h.sub}</div>
         <div class="card-badges">
           <span class="badge" style="${badgeStyle}">${h.badge}</span>
-          <span class="badge" style="${eraStyle}">${regionLabel}</span>
+          <span class="badge" style="${eraBadgeStyle}">${ERA_LABELS[h.era]?.split('·')[0].trim()}</span>
+          <span class="badge" style="background:#88880810;color:var(--ink3);border:1px solid var(--bg3)">HCI: ${h.hci}</span>
         </div>
       </div>
       <div class="card-right">
-        <div class="card-years">${dur < 100 ? dur : dur >= 1000 ? (dur/1000).toFixed(1)+'K' : dur}</div>
-        <div class="card-years-lbl">tahun</div>
-        <div class="card-chevron">▼</div>
+        <div class="card-dur">${durLabel}</div>
+        <div class="card-dur-lbl">tahun</div>
+        <div class="card-chev">▼</div>
       </div>
     </div>
     <div class="dur-track"><div class="dur-fill" style="width:${durW}%;background:${h.color}"></div></div>
     <div class="card-body">
+      <hr class="body-divider">
       <div class="detail-grid">${statsHtml}</div>
-      <div class="desc-text">${h.desc}</div>
+      <div class="desc">${h.desc}</div>
       <div class="insight-box">${h.insight}</div>
+      ${h.theory?`<div class="theory-callout"><strong>📚 Relevansi Teoritis:</strong> ${h.theory}</div>`:''}
       <div class="power-chart">
-        <div class="power-chart-title">Indeks kekuatan (estimasi historiografis)</div>
+        <div class="power-chart-hdr">
+          <div class="power-chart-title">Indeks Kekuatan (estimasi historiografis)</div>
+          <div class="heg-score">HCI: ${h.hci}/100</div>
+        </div>
         <div class="power-rows">${powerHtml}</div>
       </div>
-      <div class="tags-row">${h.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="tag-row">${h.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
       <button class="collapse-btn" onclick="event.stopPropagation();toggleCard(${h.id})">Tutup ▲</button>
     </div>
   </div>`;
 }
 
 function makeGridCard(h) {
-  const badgeStyle = `background:${h.color}18;color:${h.color};border:1px solid ${h.color}30`;
-  return `<div class="grid-card" style="border-top-color:${h.color}" onclick="setView('timeline');renderAll();setTimeout(()=>{const el=document.getElementById('card-${h.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});toggleCard(${h.id})}},100)">
+  const badgeStyle = `background:${h.color}15;color:${h.color};border:1px solid ${h.color}28`;
+  return `<div class="gc" style="border-top:3px solid ${h.color}" 
+    onclick="setView('timeline');renderAtlas();setTimeout(()=>{const el=document.getElementById('card-${h.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});toggleCard(${h.id})}},100)">
     <div class="gc-name">${h.name}</div>
     <div class="gc-sub">${h.sub}</div>
-    <span class="badge" style="${badgeStyle};font-size:10px;padding:2px 7px;border-radius:20px">${h.badge}</span>
-    <div class="gc-stat-row">
-      <div class="gc-stat"><div class="gc-stat-v">${h.duration}</div><div class="gc-stat-l">Tahun</div></div>
-      <div class="gc-stat"><div class="gc-stat-v">${h.area >= 1000 ? (h.area/1000).toFixed(0)+'M' : h.area+'K'}</div><div class="gc-stat-l">km²</div></div>
-      <div class="gc-stat"><div class="gc-stat-v">${Math.round(Object.values(h.power).reduce((a,b)=>a+b,0)/Object.keys(h.power).length)}</div><div class="gc-stat-l">Index</div></div>
+    <span class="badge" style="${badgeStyle};font-size:9.5px">${h.badge}</span>
+    <div class="gc-stats" style="margin-top:.6rem">
+      <div class="gc-s"><div class="gc-sv">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration}</div><div class="gc-sl">Tahun</div></div>
+      <div class="gc-s"><div class="gc-sv">${h.area>=1000?(h.area/1000).toFixed(0)+'M':h.area+'K'}</div><div class="gc-sl">km²</div></div>
+      <div class="gc-s"><div class="gc-sv">${h.hci}</div><div class="gc-sl">HCI</div></div>
     </div>
   </div>`;
 }
 
-function renderAll() {
+function renderAtlas() {
   const data = filteredData();
   const tl = document.getElementById('timeline-view');
   const grid = document.getElementById('grid-view');
   const noRes = document.getElementById('no-results');
   document.getElementById('result-count').textContent = `Menampilkan ${data.length} dari ${DATA.length} hegemoni`;
+  document.getElementById('s-total').textContent = data.length;
 
   if (data.length === 0) {
     tl.innerHTML = ''; grid.innerHTML = '';
@@ -865,20 +1194,18 @@ function renderAll() {
   }
   noRes.style.display = 'none';
 
-  // Grid view
   grid.innerHTML = data.map(makeGridCard).join('');
 
-  // Timeline view — group by era (only if chronological sort)
   if (currentSort === 'chrono') {
     const byEra = {};
-    data.forEach(h => { if (!byEra[h.era]) byEra[h.era] = []; byEra[h.era].push(h); });
-    tl.innerHTML = ERA_ORDER
-      .filter(e => byEra[e])
-      .map(e => `<div class="era-section">
+    data.forEach(h=>{ if(!byEra[h.era]) byEra[h.era]=[]; byEra[h.era].push(h); });
+    tl.innerHTML = ERA_ORDER.filter(e=>byEra[e]).map(e=>`
+      <div class="era-section">
         <div class="era-hdr">
+          <div class="era-dot" style="background:${ERA_COLORS[e]||'#888'}"></div>
           <div class="era-title">${ERA_LABELS[e]}</div>
-          <div class="era-subtitle">${ERA_NOTES[e]}</div>
-          <div class="era-count">${byEra[e].length}</div>
+          <div class="era-sub">${ERA_NOTES[e]}</div>
+          <div class="era-badge">${byEra[e].length} hegemoni</div>
         </div>
         ${byEra[e].map(makeCard).join('')}
       </div>`).join('');
@@ -898,48 +1225,509 @@ function setView(v) {
   const gr = document.getElementById('grid-view');
   document.getElementById('btn-timeline').classList.toggle('active', v==='timeline');
   document.getElementById('btn-grid').classList.toggle('active', v==='grid');
-  if (v==='timeline') { tl.classList.remove('hidden'); gr.classList.remove('active'); }
+  if (v==='timeline'){ tl.classList.remove('hidden'); gr.classList.remove('active'); }
   else { tl.classList.add('hidden'); gr.classList.add('active'); }
 }
 
-function setSort(s) {
+function setSort(s, btn) {
   currentSort = s;
-  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderAll();
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderAtlas();
 }
 
-// Filters
-document.querySelectorAll('[data-region]').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('[data-region]').forEach(e => e.classList.remove('active'));
-    el.classList.add('active');
-    activeRegion = el.dataset.region;
-    renderAll();
+// ── Filters ──
+document.querySelectorAll('[data-region]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('[data-region]').forEach(e=>e.classList.remove('active'));
+    el.classList.add('active'); activeRegion=el.dataset.region; renderAtlas();
   });
 });
-document.querySelectorAll('[data-era]').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('[data-era]').forEach(e => e.classList.remove('active'));
-    el.classList.add('active');
-    activeEra = el.dataset.era;
-    renderAll();
+document.querySelectorAll('[data-era]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('[data-era]').forEach(e=>e.classList.remove('active'));
+    el.classList.add('active'); activeEra=el.dataset.era; renderAtlas();
   });
 });
-document.querySelectorAll('[data-type]').forEach(el => {
-  el.addEventListener('click', () => {
-    document.querySelectorAll('[data-type]').forEach(e => e.classList.remove('active'));
-    el.classList.add('active');
-    activeType = el.dataset.type;
-    renderAll();
+document.querySelectorAll('[data-type]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('[data-type]').forEach(e=>e.classList.remove('active'));
+    el.classList.add('active'); activeType=el.dataset.type; renderAtlas();
   });
 });
-document.getElementById('search').addEventListener('input', e => {
-  searchQuery = e.target.value;
-  renderAll();
+document.getElementById('search').addEventListener('input',e=>{
+  searchQuery=e.target.value; renderAtlas();
 });
 
-renderAll();
+// ══════════════════════════════════════════════════════════════════
+//  TAB SYSTEM
+// ══════════════════════════════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+
+  if (name==='analitik') renderAnalytics();
+  if (name==='komparasi') renderComparison();
+  if (name==='siklus') renderCycle();
+  if (name==='teori') renderTheory();
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  ANALYTICS
+// ══════════════════════════════════════════════════════════════════
+let analyticsRendered = false;
+function renderAnalytics() {
+  if (analyticsRendered) return;
+  analyticsRendered = true;
+
+  // HCI chart
+  const topHCI = [...DATA].sort((a,b)=>b.hci-a.hci).slice(0,20);
+  const maxHCI = topHCI[0].hci;
+  document.getElementById('chart-hci').innerHTML = topHCI.map(h=>`
+    <div class="bc-row">
+      <div class="bc-lbl">${h.name.length>22?h.name.slice(0,21)+'…':h.name}</div>
+      <div class="bc-track">
+        <div class="bc-fill" data-val="${h.hci}" style="width:${(h.hci/maxHCI)*100}%;background:${h.color}"></div>
+      </div>
+      <div class="bc-val">${h.hci}</div>
+    </div>`).join('');
+
+  // Duration chart
+  const topDur = [...DATA].sort((a,b)=>b.duration-a.duration).slice(0,15);
+  const maxDur = topDur[0].duration;
+  document.getElementById('chart-duration').innerHTML = topDur.map(h=>`
+    <div class="bc-row">
+      <div class="bc-lbl">${h.name.length>18?h.name.slice(0,17)+'…':h.name}</div>
+      <div class="bc-track">
+        <div class="bc-fill" data-val="${h.duration}" style="width:${(h.duration/maxDur)*100}%;background:${h.color}"></div>
+      </div>
+      <div class="bc-val">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration}</div>
+    </div>`).join('');
+
+  // Area chart
+  const topArea = [...DATA].filter(d=>d.area>0).sort((a,b)=>b.area-a.area).slice(0,15);
+  const maxArea = topArea[0].area;
+  document.getElementById('chart-area').innerHTML = topArea.map(h=>`
+    <div class="bc-row">
+      <div class="bc-lbl">${h.name.length>18?h.name.slice(0,17)+'…':h.name}</div>
+      <div class="bc-track">
+        <div class="bc-fill" data-val="${h.area}" style="width:${(h.area/maxArea)*100}%;background:${h.color}"></div>
+      </div>
+      <div class="bc-val">${h.area>=1000?(h.area/1000).toFixed(0)+'M':h.area+'K'}</div>
+    </div>`).join('');
+
+  // GDP Canvas
+  drawGDPTimeline();
+
+  // Type donut & era bar via SVG
+  drawTypeChart();
+  drawEraChart();
+}
+
+function drawGDPTimeline() {
+  const canvas = document.getElementById('chart-gdp');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.clientWidth - 40;
+  canvas.width = W; canvas.height = 220;
+
+  // GDP data points [year, china%, india%, europe_west%, us%, others%]
+  const pts = [
+    [-500, 8, 30, 10, 0, 52],
+    [0, 26, 33, 13, 0, 28],
+    [500, 20, 28, 10, 0, 42],
+    [1000, 22, 28, 10, 0, 40],
+    [1500, 25, 25, 18, 0, 32],
+    [1600, 29, 22, 20, 0, 29],
+    [1700, 22, 24, 23, 1, 30],
+    [1820, 33, 16, 24, 2, 25],
+    [1870, 17, 12, 34, 9, 28],
+    [1900, 11, 9, 34, 15, 31],
+    [1913, 9, 8, 34, 19, 30],
+    [1950, 5, 4, 26, 28, 37],
+    [1975, 5, 4, 26, 25, 40],
+    [2000, 12, 6, 24, 22, 36],
+    [2024, 18, 7, 18, 25, 32],
+  ];
+
+  const colors = ['#1a5c1a','#8b4513','#8b2222','#1a3a6b','#888'];
+  const labels = ['China','India','Eropa Barat','AS','Lainnya'];
+
+  const minY = -500, maxY = 2024;
+  const H = 180, PAD = {t:10,r:10,b:30,l:40};
+  const cW = W - PAD.l - PAD.r;
+
+  const xPx = y => PAD.l + ((y - minY)/(maxY-minY))*cW;
+  const yPx = v => PAD.t + H - (v/60)*H;
+
+  // Grid
+  ctx.strokeStyle = '#e3dccf'; ctx.lineWidth = 1;
+  [0,20,40,60].forEach(v=>{
+    ctx.beginPath();
+    ctx.moveTo(PAD.l, yPx(v));
+    ctx.lineTo(PAD.l+cW, yPx(v));
+    ctx.stroke();
+    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Mono,monospace';
+    ctx.fillText(v+'%', 2, yPx(v)+3);
+  });
+
+  // Draw each region
+  [0,1,2,3].forEach(ci=>{
+    ctx.beginPath();
+    ctx.strokeStyle = colors[ci]; ctx.lineWidth = 2; ctx.setLineDash([]);
+    pts.forEach((p,i)=>{
+      const x = xPx(p[0]), y = yPx(p[ci+1]);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+
+    // Dots
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.arc(xPx(p[0]), yPx(p[ci+1]), 3, 0, Math.PI*2);
+      ctx.fillStyle = colors[ci]; ctx.fill();
+    });
+  });
+
+  // X axis labels
+  ctx.fillStyle='#a39e8c'; ctx.font='9px DM Mono,monospace'; ctx.textAlign='center';
+  pts.forEach(p=>{ ctx.fillText(p[0]<0?Math.abs(p[0])+'SM':p[0], xPx(p[0]), PAD.t+H+15); });
+
+  // Legend
+  ctx.textAlign='left';
+  [0,1,2,3].forEach((ci,i)=>{
+    const lx = PAD.l + i*(cW/4);
+    ctx.fillStyle=colors[ci]; ctx.fillRect(lx, PAD.t+H+24, 8, 8);
+    ctx.fillStyle='#6e6955'; ctx.font='10px DM Sans,sans-serif';
+    ctx.fillText(labels[ci], lx+12, PAD.t+H+32);
+  });
+}
+
+function drawTypeChart() {
+  const canvas = document.getElementById('chart-type');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.clientWidth - 40;
+  canvas.width = W; canvas.height = 220;
+
+  const typeCounts = {};
+  DATA.forEach(d=>d.types.forEach(t=>{typeCounts[t]=(typeCounts[t]||0)+1}));
+  const types = Object.keys(typeCounts);
+  const vals = types.map(t=>typeCounts[t]);
+  const cols = ['#8b2222','#1a6b3a','#8b6014','#1a4a8b','#6b1a8b','#1a6b6b'];
+
+  const max = Math.max(...vals);
+  const bW = Math.min(60, (W-60)/types.length - 8);
+  const startX = (W - (types.length*(bW+8)))/2;
+
+  vals.forEach((v,i)=>{
+    const x = startX + i*(bW+8);
+    const bH = (v/max)*(220-60);
+    const y = 220-30-bH;
+    ctx.fillStyle = cols[i%cols.length];
+    ctx.beginPath();
+    ctx.roundRect(x, y, bW, bH, [4,4,0,0]);
+    ctx.fill();
+
+    ctx.fillStyle='#3c3828'; ctx.font='bold 13px DM Sans,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(v, x+bW/2, y-4);
+
+    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Sans,sans-serif';
+    const lbl = {militer:'Militer',komersial:'Komersial',religius:'Religius',hukum:'Hukum',teknologi:'Teknologi',finansial:'Finansial'}[types[i]]||types[i];
+    ctx.fillText(lbl, x+bW/2, 220-10);
+  });
+}
+
+function drawEraChart() {
+  const canvas = document.getElementById('chart-era');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.parentElement.clientWidth - 40;
+  canvas.width = W; canvas.height = 220;
+
+  const eras = ERA_ORDER;
+  const vals = eras.map(e=>DATA.filter(d=>d.era===e).length);
+  const max = Math.max(...vals);
+  const cols = eras.map(e=>ERA_COLORS[e]||'#888');
+  const bW = Math.min(70, (W-60)/eras.length - 8);
+  const startX = (W - (eras.length*(bW+8)))/2;
+
+  vals.forEach((v,i)=>{
+    const x = startX + i*(bW+8);
+    const bH = (v/max)*(220-60);
+    const y = 220-30-bH;
+    ctx.fillStyle = cols[i];
+    ctx.beginPath();
+    ctx.roundRect(x, y, bW, bH, [4,4,0,0]);
+    ctx.fill();
+
+    ctx.fillStyle='#3c3828'; ctx.font='bold 13px DM Sans'; ctx.textAlign='center';
+    ctx.fillText(v, x+bW/2, y-4);
+
+    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Sans';
+    const shortLabels = {kuno:'Kuno',klasik:'Klasik',pertengahan:'Pertengahan',"modern-awal":'Modern',industri:'Industri',kontemporer:'Kontemporer'};
+    ctx.fillText(shortLabels[eras[i]], x+bW/2, 220-10);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  COMPARISON / RADAR
+// ══════════════════════════════════════════════════════════════════
+let compRendered = false;
+function renderComparison() {
+  if (compRendered) return;
+  compRendered = true;
+
+  const sorted = [...DATA].sort((a,b)=>a.name.localeCompare(b.name));
+  ['cmp1','cmp2','cmp3'].forEach((id,i)=>{
+    const sel = document.getElementById(id);
+    sorted.forEach(d=>{
+      const opt = document.createElement('option');
+      opt.value = d.id; opt.textContent = d.name;
+      if (i===0 && d.id===12) opt.selected=true; // Roma
+      if (i===1 && d.id===39) opt.selected=true; // USA
+      if (i===2 && d.id===22) opt.selected=true; // Mongol
+      sel.appendChild(opt);
+    });
+  });
+
+  runComparison();
+}
+
+function runComparison() {
+  const ids = [
+    +document.getElementById('cmp1').value,
+    +document.getElementById('cmp2').value,
+    +document.getElementById('cmp3').value,
+  ].filter(Boolean);
+
+  const items = ids.map(id=>DATA.find(d=>d.id===id)).filter(Boolean);
+  const RADAR_COLS = ['#b5432d','#1a3a6b','#2d8b4a'];
+
+  // Draw radar SVG
+  const svg = document.getElementById('radar-svg');
+  const cx=240, cy=180, r=130;
+  const axes = ['militer','ekonomi','budaya','teknologi','administrasi'];
+  const axisLabels = ['Militer','Ekonomi','Budaya','Teknologi','Administrasi'];
+  const N = axes.length;
+
+  function ptAngle(i){ return (Math.PI*2/N)*i - Math.PI/2; }
+  function ptCoord(i, frac){ const a=ptAngle(i); return [cx+Math.cos(a)*r*frac, cy+Math.sin(a)*r*frac]; }
+
+  let html = '';
+
+  // Background circles
+  [.2,.4,.6,.8,1].forEach(frac=>{
+    const pts = axes.map((_,i)=>ptCoord(i,frac).join(',')).join(' ');
+    html += `<polygon points="${pts}" fill="none" stroke="#e3dccf" stroke-width="1"/>`;
+    html += `<text x="${cx}" y="${cy-r*frac-4}" text-anchor="middle" font-size="8" fill="#a39e8c" font-family="DM Mono">${Math.round(frac*100)}</text>`;
+  });
+
+  // Axis lines & labels
+  axes.forEach((_,i)=>{
+    const [x,y] = ptCoord(i,1);
+    html += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d8d0c0" stroke-width="1"/>`;
+    const [lx,ly] = ptCoord(i,1.18);
+    html += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#6e6955" font-weight="600" font-family="DM Sans">${axisLabels[i]}</text>`;
+  });
+
+  // Data polygons
+  items.forEach((item,ci)=>{
+    const pts = axes.map((ax,i)=>{
+      const frac = (item.power[ax]||0)/100;
+      return ptCoord(i,frac).join(',');
+    }).join(' ');
+    html += `<polygon points="${pts}" fill="${RADAR_COLS[ci]}22" stroke="${RADAR_COLS[ci]}" stroke-width="2"/>`;
+    axes.forEach((ax,i)=>{
+      const [px,py] = ptCoord(i,(item.power[ax]||0)/100);
+      html += `<circle cx="${px}" cy="${py}" r="4" fill="${RADAR_COLS[ci]}" stroke="white" stroke-width="1.5"/>`;
+    });
+  });
+
+  svg.innerHTML = html;
+
+  // Legend
+  document.getElementById('radar-legend').innerHTML = items.map((item,ci)=>
+    `<div class="rl-item"><div class="rl-dot" style="background:${RADAR_COLS[ci]}"></div>${item.name}</div>`
+  ).join('');
+
+  // Comparison table
+  const tableHtml = `<table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th style="padding:.5rem;text-align:left;font-size:10px;text-transform:uppercase;color:var(--ink4);border-bottom:2px solid var(--bg3)">Dimensi</th>
+        ${items.map((item,ci)=>`<th style="padding:.5rem;font-size:11px;color:${RADAR_COLS[ci]};border-bottom:2px solid var(--bg3)">${item.name}</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>
+      ${axes.map(ax=>`<tr>
+        <td style="padding:.5rem .5rem;font-size:11px;color:var(--ink3);border-bottom:1px solid var(--bg2);font-family:'DM Mono',monospace">${axisLabels[axes.indexOf(ax)]}</td>
+        ${items.map(item=>`<td style="padding:.5rem;font-size:12px;font-family:'DM Mono',monospace;font-weight:600;color:var(--ink);border-bottom:1px solid var(--bg2)">${item.power[ax]||0}</td>`).join('')}
+      </tr>`).join('')}
+      <tr style="background:var(--bg)">
+        <td style="padding:.625rem .5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">HCI</td>
+        ${items.map((item,ci)=>`<td style="padding:.625rem .5rem;font-size:14px;font-weight:700;color:${RADAR_COLS[ci]};font-family:'DM Mono',monospace">${item.hci}</td>`).join('')}
+      </tr>
+      <tr>
+        <td style="padding:.5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">Durasi</td>
+        ${items.map(item=>`<td style="padding:.5rem;font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">${item.duration} thn</td>`).join('')}
+      </tr>
+      <tr>
+        <td style="padding:.5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">Luas</td>
+        ${items.map(item=>`<td style="padding:.5rem;font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">${item.area?item.area+'K km²':'—'}</td>`).join('')}
+      </tr>
+    </tbody>
+  </table>`;
+  document.getElementById('compare-table').innerHTML = tableHtml;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  CYCLE / HCI TABLE
+// ══════════════════════════════════════════════════════════════════
+let cycleRendered = false;
+function renderCycle() {
+  if (cycleRendered) return;
+  cycleRendered = true;
+
+  // HCI ranking table
+  const ranked = [...DATA].sort((a,b)=>b.hci-a.hci);
+  const tableEl = document.getElementById('hci-table');
+  tableEl.innerHTML = `
+    <thead><tr>
+      <th class="rank">#</th>
+      <th>Hegemoni</th>
+      <th>Era</th>
+      <th>HCI Score</th>
+      <th>Durasi</th>
+      <th>Tipe Kekuatan</th>
+    </tr></thead>
+    <tbody>
+    ${ranked.map((h,i)=>`<tr>
+      <td class="rank">${i+1}</td>
+      <td style="font-weight:600;color:${h.color}">${h.name}</td>
+      <td style="font-size:10px;color:var(--ink4)">${ERA_LABELS[h.era]?.split('·')[0].trim()}</td>
+      <td><span class="score">${h.hci}</span><div class="score-bar-inline" style="width:${h.hci*0.6}px;background:${h.color}40;border:1px solid ${h.color}50"></div></td>
+      <td style="font-family:'DM Mono',monospace;font-size:11px">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration} thn</td>
+      <td style="font-size:10px;color:var(--ink3)">${h.types.join(' · ')}</td>
+    </tr>`).join('')}
+    </tbody>`;
+
+  // Timeline SVG
+  drawCycleSVG();
+}
+
+function drawCycleSVG() {
+  const svg = document.getElementById('cycle-svg');
+  const W = svg.parentElement.clientWidth - 20;
+  svg.setAttribute('width', W);
+
+  const minYear = -3500, maxYear = 2030;
+  const totalYears = maxYear - minYear;
+  const H = 520, PAD_L = 120, PAD_R = 20, PAD_T = 30, ROW_H = 10, ROW_GAP = 1;
+  const USABLE_W = W - PAD_L - PAD_R;
+
+  function xPx(y){ return PAD_L + ((y-minYear)/totalYears)*USABLE_W; }
+
+  // Sort by start
+  const sorted = [...DATA].sort((a,b)=>a.start-b.start);
+
+  // Assign rows (overlap detection)
+  const rows = [];
+  const assignments = sorted.map(h=>{
+    let row = rows.findIndex(end=>end<=h.start);
+    if (row===-1){ rows.push(h.end); row=rows.length-1; }
+    else rows[row]=h.end;
+    return row;
+  });
+
+  const totalRows = rows.length;
+  const actualH = PAD_T + totalRows*(ROW_H+ROW_GAP) + 60;
+  svg.setAttribute('height', actualH);
+
+  let html = '';
+
+  // Grid century lines
+  for(let y=-3500; y<=2030; y+=500){
+    const x = xPx(y);
+    html += `<line x1="${x}" y1="${PAD_T-10}" x2="${x}" y2="${actualH-40}" stroke="#e3dccf" stroke-width="1"/>`;
+    html += `<text x="${x}" y="${PAD_T-14}" text-anchor="middle" font-size="8" fill="#a39e8c" font-family="DM Mono,monospace">${y<0?Math.abs(y)+' SM':y}</text>`;
+  }
+
+  // Era background bands
+  const eraBands = [
+    {s:-3500,e:-500,label:'Kuno',col:'#c17f3e'},
+    {s:-500,e:500,label:'Klasik',col:'#8b2222'},
+    {s:500,e:1400,label:'Pertengahan',col:'#4a2d7a'},
+    {s:1400,e:1800,label:'Modern Awal',col:'#1a6b6b'},
+    {s:1800,e:1945,label:'Industri',col:'#1a3a6b'},
+    {s:1945,e:2030,label:'Kontemporer',col:'#2d6b3a'},
+  ];
+  eraBands.forEach(b=>{
+    const x1=xPx(b.s), x2=xPx(b.e);
+    html += `<rect x="${x1}" y="${PAD_T-5}" width="${x2-x1}" height="${actualH-35}" fill="${b.col}08" stroke="${b.col}20" stroke-width="1"/>`;
+    html += `<text x="${(x1+x2)/2}" y="${actualH-22}" text-anchor="middle" font-size="9" fill="${b.col}bb" font-weight="600" font-family="DM Sans,sans-serif">${b.label}</text>`;
+  });
+
+  // Data bars
+  sorted.forEach((h,i)=>{
+    const row = assignments[i];
+    const x1 = xPx(h.start);
+    const x2 = xPx(h.end);
+    const bW = Math.max(x2-x1, 2);
+    const y = PAD_T + row*(ROW_H+ROW_GAP);
+    const opacity = 0.75;
+    html += `<rect x="${x1}" y="${y}" width="${bW}" height="${ROW_H}" rx="2" fill="${h.color}" opacity="${opacity}" title="${h.name}">
+      <title>${h.name} (${h.start<0?Math.abs(h.start)+' SM':h.start} – ${h.end<0?Math.abs(h.end)+' SM':h.end}) · HCI: ${h.hci}</title>
+    </rect>`;
+    // Label if wide enough
+    if (bW > 40) {
+      const label = h.name.length>16?h.name.slice(0,15)+'…':h.name;
+      html += `<text x="${x1+3}" y="${y+ROW_H-2}" font-size="6.5" fill="white" font-family="DM Sans,sans-serif" opacity="0.9">${label}</text>`;
+    }
+  });
+
+  // Today line
+  const todayX = xPx(2026);
+  html += `<line x1="${todayX}" y1="${PAD_T-10}" x2="${todayX}" y2="${actualH-40}" stroke="#b5862d" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  html += `<text x="${todayX}" y="${PAD_T-14}" text-anchor="middle" font-size="8" fill="#b5862d" font-family="DM Sans">Sekarang</text>`;
+
+  svg.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  THEORY
+// ══════════════════════════════════════════════════════════════════
+let theoryRendered = false;
+function renderTheory() {
+  if (theoryRendered) return;
+  theoryRendered = true;
+
+  const colMap = {'#1e3f7a':'var(--blue-bg)','#2d6b3a':'var(--green-bg)','#5c2d8a':'var(--purple-bg)','#9b3f22':'#fce8e0','#b5862d':'var(--gold-bg)','#1e6b6b':'var(--teal-bg)'};
+
+  document.getElementById('theory-grid').innerHTML = THEORIES.map(t=>{
+    const bg = colMap[t.kwColor]||'var(--panel2)';
+    const kwStyle = `background:${t.kwColor}15;color:${t.kwColor};border:1px solid ${t.kwColor}30`;
+    return `<div class="theory-card">
+      <div class="theory-card-icon">${t.icon}</div>
+      <div class="theory-card-title">${t.title}</div>
+      <div class="theory-card-author">${t.author}</div>
+      <div class="theory-card-body">${t.body}</div>
+      <div class="theory-card-kw">
+        ${t.kw.map(k=>`<span class="theory-kw" style="${kwStyle}">${k}</span>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════════
+renderAtlas();
+
+// Update sidebar stats
+const avgDur = Math.round(DATA.reduce((s,d)=>s+d.duration,0)/DATA.length);
+document.getElementById('s-avg').textContent = avgDur;
+document.getElementById('s-total').textContent = DATA.length;
+document.getElementById('result-count').textContent = `Menampilkan ${DATA.length} hegemoni`;
 </script>
 </body>
 </html>
