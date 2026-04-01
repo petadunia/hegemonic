@@ -1,0 +1,2 @@
+# hegemonic
+Peta hegemonic
