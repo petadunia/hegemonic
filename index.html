@@ -51,7 +51,18 @@
 }
 
 /* ─── Base ─── */
-body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px;line-height:1.6;overflow-x:hidden}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(181,134,45,.12), transparent 22%),
+    radial-gradient(circle at 88% 12%, rgba(30,63,122,.08), transparent 20%),
+    linear-gradient(180deg, #f4eee3 0%, #eee6d9 100%);
+  color:var(--ink);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.6;
+  overflow-x:hidden
+}
 ::selection{background:var(--gold3);color:var(--ink)}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--bg2)}
@@ -59,69 +70,158 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 ::-webkit-scrollbar-thumb:hover{background:var(--ink4)}
 
 /* ─── App Layout ─── */
-.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.app{display:grid;grid-template-columns:minmax(330px,370px) minmax(0,1fr);gap:1rem;min-height:100vh;padding:1rem;align-items:start}
 
 /* ─── Sidebar ─── */
-.sidebar{background:var(--panel);border-right:1px solid var(--bg3);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;z-index:10}
-.sidebar-inner{padding:1.5rem 1.25rem;display:flex;flex-direction:column;gap:1.25rem;flex:1}
-.logo-area{padding-bottom:1rem;border-bottom:1px solid var(--bg3)}
-.logo{font-family:'Crimson Pro',serif;font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
-.logo-sub{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-top:3px}
-.logo-tagline{font-size:11.5px;color:var(--ink3);margin-top:6px;font-style:italic;font-family:'Crimson Pro',serif}
+.sidebar{
+  position:sticky;
+  top:1rem;
+  height:calc(100vh - 2rem);
+  display:flex;
+  flex-direction:column;
+  z-index:10;
+  border-radius:28px;
+  border:1px solid rgba(110,105,85,.12);
+  background:linear-gradient(180deg, rgba(250,247,241,.98), rgba(243,236,226,.98));
+  box-shadow:0 18px 48px rgba(53,37,7,.10), inset 0 1px 0 rgba(255,255,255,.78);
+  overflow:hidden
+}
+.sidebar::before{
+  content:'';
+  position:absolute;
+  inset:0 0 auto 0;
+  height:170px;
+  background:radial-gradient(circle at top left, rgba(181,134,45,.18), transparent 65%);
+  pointer-events:none
+}
+.sidebar-inner{position:relative;padding:1.05rem;display:flex;flex-direction:column;gap:.95rem;flex:1;height:100%;overflow-y:auto}
+.logo-area{
+  padding:1.05rem 1rem 1.1rem;
+  border:1px solid rgba(181,134,45,.16);
+  border-radius:22px;
+  background:linear-gradient(135deg, rgba(246,241,233,.98), rgba(237,229,216,.94));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.86)
+}
+.logo{font-family:'Crimson Pro',serif;font-size:29px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1}
+.logo-sub{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:6px}
+.logo-tagline{font-size:12px;color:var(--ink3);margin-top:8px;font-style:italic;font-family:'Crimson Pro',serif;line-height:1.45}
+.sidebar-summary,
+.filter-group{
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+  padding:.95rem 1rem;
+  border-radius:20px;
+  background:rgba(250,247,241,.88);
+  border:1px solid rgba(110,105,85,.10);
+  box-shadow:0 10px 28px rgba(24,22,15,.03)
+}
+.sidebar-kicker{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.sidebar-note{
+  padding:.15rem .1rem .25rem;
+  font-size:11.5px;
+  color:var(--ink4);
+  line-height:1.55
+}
 
 /* Search */
 .search-wrap{position:relative}
-.search-input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--bg3);border-radius:var(--br2);background:var(--bg);color:var(--ink);font-size:12.5px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color var(--t),box-shadow var(--t)}
+.search-input{width:100%;padding:11px 14px 11px 38px;border:1.5px solid rgba(110,105,85,.12);border-radius:14px;background:rgba(245,240,232,.9);color:var(--ink);font-size:12.5px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color var(--t),box-shadow var(--t),background var(--t)}
 .search-input::placeholder{color:var(--ink4)}
-.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)1a}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink4);pointer-events:none}
+.search-input:focus{border-color:var(--gold);background:rgba(250,247,241,.98);box-shadow:0 0 0 4px rgba(181,134,45,.12)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink4);pointer-events:none}
 
 /* Filter sections */
-.filter-group{display:flex;flex-direction:column;gap:.5rem}
-.filter-label{font-size:9.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink4)}
-.pills{display:flex;flex-wrap:wrap;gap:4px}
-.pill{font-size:11px;padding:4px 9px;border-radius:var(--br3);border:1.5px solid var(--bg3);background:transparent;color:var(--ink3);cursor:pointer;transition:all var(--t);white-space:nowrap;font-family:'DM Sans',sans-serif}
-.pill:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
-.pill.active{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:500}
+.filter-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:11px;padding:6px 11px;border-radius:999px;border:1px solid transparent;background:var(--bg);color:var(--ink3);cursor:pointer;transition:all var(--t);white-space:nowrap;font-family:'DM Sans',sans-serif;box-shadow:inset 0 0 0 1px rgba(110,105,85,.10)}
+.pill:hover{transform:translateY(-1px);color:var(--ink);background:var(--gold-bg);box-shadow:inset 0 0 0 1px rgba(181,134,45,.22),0 8px 18px rgba(181,134,45,.08)}
+.pill.active{background:linear-gradient(180deg, var(--gold), var(--gold2));border-color:rgba(181,134,45,.35);color:#fff;font-weight:600;box-shadow:0 8px 18px rgba(181,134,45,.22)}
 
 /* Stats dashboard in sidebar */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-.stat-cell{background:var(--bg);border-radius:var(--br2);padding:.6rem .75rem;border:1px solid var(--bg3)}
-.stat-val{font-family:'Crimson Pro',serif;font-size:22px;font-weight:700;color:var(--gold);line-height:1}
-.stat-lbl{font-size:9.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.stat-cell{background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(244,238,228,.92));border-radius:16px;padding:.75rem .8rem;border:1px solid rgba(110,105,85,.10)}
+.stat-val{font-family:'Crimson Pro',serif;font-size:27px;font-weight:700;color:var(--ink);line-height:1}
+.stat-lbl{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
 
 /* View toggle */
-.view-toggle{display:flex;background:var(--bg2);border-radius:var(--br2);padding:3px;gap:2px}
-.view-btn{flex:1;padding:5px 6px;border-radius:6px;border:none;background:transparent;color:var(--ink4);font-size:11px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;justify-content:center;gap:4px;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.view-btn.active{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:500}
+.view-toggle{display:flex;background:var(--bg);border-radius:16px;padding:4px;gap:4px;border:1px solid rgba(110,105,85,.08)}
+.view-btn{flex:1;padding:8px 8px;border-radius:12px;border:none;background:transparent;color:var(--ink4);font-size:11.5px;cursor:pointer;transition:all var(--t);display:flex;align-items:center;justify-content:center;gap:5px;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.view-btn.active{background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(245,240,232,.94));color:var(--ink);box-shadow:0 10px 20px rgba(53,37,7,.08);font-weight:600}
 
-.result-count{font-size:11px;color:var(--ink4);text-align:center;padding:.25rem}
-.divider{border:none;border-top:1px solid var(--bg3)}
+.result-count{font-size:11.5px;color:var(--ink3);text-align:left;padding:.1rem .1rem 0;line-height:1.55}
+.divider{display:none}
 
 /* ─── Main ─── */
-.main{min-width:0;display:flex;flex-direction:column}
+.main{min-width:0;display:flex;flex-direction:column;background:rgba(250,247,241,.74);border:1px solid rgba(110,105,85,.12);border-radius:28px;box-shadow:0 18px 48px rgba(53,37,7,.08);backdrop-filter:blur(6px)}
 
 /* Tab nav */
-.tab-nav{background:var(--panel);border-bottom:1px solid var(--bg3);padding:0 2rem;display:flex;gap:0;position:sticky;top:0;z-index:9}
-.tab-btn{padding:.875rem 1.1rem;font-size:12.5px;font-weight:500;color:var(--ink3);border:none;background:transparent;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all var(--t);font-family:'DM Sans',sans-serif;white-space:nowrap}
-.tab-btn:hover{color:var(--ink)}
-.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+.tab-nav{
+  background:linear-gradient(180deg, rgba(250,247,241,.98), rgba(243,236,226,.95));
+  border:1px solid rgba(110,105,85,.12);
+  border-radius:22px;
+  padding:.8rem;
+  margin:1rem 1rem 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem;
+  position:sticky;
+  top:.8rem;
+  z-index:12;
+  box-shadow:0 16px 34px rgba(24,22,15,.08);
+  backdrop-filter:blur(10px)
+}
+.tab-btn{padding:.72rem 1rem;font-size:12px;font-weight:600;color:var(--ink3);border:1px solid transparent;border-radius:999px;background:rgba(245,240,232,.72);cursor:pointer;transition:all var(--t);font-family:'DM Sans',sans-serif;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(110,105,85,.08)}
+.tab-btn:hover{color:var(--ink);transform:translateY(-1px);background:rgba(250,247,241,.92)}
+.tab-btn.active{color:var(--ink);background:var(--panel);border-color:rgba(181,134,45,.22);font-weight:700;box-shadow:0 10px 20px rgba(53,37,7,.08), inset 0 0 0 1px rgba(181,134,45,.14)}
 
 /* Tab panels */
-.tab-panel{display:none;padding:1.75rem 2rem 4rem;flex:1}
-.tab-panel.active{display:block}
+.tab-panel{display:none;padding:1rem 1.35rem 3rem;flex:1}
+.tab-panel.active{display:block;animation:panelReveal .46s cubic-bezier(.22,1,.36,1)}
+@keyframes panelReveal{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes softRise{
+  from{opacity:0;transform:translateY(14px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes rowReveal{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes canvasPulse{
+  0%{opacity:.08;transform:translateY(8px) scale(.985)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes radarReveal{
+  from{opacity:0;transform:scale(.94)}
+  to{opacity:1;transform:scale(1)}
+}
+.stagger-item{opacity:0;animation:softRise .55s cubic-bezier(.22,1,.36,1) forwards}
+.table-row-anim{opacity:0;animation:rowReveal .42s cubic-bezier(.22,1,.36,1) forwards}
+.canvas-refresh{animation:canvasPulse .5s cubic-bezier(.22,1,.36,1)}
+.radar-animated{opacity:0;transform-origin:center;transform-box:fill-box;animation:radarReveal .55s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes cycleGrow{
+  from{transform:scaleX(0)}
+  to{transform:scaleX(1)}
+}
+.cycle-bar-animated{transform-origin:left center;transform-box:fill-box;animation:cycleGrow .8s cubic-bezier(.22,1,.36,1) forwards}
+.cycle-label-animated{opacity:0;animation:rowReveal .42s cubic-bezier(.22,1,.36,1) forwards}
+.dur-fill,.p-fill,.bc-fill,.mini-bar-fill,.score-bar-inline{will-change:width,opacity,transform}
+.score-bar-inline{transition:width .85s cubic-bezier(.22,1,.36,1),opacity .35s ease}
 
 /* Page header */
-.page-hdr{margin-bottom:1.5rem}
-.page-hdr h1{font-family:'Crimson Pro',serif;font-size:32px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1.1}
-.page-hdr p{font-size:13px;color:var(--ink3);margin-top:5px;max-width:640px}
+.page-hdr{margin-bottom:1.25rem;padding:1.15rem 1.2rem;border:1px solid rgba(110,105,85,.10);border-radius:20px;background:linear-gradient(180deg, rgba(250,247,241,.92), rgba(242,236,224,.88))}
+.page-hdr h1{font-family:'Crimson Pro',serif;font-size:36px;font-weight:700;color:var(--ink);letter-spacing:-.04em;line-height:1.02}
+.page-hdr p{font-size:13.5px;color:var(--ink3);margin-top:8px;max-width:760px}
 
 /* Sort bar */
-.sort-bar{display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.sort-bar{display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;padding:.85rem .95rem;border:1px solid rgba(110,105,85,.10);border-radius:18px;background:rgba(250,247,241,.88)}
 .sort-lbl{font-size:11px;color:var(--ink4);font-weight:500}
-.sort-btn{font-size:11px;padding:4px 11px;border-radius:var(--br3);border:1.5px solid var(--bg3);background:var(--panel);color:var(--ink3);cursor:pointer;transition:all var(--t);font-family:'DM Sans',sans-serif}
-.sort-btn:hover{border-color:var(--gold);color:var(--gold)}
-.sort-btn.active{background:var(--panel2);border-color:var(--bg4);color:var(--ink);font-weight:500}
+.sort-btn{font-size:11px;padding:6px 12px;border-radius:999px;border:1px solid transparent;background:var(--bg);color:var(--ink3);cursor:pointer;transition:all var(--t);font-family:'DM Sans',sans-serif;box-shadow:inset 0 0 0 1px rgba(110,105,85,.10)}
+.sort-btn:hover{transform:translateY(-1px);color:var(--ink);background:var(--gold-bg);box-shadow:inset 0 0 0 1px rgba(181,134,45,.22),0 8px 18px rgba(181,134,45,.08)}
+.sort-btn.active{background:var(--panel);border-color:rgba(181,134,45,.18);color:var(--ink);font-weight:600;box-shadow:0 10px 20px rgba(53,37,7,.07)}
 
 /* ─── Era sections ─── */
 .era-section{margin-bottom:2rem}
@@ -132,7 +232,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .era-badge{margin-left:auto;font-size:9.5px;padding:2px 8px;background:var(--bg2);border-radius:var(--br3);color:var(--ink4);border:1px solid var(--bg3)}
 
 /* ─── Card ─── */
-.card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);margin-bottom:.625rem;cursor:pointer;transition:box-shadow var(--t),border-color var(--t),transform var(--t);overflow:hidden;animation:fadeIn .3s ease}
+.card{background:rgba(250,247,241,.96);border-radius:18px;border:1px solid rgba(110,105,85,.10);margin-bottom:.7rem;cursor:pointer;transition:box-shadow var(--t),border-color var(--t),transform var(--t);overflow:hidden;animation:fadeIn .3s ease;box-shadow:0 10px 24px rgba(24,22,15,.04)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 .card:hover{box-shadow:var(--shadow);border-color:var(--bg4);transform:translateY(-1px)}
 .card.open{box-shadow:var(--shadow2);border-color:var(--gold2)88;transform:none}
@@ -162,7 +262,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .body-divider{border:none;border-top:1px solid var(--bg2);margin-bottom:1rem}
 
 /* Detail grid */
-.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem}
+.detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem;margin-bottom:1rem}
 .dg{background:var(--bg);border-radius:var(--br2);padding:.625rem .75rem;border:1px solid var(--bg3)}
 .dg-val{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.3;font-family:'DM Mono',monospace}
 .dg-lbl{font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
@@ -177,7 +277,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .power-chart-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
 .heg-score{margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;padding:2px 8px;border-radius:var(--br3);background:var(--gold)15;color:var(--gold);border:1px solid var(--gold)30}
 .power-rows{display:flex;flex-direction:column;gap:.3rem}
-.power-row{display:grid;grid-template-columns:85px 1fr 30px;align-items:center;gap:.5rem}
+.power-row{display:grid;grid-template-columns:94px 1fr 34px;align-items:center;gap:.65rem}
 .p-lbl{font-size:10.5px;color:var(--ink3);text-align:right;font-family:'DM Mono',monospace}
 .p-track{background:var(--bg2);border-radius:2px;height:7px;overflow:hidden}
 .p-fill{height:100%;border-radius:2px;transition:width .7s cubic-bezier(.4,0,.2,1)}
@@ -199,7 +299,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 #grid-view{display:none}
 #grid-view.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.875rem}
 #timeline-view.hidden{display:none}
-.gc{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
+.gc{background:rgba(250,247,241,.96);border-radius:18px;border:1px solid rgba(110,105,85,.10);padding:1rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(24,22,15,.04)}
 .gc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .gc:hover{box-shadow:var(--shadow2);transform:translateY(-3px);border-color:var(--bg4)}
 .gc-name{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:2px}
@@ -210,17 +310,17 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .gc-sl{font-size:8.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.04em}
 
 /* ─── Analytics Panel ─── */
-.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem}
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;align-items:start}
 .analytics-full{grid-column:1/-1}
-.chart-card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1.25rem;overflow:hidden}
+.chart-card{background:rgba(250,247,241,.94);border-radius:20px;border:1px solid rgba(110,105,85,.10);padding:1.25rem;overflow:hidden;box-shadow:0 12px 28px rgba(24,22,15,.04)}
 .chart-card-hdr{margin-bottom:1rem}
 .chart-card-title{font-family:'Crimson Pro',serif;font-size:17px;font-weight:700;color:var(--ink)}
-.chart-card-sub{font-size:11px;color:var(--ink3);margin-top:2px}
+.chart-card-sub{font-size:11.25px;color:var(--ink3);margin-top:4px;line-height:1.55;max-width:760px}
 
 /* Bar chart */
 .bar-chart{display:flex;flex-direction:column;gap:.4rem}
-.bc-row{display:grid;grid-template-columns:180px 1fr 50px;align-items:center;gap:.625rem}
-.bc-lbl{font-size:11px;color:var(--ink2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc-row{display:grid;grid-template-columns:minmax(140px,180px) 1fr 50px;align-items:center;gap:.625rem}
+.bc-lbl{font-size:11px;color:var(--ink2);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bc-track{background:var(--bg2);border-radius:3px;height:14px;overflow:hidden;cursor:pointer;transition:opacity var(--t)}
 .bc-track:hover{opacity:.8}
 .bc-fill{height:100%;border-radius:3px;transition:width 1s ease;position:relative}
@@ -230,29 +330,35 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 /* Comparison radar / pentagon chart */
 .radar-wrap{position:relative;display:flex;justify-content:center;align-items:center}
 .radar-legend{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem;justify-content:center}
-.rl-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink3)}
+.rl-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink3);padding:5px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--bg3);cursor:pointer;transition:transform var(--t),border-color var(--t),background var(--t)}
+.rl-item:hover{transform:translateY(-1px);border-color:rgba(181,134,45,.3);background:rgba(250,247,241,.96)}
 .rl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
 /* GDP timeline */
 .gdp-timeline{position:relative;overflow-x:auto}
-.gdp-canvas{display:block;width:100%}
+.gdp-canvas{display:block;width:100%;min-height:280px}
 
 /* Cycle chart */
-.cycle-container{overflow-x:auto;padding-bottom:.5rem}
+.cycle-container{overflow-x:auto;padding:.85rem 0 .5rem;border-top:1px solid rgba(110,105,85,.08);margin-top:.4rem}
 .cycle-svg{display:block}
 
 /* Index table */
 .index-table{width:100%;border-collapse:collapse}
-.index-table th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);padding:.5rem .75rem;border-bottom:2px solid var(--bg3);text-align:left;font-weight:600}
-.index-table td{font-size:12px;padding:.5rem .75rem;border-bottom:1px solid var(--bg2);color:var(--ink2)}
+.index-table th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink4);padding:.65rem .75rem;border-bottom:2px solid var(--bg3);text-align:left;font-weight:600;position:sticky;top:0;background:rgba(250,247,241,.98);backdrop-filter:blur(4px);z-index:1}
+.index-table td{font-size:12px;padding:.65rem .75rem;border-bottom:1px solid var(--bg2);color:var(--ink2);vertical-align:top}
 .index-table tr:hover td{background:var(--bg)}
 .index-table .rank{font-family:'DM Mono',monospace;font-weight:600;color:var(--ink4);width:36px}
 .index-table .score{font-family:'DM Mono',monospace;font-weight:700;color:var(--gold)}
 .score-bar-inline{height:6px;border-radius:3px;display:inline-block;vertical-align:middle;margin-left:6px}
+.table-shell{overflow:auto;border:1px solid rgba(110,105,85,.10);border-radius:18px;background:rgba(247,242,234,.9);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.table-shell table{min-width:720px}
+#compare-table{padding:0}
+#compare-table table th,#compare-table table td{white-space:nowrap}
+#compare-table .compare-note{padding:0 1rem 1rem}
 
 /* Theory panel */
 .theory-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
-.theory-card{background:var(--panel);border-radius:var(--br);border:1.5px solid var(--bg3);padding:1.25rem}
+.theory-card{background:rgba(250,247,241,.94);border-radius:20px;border:1px solid rgba(110,105,85,.10);padding:1.25rem;box-shadow:0 12px 28px rgba(24,22,15,.04)}
 .theory-card-icon{font-size:24px;margin-bottom:.625rem}
 .theory-card-title{font-family:'Crimson Pro',serif;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:.375rem}
 .theory-card-author{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.625rem;font-weight:600}
@@ -261,11 +367,19 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .theory-kw{font-size:10px;padding:2px 8px;border-radius:var(--br3);font-weight:500}
 
 /* Comparison selector */
+.compare-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:.85rem;flex-wrap:wrap;margin-bottom:.9rem}
+.compare-note{font-size:11.5px;color:var(--ink4);line-height:1.55;max-width:720px}
 .compare-controls{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center}
-.compare-select{padding:7px 12px;border:1.5px solid var(--bg3);border-radius:var(--br2);background:var(--panel);color:var(--ink);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;transition:border-color var(--t)}
-.compare-select:focus{border-color:var(--gold)}
-.compare-btn{padding:7px 16px;background:var(--gold);color:#fff;border:none;border-radius:var(--br2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:background var(--t)}
-.compare-btn:hover{background:var(--gold2)}
+.compare-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.compare-select{min-width:180px;padding:8px 12px;border:1.5px solid var(--bg3);border-radius:var(--br2);background:var(--panel);color:var(--ink);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:border-color var(--t),box-shadow var(--t),background var(--t)}
+.compare-select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(181,134,45,.12)}
+.compare-select:disabled{cursor:not-allowed;opacity:.65;background:var(--bg)}
+.compare-btn{padding:8px 16px;background:linear-gradient(180deg, rgba(181,134,45,.18), rgba(181,134,45,.10));color:var(--ink2);border:1px solid rgba(181,134,45,.22);border-radius:var(--br2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;box-shadow:0 10px 24px rgba(120,90,20,.08);transition:transform var(--t),box-shadow var(--t),background var(--t),border-color var(--t)}
+.compare-btn:hover{background:linear-gradient(180deg, rgba(181,134,45,.24), rgba(181,134,45,.14));border-color:rgba(181,134,45,.3);transform:translateY(-1px);box-shadow:0 12px 28px rgba(120,90,20,.12)}
+.compare-overview{margin-bottom:1rem}
+.compare-overview .overview-card{cursor:pointer;transition:transform var(--t),box-shadow var(--t),border-color var(--t)}
+.compare-overview .overview-card:hover{transform:translateY(-2px);border-color:rgba(181,134,45,.28);box-shadow:0 12px 26px rgba(60,40,0,.08)}
+.compare-empty{padding:1rem 1.1rem;border:1px dashed var(--bg4);border-radius:14px;background:var(--bg);font-size:12px;color:var(--ink4);line-height:1.6}
 
 /* Radar SVG */
 .radar-svg{overflow:visible}
@@ -276,22 +390,69 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 /* Highlight match */
 .highlight{background:var(--gold3)60;border-radius:2px;padding:0 2px}
 
+.atlas-overview{margin-bottom:1.25rem}
+.overview-shell{background:
+  radial-gradient(circle at top right, rgba(181,134,45,.12), transparent 30%),
+  linear-gradient(180deg, rgba(250,247,241,.98), rgba(242,236,224,.98));
+  border:1.5px solid var(--bg3);border-radius:18px;padding:1.15rem 1.2rem;box-shadow:var(--shadow)}
+.overview-top{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.overview-kicker{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.overview-title{font-family:'Crimson Pro',serif;font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.05;color:var(--ink)}
+.overview-sub{max-width:720px;font-size:12.5px;color:var(--ink3);margin-top:4px}
+.scope-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .8rem;border-radius:999px;background:var(--panel);border:1px solid var(--bg3);color:var(--ink2);font-size:11px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.scope-chip::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(181,134,45,.12)}
+.overview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-bottom:1rem}
+.overview-card{background:rgba(250,247,241,.92);border:1px solid var(--bg3);border-radius:14px;padding:.85rem .9rem}
+.overview-label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink4);margin-bottom:.4rem}
+.overview-value{display:block;font-family:'Crimson Pro',serif;font-size:28px;line-height:1;color:var(--ink);margin-bottom:.35rem}
+.overview-note{font-size:11.5px;color:var(--ink3);line-height:1.5}
+.overview-split{display:grid;grid-template-columns:1.2fr .8fr;gap:1rem}
+.mini-panel{background:rgba(250,247,241,.88);border:1px solid var(--bg3);border-radius:14px;padding:.85rem .9rem}
+.mini-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink4);margin-bottom:.55rem}
+.mini-bars{display:flex;flex-direction:column;gap:.45rem}
+.mini-bar-row{display:grid;grid-template-columns:92px 1fr 38px;align-items:center;gap:.45rem}
+.mini-bar-label{font-size:11px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar-track{height:8px;background:var(--bg2);border-radius:999px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:inherit;transition:width .85s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+.mini-bar-val{font-size:10px;font-family:'DM Mono',monospace;color:var(--ink4);text-align:right}
+.mini-notes{display:flex;flex-direction:column;gap:.5rem}
+.mini-note{background:var(--bg);border:1px solid var(--bg3);border-radius:12px;padding:.7rem .8rem;font-size:11.5px;color:var(--ink2);line-height:1.55}
+.mini-note strong{display:block;font-size:9.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink4);margin-bottom:.25rem}
+.analytics-meta{margin-bottom:.9rem}
+.chart-empty{padding:1rem;border:1px dashed var(--bg4);border-radius:12px;background:var(--bg);font-size:12px;color:var(--ink4);text-align:center}
+
 /* ─── Responsive ─── */
 @media(max-width:900px){
-  .app{grid-template-columns:1fr}
-  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--bg3)}
-  .tab-panel{padding:1.25rem 1rem 3rem}
+  .app{grid-template-columns:1fr;padding:.75rem}
+  .sidebar{position:static;top:auto;height:auto}
+  .sidebar-inner{overflow:visible}
+  .main{border-radius:24px}
+  .tab-nav{position:static;padding:.8rem;margin:.85rem .85rem 0;overflow:auto;flex-wrap:nowrap}
+  .tab-panel{padding:1rem}
+  .page-hdr{padding:1rem}
+  .page-hdr h1{font-size:31px}
   .analytics-grid{grid-template-columns:1fr}
   .theory-grid{grid-template-columns:1fr}
   .detail-grid{grid-template-columns:1fr 1fr}
   .bc-row{grid-template-columns:120px 1fr 45px}
+  .overview-grid,.overview-split{grid-template-columns:1fr}
 }
 @media(max-width:520px){
+  .app{padding:.5rem}
+  .sidebar{border-radius:22px}
+  .sidebar-inner{padding:.8rem}
+  .logo{font-size:25px}
   #grid-view.active{grid-template-columns:1fr}
   .detail-grid{grid-template-columns:1fr}
   .bc-row{grid-template-columns:90px 1fr 40px}
-  .tab-nav{gap:0;padding:0 .75rem}
-  .tab-btn{padding:.75rem .7rem;font-size:11.5px}
+  .tab-nav{gap:.45rem;padding:.7rem;margin:.7rem .7rem 0}
+  .tab-btn{padding:.72rem .78rem;font-size:11px}
+  .page-hdr h1{font-size:27px}
+  .compare-controls{flex-direction:column;align-items:stretch}
+  .compare-actions{width:100%}
+  .compare-select,.compare-btn{width:100%}
+  .overview-shell{padding:1rem}
+  .mini-bar-row{grid-template-columns:78px 1fr 32px}
 }
 
 /* Fade-in animation for cards on filter */
@@ -309,13 +470,38 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="logo-area">
     <div class="logo">Hegemonic Atlas</div>
     <div class="logo-sub">World Power & Dominance</div>
-    <div class="logo-tagline">5.500 tahun kekuasaan manusia, terpetakan</div>
+    <div class="logo-tagline">5.500 tahun kekuasaan manusia, terpetakan dalam atlas interaktif yang kini lebih rapi dan mudah dibaca.</div>
   </div>
 
-  <div class="search-wrap">
-    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input class="search-input" type="text" id="search" placeholder="Cari hegemoni, tokoh, konsep...">
+  <div class="sidebar-summary">
+    <div class="sidebar-kicker">Navigator</div>
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" type="text" id="search" placeholder="Cari hegemoni, tokoh, konsep...">
+    </div>
+
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-timeline" onclick="setView('timeline')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Timeline
+      </button>
+      <button class="view-btn" id="btn-grid" onclick="setView('grid')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Grid
+      </button>
+    </div>
+
+    <div class="stats-grid" id="sidebar-stats">
+      <div class="stat-cell"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Hegemoni Aktif</div></div>
+      <div class="stat-cell"><div class="stat-val" id="s-span">0</div><div class="stat-lbl">Rentang Tahun</div></div>
+      <div class="stat-cell"><div class="stat-val" id="s-avg">0</div><div class="stat-lbl">Rerata Durasi</div></div>
+      <div class="stat-cell"><div class="stat-val" id="s-longest">0</div><div class="stat-lbl">Terpanjang (thn)</div></div>
+    </div>
+
+    <div class="result-count" id="result-count">Menampilkan 0 hegemoni</div>
   </div>
+
+  <div class="sidebar-note">Filter di bawah ini memengaruhi atlas, analitik, dan komparasi secara serentak, jadi navigasinya sekarang lebih konsisten.</div>
 
   <div class="filter-group">
     <div class="filter-label">Kawasan Geografis</div>
@@ -327,6 +513,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <span class="pill" data-region="asia-selatan">Asia Selatan</span>
       <span class="pill" data-region="asia-timur">Asia Timur</span>
       <span class="pill" data-region="asia-tengah">Asia Tengah</span>
+      <span class="pill" data-region="asia-tenggara">Asia Tenggara</span>
       <span class="pill" data-region="islam">Islam / Timteng</span>
       <span class="pill" data-region="stepa">Stepa / Mongol</span>
       <span class="pill" data-region="eropa">Eropa</span>
@@ -360,28 +547,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <span class="pill" data-type="finansial">Finansial</span>
     </div>
   </div>
-
-  <hr class="divider">
-
-  <div class="view-toggle">
-    <button class="view-btn active" id="btn-timeline" onclick="setView('timeline')">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      Timeline
-    </button>
-    <button class="view-btn" id="btn-grid" onclick="setView('grid')">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Grid
-    </button>
-  </div>
-
-  <div class="stats-grid" id="sidebar-stats">
-    <div class="stat-cell"><div class="stat-val" id="s-total">46</div><div class="stat-lbl">Hegemoni</div></div>
-    <div class="stat-cell"><div class="stat-val" id="s-span">5.5K</div><div class="stat-lbl">Tahun Sejarah</div></div>
-    <div class="stat-cell"><div class="stat-val" id="s-avg">~250</div><div class="stat-lbl">Rerata Durasi</div></div>
-    <div class="stat-cell"><div class="stat-val" id="s-longest">2030</div><div class="stat-lbl">Terpanjang (thn)</div></div>
-  </div>
-
-  <div class="result-count" id="result-count">Menampilkan 46 hegemoni</div>
 </div>
 </aside>
 
@@ -390,11 +555,11 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 
   <!-- Tab navigation -->
   <nav class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('atlas')">📜 Atlas</button>
-    <button class="tab-btn" onclick="switchTab('analitik')">📊 Analitik</button>
-    <button class="tab-btn" onclick="switchTab('komparasi')">⚖️ Komparasi</button>
-    <button class="tab-btn" onclick="switchTab('siklus')">🔄 Siklus Hegemoni</button>
-    <button class="tab-btn" onclick="switchTab('teori')">📚 Teori</button>
+    <button class="tab-btn active" data-tab="atlas" onclick="switchTab('atlas',this)">Atlas</button>
+    <button class="tab-btn" data-tab="analitik" onclick="switchTab('analitik',this)">Analitik</button>
+    <button class="tab-btn" data-tab="komparasi" onclick="switchTab('komparasi',this)">Komparasi</button>
+    <button class="tab-btn" data-tab="siklus" onclick="switchTab('siklus',this)">Siklus Hegemoni</button>
+    <button class="tab-btn" data-tab="teori" onclick="switchTab('teori',this)">Teori</button>
   </nav>
 
   <!-- ─ TAB: ATLAS ─ -->
@@ -403,6 +568,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <h1>Atlas Kekuasaan Dunia</h1>
       <p>5.500 tahun dominasi — dari Sumeria hingga Pax Americana. Klik kartu untuk analisis mendalam. Hegemonic Composite Index (HCI) dihitung dari 5 dimensi kekuatan.</p>
     </div>
+    <div class="atlas-overview" id="atlas-overview"></div>
     <div class="sort-bar">
       <span class="sort-lbl">Urutkan:</span>
       <button class="sort-btn active" onclick="setSort('chrono',this)">Kronologis</button>
@@ -421,6 +587,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <div class="page-hdr">
       <h1>Analitik Hegemoni</h1>
       <p>Visualisasi data komparatif — durasi, wilayah, HCI, dan distribusi kekuasaan sepanjang sejarah.</p>
+    </div>
+    <div class="analytics-meta">
+      <div class="scope-chip" id="analytics-scope">Analitik global</div>
     </div>
 
     <div class="analytics-grid">
@@ -455,7 +624,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <div class="chart-card analytics-full">
         <div class="chart-card-hdr">
           <div class="chart-card-title">Estimasi Pangsa PDB Dunia — Garis Waktu</div>
-          <div class="chart-card-sub">Berdasarkan estimasi Maddison Project & historiografi ekonomi (Bairoch, Frank, Pomeranz)</div>
+          <div class="chart-card-sub">Seri historis jangka panjang berbasis Maddison Project; bagian era modern diperluas agar tahun dan pergeseran pangsa lebih mudah dibaca hingga 2022.</div>
         </div>
         <canvas class="gdp-canvas" id="chart-gdp" height="220"></canvas>
       </div>
@@ -484,13 +653,20 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="tab-panel" id="tab-komparasi">
     <div class="page-hdr">
       <h1>Komparasi Kekuatan</h1>
-      <p>Bandingkan hingga 3 hegemoni secara bersamaan di 5 dimensi kekuatan. Pilih dari dropdown di bawah.</p>
+      <p>Bandingkan hingga 3 hegemoni secara bersamaan di 5 dimensi kekuatan. Dropdown akan mengikuti filter aktif, jadi komparasi tetap relevan dengan konteks atlas yang sedang dibaca.</p>
     </div>
+    <div class="compare-meta">
+      <div class="scope-chip" id="compare-scope">Komparasi global</div>
+      <div class="compare-note">Kartu insight di bawah ini dihitung langsung dari pilihan aktif. Klik kartu ringkasan atau legenda radar untuk melompat kembali ke atlas dan membuka entri terkait.</div>
+    </div>
+    <div class="overview-grid compare-overview" id="compare-overview"></div>
     <div class="compare-controls">
-      <select class="compare-select" id="cmp1"></select>
-      <select class="compare-select" id="cmp2"></select>
-      <select class="compare-select" id="cmp3"></select>
-      <button class="compare-btn" onclick="runComparison()">Bandingkan ▶</button>
+      <select class="compare-select" id="cmp1" onchange="runComparison()"></select>
+      <select class="compare-select" id="cmp2" onchange="runComparison()"></select>
+      <select class="compare-select" id="cmp3" onchange="runComparison()"></select>
+      <div class="compare-actions">
+        <button class="compare-btn" onclick="runComparison()">Bandingkan</button>
+      </div>
     </div>
     <div class="analytics-grid">
       <div class="chart-card analytics-full">
@@ -508,7 +684,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
           <div class="chart-card-title">Profil Detail Perbandingan</div>
           <div class="chart-card-sub">Data statistik dan HCI untuk setiap hegemoni yang dipilih</div>
         </div>
-        <div id="compare-table"></div>
+        <div id="compare-table" class="table-shell"></div>
       </div>
     </div>
   </div>
@@ -526,7 +702,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
         <div class="chart-card-title">Hegemonic Composite Index — Peringkat Lengkap</div>
         <div class="chart-card-sub">HCI = (Mil×0.20) + (Eko×0.25) + (Bud×0.20) + (Tek×0.15) + (Adm×0.20). Skala 0–100.</div>
       </div>
-      <div style="overflow-x:auto">
+      <div class="table-shell">
         <table class="index-table" id="hci-table"></table>
       </div>
     </div>
@@ -557,8 +733,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 </div>
 
 <script>
+const CURRENT_YEAR = new Date().getFullYear();
 // ══════════════════════════════════════════════════════════════════
-//  DATA — 46 hegemoni + teori
+//  DATA — 49 hegemoni + teori
 // ══════════════════════════════════════════════════════════════════
 const THEORIES = [
   {icon:"🏛️",title:"Hegemonic Stability Theory",author:"Kindleberger · Gilpin · Keohane (1973–1984)",
@@ -805,7 +982,7 @@ const DATA = [
    tags:["Konstantinopel 1453","Sistem millet","Janissari","Pemicu Era Penjelajahan","Suleiman Agung","Devshirme","Topkapi"],
    theory:"Ikenberry: Sistem millet sebagai proto-pluralisme dalam hegemoni; Kennedy: Militer-birokrasi overstretch abad 18"},
   {id:24,name:"Kekaisaran Khmer",sub:"802–1431 M · ~629 tahun",start:802,end:1431,duration:629,area:1000,
-   region:"asia-tengah",era:"pertengahan",types:["religius","teknologi"],color:"#2d6a4f",
+   region:"asia-tenggara",era:"pertengahan",types:["religius","teknologi"],color:"#2d6a4f",
    badge:"Hindu-Buddhis Agraris",gdpShare:4,
    stats:[["~1 juta km²","Luas puncak"],["Angkor Wat","Kompleks candi terbesar"],["~1 juta","Penduduk Angkor"],["3x panen/tahun","Berkat irigasi"]],
    power:{militer:67,ekonomi:78,budaya:93,teknologi:83,administrasi:73},
@@ -939,7 +1116,7 @@ const DATA = [
    insight:"Perang Dingin membuktikan bahwa nuklir tidak hanya mencegah perang besar — tapi secara paradoks juga memungkinkan lebih banyak perang kecil, karena kedua superpower tahu eskalasi penuh adalah <strong>bunuh diri mutual</strong>.",
    tags:["MAD","Proxy wars","Perlombaan ruang angkasa","NATO vs Warsawa","Korea","Vietnam","Afghanistan","Sputnik","Moon landing"],
    theory:"Gilpin: Bipolar stability lebih stabil dari multipolar tapi lebih tidak stabil dari unipolar; Wallerstein: Sistem dunia tanpa hegemon tunggal"},
-  {id:39,name:"Hegemoni Amerika Serikat (Pax Americana)",sub:"1991–sekarang · ~35 tahun",start:1991,end:2026,duration:35,area:0,
+  {id:39,name:"Hegemoni Amerika Serikat (Pax Americana)",sub:`1991–sekarang · ~${CURRENT_YEAR-1991} tahun`,start:1991,end:CURRENT_YEAR,duration:CURRENT_YEAR-1991,area:0,
    region:"global",era:"kontemporer",types:["militer","komersial","teknologi","hukum","finansial"],color:"#1a3a6b",
    badge:"Liberal-Teknologi-Institusi",gdpShare:28,
    stats:[["800+ pangkalan","Militer global"],["USD","~60% cadangan devisa"],["~25% PDB global","Dominasi ekonomi"],["Silicon Valley","Tech hegemony"]],
@@ -948,7 +1125,7 @@ const DATA = [
    insight:"Hegemoni AS adalah yang paling '<strong>tak kasat mata</strong>' dalam sejarah — beroperasi melalui norma, institusi, dan dolar, bukan legio atau armada. Ini juga yang membuatnya paling sulit dilawan.",
    tags:["Dolar cadangan dunia","Silicon Valley","IMF/WB/WTO","800+ pangkalan","Tantangan China","Unipolaritas","SWIFT","Pax Americana"],
    theory:"Ikenberry: Liberal international order; Kindleberger: Dolar sebagai global reserve currency = public good"},
-  {id:40,name:"Kebangkitan China (Transisi Hegemoni?)",sub:"2000–sekarang · sedang berlangsung",start:2000,end:2026,duration:26,area:9600,
+  {id:40,name:"Kebangkitan China (Transisi Hegemoni?)",sub:`2000–sekarang · ~${CURRENT_YEAR-2000} tahun`,start:2000,end:CURRENT_YEAR,duration:CURRENT_YEAR-2000,area:9600,
    region:"asia-timur",era:"kontemporer",types:["militer","komersial","teknologi"],color:"#1a5c1a",
    badge:"Negara-Kapital Otoriter",gdpShare:18,
    stats:[["~18% PDB global","No.2 (PPP: No.1)"],["BRI","140+ negara"],["2049","Target 'abad kedua'"],["~1.4 miliar","Populasi"]],
@@ -1003,15 +1180,42 @@ const DATA = [
    insight:"Soviet adalah kasus '<strong>military superpower tanpa economic foundation</strong>' — menghabiskan 15-20% GDP untuk militer vs 5-6% AS. Reagan memahami ini dan mengakselerasi perlombaan senjata untuk menguras Soviet.",
    tags:["Komunisme","Space race","Nuclear parity","Gulag","Planned economy","Cold War","Reagan doctrine","Gorbachev"],
    theory:"Kennedy: Military overstretch; Gilpin: Economic inefficiency as hegemonic weakness; Wallerstein: Semi-peripheral position"},
-  {id:46,name:"Kesultanan Mataram Islam",sub:"1587–1755 M · ~168 tahun",start:1587,end:1755,duration:168,area:190,
-   region:"asia-tengah",era:"modern-awal",types:["religius","militer"],color:"#2d6a4f",
-   badge:"Islam-Agraris Jawa",gdpShare:2,
-   stats:[["~190K km²","Jawa & sekitar"],["Sultan Agung","Puncak kejayaan"],["168 tahun","Durasi"],["Lawan VOC","1628-1629"]],
-   power:{militer:68,ekonomi:58,budaya:83,budaya:83,teknologi:43,administrasi:72},
-   desc:"Kekuatan hegemonis terbesar di kepulauan Nusantara. Sultan Agung (1613–1645) menyatukan Jawa dan dua kali mengepung Batavia (markas VOC) pada 1628–1629. Mataram mengembangkan tradisi budaya Jawa-Islam yang kaya: seni, arsitektur, dan sastra yang masih berpengaruh.",
-   insight:"Pengepungan Batavia oleh Sultan Agung adalah salah satu momen paling mendekati di mana kekuatan pribumi hampir berhasil mengusir VOC dari Nusantara. Kegagalan karena logistik — bukan kekurangan keberanian militer.",
-   tags:["Sultan Agung","Jawa","Batavia","VOC","Nusantara","Gamelan","Wayang","Keraton"],
-   theory:"Kennedy: Logistics gap sebagai faktor kritis dalam power projection"},
+  {id:46,name:"Majapahit",sub:"1293–1527 M · ~234 tahun",start:1293,end:1527,duration:234,area:2000,
+   region:"asia-tenggara",era:"pertengahan",types:["komersial","hukum","militer"],color:"#8b4a2f",
+   badge:"Maritim-Arkipelagik",gdpShare:4,
+   stats:[["1293 M","Didirikan"],["80+ wilayah","Dicatat Nagarakretagama"],["Hayam Wuruk","Puncak kejayaan"],["Jawa-Bali","Inti langsung"]],
+   power:{militer:74,ekonomi:82,budaya:88,teknologi:60,administrasi:79},
+   desc:"Majapahit lahir dari krisis invasi Mongol dan dengan cepat berubah menjadi jaringan kekuasaan maritim paling berpengaruh di Asia Tenggara. Di bawah Gajah Mada dan Hayam Wuruk, pengaruh Jawa dipulihkan di Bali, Sumatra, dan Borneo, sementara pusat kerajaan di Jawa mengelola legitimasi, upeti, dan hubungan antarpelabuhan.",
+   insight:"Hegemoni Majapahit bekerja bukan hanya lewat penaklukan langsung, tetapi lewat <strong>prestise istana, pengawasan vassal, dan kontrol simpul perdagangan</strong> di seluruh kepulauan.",
+   tags:["Gajah Mada","Hayam Wuruk","Nagarakretagama","Bali","Sumatra","Borneo","Trowulan","Maritime state"],
+   theory:"Nye: Soft power ritual dan budaya menopang jaringan maritim; Ikenberry: integrasi elites periferi ke pusat"},
+  {id:47,name:"Kekaisaran Seleukia",sub:"312–64 SM · ~248 tahun",start:-312,end:-64,duration:248,area:3900,
+   region:"asia-tengah",era:"klasik",types:["militer","komersial","hukum"],color:"#49648f",
+   badge:"Helenistik-Administratif",gdpShare:15,
+   stats:[["~3.9 juta km²","Luas puncak"],["312 SM","Era Seleukia dimulai"],["Antiochia","Pusat barat"],["Iran–Levant","Koridor inti"]],
+   power:{militer:82,ekonomi:79,budaya:86,teknologi:72,administrasi:83},
+   desc:"Didirikan oleh Seleucus I setelah kematian Alexander, Seleukia menjadi jembatan antara dunia Mediterania dan Asia Barat. Kekaisaran ini mewarisi kota-kota Helenistik, tradisi militer Makedonia, dan praktik administratif Persia, sehingga mampu mempertahankan salah satu ruang kekuasaan paling luas di dunia pasca-Alexander.",
+   insight:"Seleukia menunjukkan bahwa <strong>hegemoni paling tahan lama sering lahir dari hibridisasi</strong> — Yunani memberi bahasa elite dan urbanisme, Persia memberi kedalaman administratif dan logistik wilayah.",
+   tags:["Seleucus I","Antioch","Hellenistic cities","Iran","Levant","Trade corridor","Post-Alexander","Hybrid empire"],
+   theory:"Wallerstein: kontrol koridor dagang lintas-zona; Ikenberry: absorpsi institusi pendahulu memperpanjang daya tahan"},
+  {id:48,name:"Kerajaan Aksum",sub:"100–940 M · ~840 tahun",start:100,end:940,duration:840,area:1250,
+   region:"nil",era:"pertengahan",types:["komersial","religius","hukum"],color:"#9d6b1f",
+   badge:"Laut Merah-Kristen",gdpShare:4,
+   stats:[["~1.25 juta km²","Luas pengaruh"],["Adulis","Pelabuhan kunci"],["Koin emas","Moneter sendiri"],["940 M","Akhir dominasi lama"]],
+   power:{militer:66,ekonomi:82,budaya:84,teknologi:63,administrasi:78},
+   desc:"Aksum adalah salah satu kerajaan besar Afrika yang menghubungkan Afrika Timur, Laut Merah, Arabia Selatan, dan Mediterania. Dari pelabuhan Adulis, ia mengekspor gading, emas, dan budak; dari dataran tinggi Ethiopia, ia membangun monarki Kristen yang cukup kuat untuk mencetak koinnya sendiri dan memproyeksikan kekuasaan menyeberangi laut.",
+   insight:"Kekuatan Aksum terletak pada posisinya sebagai <strong>broker antara Afrika, Arabia, dan Mediterania</strong> — bentuk hegemoni maritim yang sering terlupakan dalam narasi dunia yang terlalu berpusat pada Eurasia utara.",
+   tags:["Adulis","Laut Merah","Kristen awal","Coinage","Ethiopia","Arabia Selatan","Obelisk","Trade nexus"],
+   theory:"Kindleberger: kontrol choke point dagang sebagai public goods; Nye: agama memperluas legitimasi lintas wilayah"},
+  {id:49,name:"Kesultanan Delhi",sub:"1206–1556 M · ~350 tahun",start:1206,end:1556,duration:350,area:3200,
+   region:"asia-selatan",era:"pertengahan",types:["militer","hukum","komersial"],color:"#6b5b22",
+   badge:"Turko-Afghan Urban",gdpShare:12,
+   stats:[["~3.2 juta km²","Luas puncak"],["1206 M","Berdiri"],["Delhi","Pusat metropolitan"],["1290–1320","Fase imperialis"]],
+   power:{militer:86,ekonomi:78,budaya:72,teknologi:68,administrasi:84},
+   desc:"Kesultanan Delhi adalah sultanat Muslim utama di India utara dari abad ke-13 hingga ke-16. Di bawah dinasti Khalji, Delhi berubah dari kerajaan defensif menjadi kekuatan imperialis, menaklukkan Gujarat dan Rajasthan, menundukkan kerajaan-kerajaan besar di India selatan, serta menahan serangan Mongol berulang kali.",
+   insight:"Delhi bukan sekadar pendahulu Mughal; ia membangun <strong>arsitektur politik Persia-India</strong> yang menjadikan India utara salah satu pusat urban dan militer terpenting di Eurasia abad pertengahan.",
+   tags:["Delhi","Khalji","Tughluq","Mongol frontier","Rajput","Deccan","Persianate state","North India"],
+   theory:"Organski: konsentrasi kekuatan regional menciptakan transisi besar di anak benua; Kennedy: ekspansi ke Deccan menekan kapasitas pusat"},
 ];
 
 // ══════════════════════════════════════════════════════════════════
@@ -1027,9 +1231,13 @@ function calcHCI(d) {
     (d.power.administrasi||0)*w.administrasi
   );
 }
-DATA.forEach(d => d.hci = calcHCI(d));
+DATA.forEach(d => {
+  d.duration = Math.max(1, d.end - d.start);
+  d.hci = calcHCI(d);
+});
 
 // ── State ──
+let currentTab = 'atlas';
 let currentView = 'timeline';
 let currentSort = 'chrono';
 let activeRegion = 'all';
@@ -1038,6 +1246,20 @@ let activeType = 'all';
 let searchQuery = '';
 
 const ERA_ORDER = ["kuno","klasik","pertengahan","modern-awal","industri","kontemporer"];
+const REGION_LABELS = {
+  mesopotamia:"Mesopotamia",
+  nil:"Nil / Afrika",
+  mediterania:"Mediterania",
+  "asia-selatan":"Asia Selatan",
+  "asia-timur":"Asia Timur",
+  "asia-tengah":"Asia Tengah",
+  "asia-tenggara":"Asia Tenggara",
+  islam:"Islam / Timteng",
+  stepa:"Stepa / Mongol",
+  eropa:"Eropa",
+  americas:"Amerika",
+  global:"Global"
+};
 const ERA_LABELS = {
   kuno:"Zaman Kuno · sebelum 500 SM",
   klasik:"Zaman Klasik · 500 SM – 500 M",
@@ -1065,6 +1287,250 @@ const POWER_LABELS = {militer:"Militer",ekonomi:"Ekonomi",budaya:"Budaya/Soft",t
 
 const MAX_DUR = Math.max(...DATA.map(d=>d.duration));
 const MAX_AREA = Math.max(...DATA.map(d=>d.area));
+
+function formatInt(val){ return Math.round(val).toLocaleString('id-ID'); }
+function compactNumber(val){
+  if (!Number.isFinite(val)) return '0';
+  if (Math.abs(val) >= 1000) {
+    const short = (val/1000).toFixed(val >= 10000 ? 0 : 1).replace('.0','');
+    return `${short}K`;
+  }
+  return formatInt(val);
+}
+function formatArea(area){
+  if (!area) return '—';
+  if (area >= 1000) {
+    const short = (area/1000).toFixed(area >= 10000 ? 0 : 1).replace('.0','');
+    return `${short}M`;
+  }
+  return `${formatInt(area)}K`;
+}
+function formatYear(year){
+  if (year < 0) return `${Math.abs(year)} SM`;
+  if (year >= CURRENT_YEAR) return 'sekarang';
+  return `${year} M`;
+}
+function getScopeLabel() {
+  const parts = [];
+  if (activeRegion !== 'all') parts.push(REGION_LABELS[activeRegion] || activeRegion);
+  if (activeEra !== 'all') parts.push(ERA_LABELS[activeEra]?.split('·')[0].trim() || activeEra);
+  if (activeType !== 'all') parts.push(activeType);
+  if (searchQuery) parts.push(`kata kunci "${searchQuery}"`);
+  return parts.length ? parts.join(' • ') : 'Seluruh atlas dunia';
+}
+function getPeakOverlap(data) {
+  if (!data.length) return {year:null,count:0};
+  const events = [];
+  data.forEach(item => {
+    events.push({year:item.start, delta:1});
+    events.push({year:item.end + 1, delta:-1});
+  });
+  events.sort((a,b)=>a.year-b.year || b.delta-a.delta);
+  let active = 0, peak = 0, peakYear = data[0].start;
+  events.forEach(event => {
+    active += event.delta;
+    if (active > peak) {
+      peak = active;
+      peakYear = event.year;
+    }
+  });
+  return {year:peakYear,count:peak};
+}
+function getMetrics(data) {
+  if (!data.length) {
+    return {
+      count:0, span:0, avgDuration:0, longest:null, widest:null, topHCI:null,
+      peakOverlap:{year:null,count:0}, regionCounts:[], eraCounts:[]
+    };
+  }
+  const minStart = Math.min(...data.map(d=>d.start));
+  const maxEnd = Math.max(...data.map(d=>d.end));
+  const regionCounts = Object.entries(data.reduce((acc,item)=>{
+    acc[item.region] = (acc[item.region]||0) + 1;
+    return acc;
+  }, {})).map(([key,count]) => ({key,label:REGION_LABELS[key]||key,count}))
+    .sort((a,b)=>b.count-a.count);
+  const eraCounts = ERA_ORDER.map(era => ({
+    era,
+    count: data.filter(item => item.era === era).length
+  })).filter(item => item.count > 0);
+  return {
+    count:data.length,
+    span:maxEnd - minStart,
+    avgDuration:Math.round(data.reduce((sum,item)=>sum+item.duration,0)/data.length),
+    longest:data.slice().sort((a,b)=>b.duration-a.duration)[0],
+    widest:data.filter(item=>item.area>0).slice().sort((a,b)=>b.area-a.area)[0] || null,
+    topHCI:data.slice().sort((a,b)=>b.hci-a.hci)[0],
+    peakOverlap:getPeakOverlap(data),
+    regionCounts,
+    eraCounts
+  };
+}
+const REDUCE_MOTION_QUERY = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+const ANIMATION_TOKENS = Object.create(null);
+
+function prefersReducedMotion() {
+  return !!REDUCE_MOTION_QUERY?.matches;
+}
+
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function runTween(key, duration, draw) {
+  ANIMATION_TOKENS[key] = (ANIMATION_TOKENS[key] || 0) + 1;
+  const token = ANIMATION_TOKENS[key];
+  if (prefersReducedMotion()) {
+    draw(1);
+    return;
+  }
+  const start = performance.now();
+  draw(0);
+  const frame = now => {
+    if (ANIMATION_TOKENS[key] !== token) return;
+    const progress = Math.min(1, (now - start) / duration);
+    draw(easeOutCubic(progress));
+    if (progress < 1) requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
+function pulseSurface(el) {
+  if (!el) return;
+  el.classList.remove('canvas-refresh');
+  void el.offsetWidth;
+  el.classList.add('canvas-refresh');
+}
+
+function animateWidths(root, selector='[data-animate-width]', {stagger=24} = {}) {
+  if (!root) return;
+  const items = [...root.querySelectorAll(selector)];
+  if (!items.length) return;
+  items.forEach((el, index) => {
+    const target = el.dataset.animateWidth;
+    if (!target) return;
+    el.style.opacity = '0.4';
+    if (prefersReducedMotion()) {
+      el.style.width = target;
+      el.style.opacity = '1';
+      return;
+    }
+    el.style.width = '0';
+    el.style.transitionDelay = '0ms';
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.width = target;
+      }, index * stagger);
+    });
+  });
+}
+
+function animateStagger(root, selector, {className='stagger-item', step=36} = {}) {
+  if (!root) return;
+  const items = [...root.querySelectorAll(selector)];
+  if (!items.length) return;
+  items.forEach((el, index) => {
+    if (prefersReducedMotion()) {
+      el.classList.remove(className);
+      el.style.animation = 'none';
+      el.style.opacity = '1';
+      return;
+    }
+    el.classList.remove(className);
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+    el.style.animationDelay = `${index * step}ms`;
+    el.classList.add(className);
+  });
+}
+
+function animateNumberText(el, target, formatter, duration=760) {
+  if (!el) return;
+  const key = `num:${el.id || 'value'}`;
+  runTween(key, duration, progress => {
+    const current = progress >= 1 ? target : target * progress;
+    el.textContent = formatter(current);
+  });
+}
+
+function renderSidebarStats(data) {
+  const metrics = getMetrics(data);
+  animateNumberText(document.getElementById('s-total'), metrics.count, value => formatInt(Math.round(value)));
+  animateNumberText(document.getElementById('s-span'), metrics.span, value => compactNumber(Math.round(value)));
+  animateNumberText(document.getElementById('s-avg'), metrics.avgDuration, value => formatInt(Math.round(value)));
+  animateNumberText(document.getElementById('s-longest'), metrics.longest?.duration || 0, value => formatInt(Math.round(value)));
+  document.getElementById('result-count').textContent = data.length === DATA.length
+    ? `Menampilkan ${formatInt(data.length)} hegemoni`
+    : `Menampilkan ${formatInt(data.length)} dari ${formatInt(DATA.length)} hegemoni`;
+}
+function renderOverview(data) {
+  const el = document.getElementById('atlas-overview');
+  if (!el) return;
+  const metrics = getMetrics(data);
+  if (!metrics.count) {
+    el.innerHTML = `<div class="overview-shell"><div class="chart-empty">Tidak ada data yang cocok dengan kombinasi filter saat ini.</div></div>`;
+    return;
+  }
+  const topRegions = metrics.regionCounts.slice(0,4);
+  const maxRegion = topRegions[0]?.count || 1;
+  el.innerHTML = `
+    <div class="overview-shell">
+      <div class="overview-top">
+        <div>
+          <div class="overview-kicker">Filter-Aware Overview</div>
+          <div class="overview-title">Ringkasan Cepat Pusat Hegemoni</div>
+          <div class="overview-sub">Kartu, sidebar, dan chart membaca data aktif yang sama, jadi ketika filter berubah seluruh interpretasi ikut diperbarui.</div>
+        </div>
+        <div class="scope-chip">${getScopeLabel()}</div>
+      </div>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <span class="overview-label">Entitas Aktif</span>
+          <span class="overview-value">${formatInt(metrics.count)}</span>
+          <div class="overview-note">Jumlah hegemoni yang sedang tampil setelah filter dan pencarian diterapkan.</div>
+        </div>
+        <div class="overview-card">
+          <span class="overview-label">Puncak HCI</span>
+          <span class="overview-value">${metrics.topHCI.hci}</span>
+          <div class="overview-note">${metrics.topHCI.name} memimpin cakupan aktif dalam indeks komposit kekuatan.</div>
+        </div>
+        <div class="overview-card">
+          <span class="overview-label">Durasi Terpanjang</span>
+          <span class="overview-value">${compactNumber(metrics.longest.duration)}</span>
+          <div class="overview-note">${metrics.longest.name} bertahan paling lama dalam cakupan aktif.</div>
+        </div>
+        <div class="overview-card">
+          <span class="overview-label">Puncak Tumpang Tindih</span>
+          <span class="overview-value">${formatInt(metrics.peakOverlap.count)}</span>
+          <div class="overview-note">Sekitar ${formatYear(metrics.peakOverlap.year)}, jumlah hegemoni yang hidup bersamaan mencapai puncaknya.</div>
+        </div>
+      </div>
+      <div class="overview-split">
+        <div class="mini-panel">
+          <div class="mini-title">Sebaran Kawasan Teratas</div>
+          <div class="mini-bars">
+            ${topRegions.map(region => `
+              <div class="mini-bar-row">
+                <div class="mini-bar-label">${region.label}</div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" data-animate-width="${(region.count/maxRegion)*100}%" style="width:0;background:var(--gold)"></div></div>
+                <div class="mini-bar-val">${region.count}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="mini-panel">
+          <div class="mini-title">Catatan Cepat</div>
+          <div class="mini-notes">
+            <div class="mini-note"><strong>Rentang Aktif</strong>${formatYear(Math.min(...data.map(item=>item.start)))} hingga ${formatYear(Math.max(...data.map(item=>item.end)))} dengan span ${formatInt(metrics.span)} tahun.</div>
+            <div class="mini-note"><strong>Wilayah Terluas</strong>${metrics.widest ? `${metrics.widest.name} mencapai sekitar ${formatArea(metrics.widest.area)} km² pada puncaknya.` : 'Tidak ada estimasi area yang tersedia pada cakupan aktif.'}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  animateStagger(el, '.overview-card, .mini-panel', {step:48});
+  animateWidths(el, '.mini-bar-fill', {stagger:42});
+}
 
 // ══════════════════════════════════════════════════════════════════
 //  FILTER / SORT
@@ -1101,11 +1567,6 @@ function highlightText(text, query) {
   return text.replace(re, '<span class="highlight">$1</span>');
 }
 
-function powerBar(key) {
-  const val = 0; // placeholder, replaced below
-  return '';
-}
-
 function makeCard(h) {
   const dur = h.duration;
   const durW = Math.round((dur/MAX_DUR)*100);
@@ -1119,12 +1580,12 @@ function makeCard(h) {
     const col = POWER_COLS[k]||'#888';
     return `<div class="power-row">
       <div class="p-lbl">${POWER_LABELS[k]}</div>
-      <div class="p-track"><div class="p-fill" style="width:${val}%;background:${col}"></div></div>
+      <div class="p-track"><div class="p-fill" data-animate-width="${val}%" style="width:0;background:${col}"></div></div>
       <div class="p-val">${val}</div>
     </div>`;
   }).join('');
 
-  const durLabel = dur>=1000?(dur/1000).toFixed(1)+'K':dur;
+  const durLabel = compactNumber(dur);
   const nm = searchQuery ? highlightText(h.name, searchQuery) : h.name;
 
   return `<div class="card card-animated" id="card-${h.id}" onclick="toggleCard(${h.id})">
@@ -1145,7 +1606,7 @@ function makeCard(h) {
         <div class="card-chev">▼</div>
       </div>
     </div>
-    <div class="dur-track"><div class="dur-fill" style="width:${durW}%;background:${h.color}"></div></div>
+    <div class="dur-track"><div class="dur-fill" data-animate-width="${durW}%" style="width:0;background:${h.color}"></div></div>
     <div class="card-body">
       <hr class="body-divider">
       <div class="detail-grid">${statsHtml}</div>
@@ -1168,13 +1629,13 @@ function makeCard(h) {
 function makeGridCard(h) {
   const badgeStyle = `background:${h.color}15;color:${h.color};border:1px solid ${h.color}28`;
   return `<div class="gc" style="border-top:3px solid ${h.color}" 
-    onclick="setView('timeline');renderAtlas();setTimeout(()=>{const el=document.getElementById('card-${h.id}');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});toggleCard(${h.id})}},100)">
+    onclick="focusAtlasItem(${h.id})">
     <div class="gc-name">${h.name}</div>
     <div class="gc-sub">${h.sub}</div>
     <span class="badge" style="${badgeStyle};font-size:9.5px">${h.badge}</span>
     <div class="gc-stats" style="margin-top:.6rem">
-      <div class="gc-s"><div class="gc-sv">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration}</div><div class="gc-sl">Tahun</div></div>
-      <div class="gc-s"><div class="gc-sv">${h.area>=1000?(h.area/1000).toFixed(0)+'M':h.area+'K'}</div><div class="gc-sl">km²</div></div>
+      <div class="gc-s"><div class="gc-sv">${compactNumber(h.duration)}</div><div class="gc-sl">Tahun</div></div>
+      <div class="gc-s"><div class="gc-sv">${formatArea(h.area)}</div><div class="gc-sl">km²</div></div>
       <div class="gc-s"><div class="gc-sv">${h.hci}</div><div class="gc-sl">HCI</div></div>
     </div>
   </div>`;
@@ -1185,8 +1646,8 @@ function renderAtlas() {
   const tl = document.getElementById('timeline-view');
   const grid = document.getElementById('grid-view');
   const noRes = document.getElementById('no-results');
-  document.getElementById('result-count').textContent = `Menampilkan ${data.length} dari ${DATA.length} hegemoni`;
-  document.getElementById('s-total').textContent = data.length;
+  renderSidebarStats(data);
+  renderOverview(data);
 
   if (data.length === 0) {
     tl.innerHTML = ''; grid.innerHTML = '';
@@ -1195,6 +1656,7 @@ function renderAtlas() {
   noRes.style.display = 'none';
 
   grid.innerHTML = data.map(makeGridCard).join('');
+  animateStagger(grid, '.gc', {step:20});
 
   if (currentSort === 'chrono') {
     const byEra = {};
@@ -1212,11 +1674,36 @@ function renderAtlas() {
   } else {
     tl.innerHTML = `<div class="era-section">${data.map(makeCard).join('')}</div>`;
   }
+  animateStagger(tl, '.era-hdr', {step:56});
+  animateWidths(tl, '.dur-fill', {stagger:22});
 }
 
 function toggleCard(id) {
   const el = document.getElementById('card-'+id);
-  if (el) el.classList.toggle('open');
+  if (!el) return;
+  const opening = !el.classList.contains('open');
+  el.classList.toggle('open');
+  if (opening) {
+    animateStagger(el, '.dg, .power-row, .tag', {step:16});
+    animateWidths(el, '.p-fill', {stagger:44});
+  }
+}
+
+function focusAtlasItem(id, openCard = true) {
+  const atlasBtn = document.querySelector('.tab-btn[data-tab="atlas"]');
+  if (currentTab !== 'atlas') switchTab('atlas', atlasBtn);
+  setView('timeline');
+  renderAtlas();
+  setTimeout(() => {
+    const el = document.getElementById('card-' + id);
+    if (!el) return;
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    if (openCard && !el.classList.contains('open')) {
+      el.classList.add('open');
+      animateStagger(el, '.dg, .power-row, .tag', {step:16});
+      animateWidths(el, '.p-fill', {stagger:44});
+    }
+  }, 90);
 }
 
 function setView(v) {
@@ -1225,8 +1712,16 @@ function setView(v) {
   const gr = document.getElementById('grid-view');
   document.getElementById('btn-timeline').classList.toggle('active', v==='timeline');
   document.getElementById('btn-grid').classList.toggle('active', v==='grid');
-  if (v==='timeline'){ tl.classList.remove('hidden'); gr.classList.remove('active'); }
-  else { tl.classList.add('hidden'); gr.classList.add('active'); }
+  if (v==='timeline'){
+    tl.classList.remove('hidden');
+    gr.classList.remove('active');
+    animateWidths(tl, '.dur-fill', {stagger:22});
+  }
+  else {
+    tl.classList.add('hidden');
+    gr.classList.add('active');
+    animateStagger(gr, '.gc', {step:20});
+  }
 }
 
 function setSort(s, btn) {
@@ -1234,6 +1729,7 @@ function setSort(s, btn) {
   document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   renderAtlas();
+  if (currentTab === 'analitik') renderAnalytics();
 }
 
 // ── Filters ──
@@ -1241,98 +1737,129 @@ document.querySelectorAll('[data-region]').forEach(el=>{
   el.addEventListener('click',()=>{
     document.querySelectorAll('[data-region]').forEach(e=>e.classList.remove('active'));
     el.classList.add('active'); activeRegion=el.dataset.region; renderAtlas();
+    if (currentTab === 'analitik') renderAnalytics();
+    if (currentTab === 'komparasi') renderComparison();
   });
 });
 document.querySelectorAll('[data-era]').forEach(el=>{
   el.addEventListener('click',()=>{
     document.querySelectorAll('[data-era]').forEach(e=>e.classList.remove('active'));
     el.classList.add('active'); activeEra=el.dataset.era; renderAtlas();
+    if (currentTab === 'analitik') renderAnalytics();
+    if (currentTab === 'komparasi') renderComparison();
   });
 });
 document.querySelectorAll('[data-type]').forEach(el=>{
   el.addEventListener('click',()=>{
     document.querySelectorAll('[data-type]').forEach(e=>e.classList.remove('active'));
     el.classList.add('active'); activeType=el.dataset.type; renderAtlas();
+    if (currentTab === 'analitik') renderAnalytics();
+    if (currentTab === 'komparasi') renderComparison();
   });
 });
 document.getElementById('search').addEventListener('input',e=>{
   searchQuery=e.target.value; renderAtlas();
+  if (currentTab === 'analitik') renderAnalytics();
+  if (currentTab === 'komparasi') renderComparison();
 });
 
 // ══════════════════════════════════════════════════════════════════
 //  TAB SYSTEM
 // ══════════════════════════════════════════════════════════════════
-function switchTab(name) {
+function switchTab(name, btn) {
+  currentTab = name;
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
+  (btn || document.querySelector(`.tab-btn[data-tab="${name}"]`))?.classList.add('active');
 
   if (name==='analitik') renderAnalytics();
   if (name==='komparasi') renderComparison();
   if (name==='siklus') renderCycle();
   if (name==='teori') renderTheory();
+
+  const mainEl = document.querySelector('.main');
+  if (mainEl) {
+    const top = Math.max(0, mainEl.getBoundingClientRect().top + window.scrollY - 14);
+    window.scrollTo({ top, behavior:'smooth' });
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
 //  ANALYTICS
 // ══════════════════════════════════════════════════════════════════
-let analyticsRendered = false;
 function renderAnalytics() {
-  if (analyticsRendered) return;
-  analyticsRendered = true;
+  const scopeData = filteredData();
+  document.getElementById('analytics-scope').textContent = `${getScopeLabel()} • ${formatInt(scopeData.length)} entri aktif`;
 
-  // HCI chart
-  const topHCI = [...DATA].sort((a,b)=>b.hci-a.hci).slice(0,20);
+  if (!scopeData.length) {
+    document.getElementById('chart-hci').innerHTML = '<div class="chart-empty">Tidak ada data aktif untuk dibandingkan pada tab analitik.</div>';
+    document.getElementById('chart-duration').innerHTML = '<div class="chart-empty">Durasi tidak tersedia untuk filter ini.</div>';
+    document.getElementById('chart-area').innerHTML = '<div class="chart-empty">Estimasi area tidak tersedia untuk filter ini.</div>';
+    drawTypeChart(scopeData);
+    drawEraChart(scopeData);
+    drawGDPTimeline();
+    return;
+  }
+
+  const topHCI = scopeData.slice().sort((a,b)=>b.hci-a.hci).slice(0,20);
   const maxHCI = topHCI[0].hci;
   document.getElementById('chart-hci').innerHTML = topHCI.map(h=>`
     <div class="bc-row">
       <div class="bc-lbl">${h.name.length>22?h.name.slice(0,21)+'…':h.name}</div>
-      <div class="bc-track">
-        <div class="bc-fill" data-val="${h.hci}" style="width:${(h.hci/maxHCI)*100}%;background:${h.color}"></div>
+      <div class="bc-track" onclick="focusAtlasItem(${h.id}, true)">
+        <div class="bc-fill" data-val="${h.hci}" data-animate-width="${(h.hci/maxHCI)*100}%" style="width:0;background:${h.color}"></div>
       </div>
       <div class="bc-val">${h.hci}</div>
     </div>`).join('');
 
-  // Duration chart
-  const topDur = [...DATA].sort((a,b)=>b.duration-a.duration).slice(0,15);
+  const topDur = scopeData.slice().sort((a,b)=>b.duration-a.duration).slice(0,15);
   const maxDur = topDur[0].duration;
   document.getElementById('chart-duration').innerHTML = topDur.map(h=>`
     <div class="bc-row">
       <div class="bc-lbl">${h.name.length>18?h.name.slice(0,17)+'…':h.name}</div>
-      <div class="bc-track">
-        <div class="bc-fill" data-val="${h.duration}" style="width:${(h.duration/maxDur)*100}%;background:${h.color}"></div>
+      <div class="bc-track" onclick="focusAtlasItem(${h.id}, true)">
+        <div class="bc-fill" data-val="${compactNumber(h.duration)}" data-animate-width="${(h.duration/maxDur)*100}%" style="width:0;background:${h.color}"></div>
       </div>
-      <div class="bc-val">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration}</div>
+      <div class="bc-val">${compactNumber(h.duration)}</div>
     </div>`).join('');
 
-  // Area chart
-  const topArea = [...DATA].filter(d=>d.area>0).sort((a,b)=>b.area-a.area).slice(0,15);
-  const maxArea = topArea[0].area;
-  document.getElementById('chart-area').innerHTML = topArea.map(h=>`
+  const topArea = scopeData.filter(d=>d.area>0).slice().sort((a,b)=>b.area-a.area).slice(0,15);
+  document.getElementById('chart-area').innerHTML = topArea.length ? topArea.map(h=>`
     <div class="bc-row">
       <div class="bc-lbl">${h.name.length>18?h.name.slice(0,17)+'…':h.name}</div>
-      <div class="bc-track">
-        <div class="bc-fill" data-val="${h.area}" style="width:${(h.area/maxArea)*100}%;background:${h.color}"></div>
+      <div class="bc-track" onclick="focusAtlasItem(${h.id}, true)">
+        <div class="bc-fill" data-val="${formatArea(h.area)}" data-animate-width="${(h.area/(topArea[0].area||1))*100}%" style="width:0;background:${h.color}"></div>
       </div>
-      <div class="bc-val">${h.area>=1000?(h.area/1000).toFixed(0)+'M':h.area+'K'}</div>
-    </div>`).join('');
+      <div class="bc-val">${formatArea(h.area)}</div>
+    </div>`).join('') : '<div class="chart-empty">Data luas wilayah belum tersedia untuk cakupan aktif.</div>';
 
-  // GDP Canvas
+  ['chart-hci', 'chart-duration', 'chart-area'].forEach(id => {
+    const container = document.getElementById(id);
+    animateStagger(container, '.bc-row', {step:18});
+    animateWidths(container, '.bc-fill', {stagger:16});
+  });
+
   drawGDPTimeline();
 
-  // Type donut & era bar via SVG
-  drawTypeChart();
-  drawEraChart();
+  drawTypeChart(scopeData);
+  drawEraChart(scopeData);
 }
 
 function drawGDPTimeline() {
   const canvas = document.getElementById('chart-gdp');
   const ctx = canvas.getContext('2d');
-  const W = canvas.parentElement.clientWidth - 40;
-  canvas.width = W; canvas.height = 220;
+  const W = Math.max(320, canvas.parentElement.clientWidth - 20);
+  const H_TOTAL = 286;
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(W * DPR);
+  canvas.height = Math.floor(H_TOTAL * DPR);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H_TOTAL}px`;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
 
-  // GDP data points [year, china%, india%, europe_west%, us%, others%]
   const pts = [
     [-500, 8, 30, 10, 0, 52],
     [0, 26, 33, 13, 0, 28],
@@ -1348,244 +1875,232 @@ function drawGDPTimeline() {
     [1950, 5, 4, 26, 28, 37],
     [1975, 5, 4, 26, 25, 40],
     [2000, 12, 6, 24, 22, 36],
-    [2024, 18, 7, 18, 25, 32],
+    [2022, 18, 7, 18, 25, 32],
+  ];
+  const series = [
+    {label:'China', color:'#1a5c1a', idx:1},
+    {label:'India', color:'#8b4513', idx:2},
+    {label:'Eropa Barat', color:'#8b2222', idx:3},
+    {label:'AS', color:'#1a3a6b', idx:4},
   ];
 
-  const colors = ['#1a5c1a','#8b4513','#8b2222','#1a3a6b','#888'];
-  const labels = ['China','India','Eropa Barat','AS','Lainnya'];
+  const minY = -500;
+  const splitYear = 1820;
+  const maxY = 2022;
+  const PAD = {t:14,r:14,b:72,l:42};
+  const chartH = H_TOTAL - PAD.t - PAD.b;
+  const chartW = W - PAD.l - PAD.r;
+  const splitRatio = W < 700 ? 0.62 : 0.7;
+  const leftW = chartW * splitRatio;
+  const rightW = chartW - leftW;
 
-  const minY = -500, maxY = 2024;
-  const H = 180, PAD = {t:10,r:10,b:30,l:40};
-  const cW = W - PAD.l - PAD.r;
+  const xPx = year => {
+    if (year <= splitYear) return PAD.l + ((year - minY) / (splitYear - minY)) * leftW;
+    return PAD.l + leftW + ((year - splitYear) / (maxY - splitYear)) * rightW;
+  };
+  const yPx = value => PAD.t + chartH - (value / 60) * chartH;
 
-  const xPx = y => PAD.l + ((y - minY)/(maxY-minY))*cW;
-  const yPx = v => PAD.t + H - (v/60)*H;
+  const labelIndices = new Set(
+    pts.map((_, i) => i).filter(i => {
+      if (i === 0 || i === pts.length - 1) return true;
+      return W < 600 ? i % 2 === 0 : true;
+    })
+  );
 
-  // Grid
-  ctx.strokeStyle = '#e3dccf'; ctx.lineWidth = 1;
-  [0,20,40,60].forEach(v=>{
-    ctx.beginPath();
-    ctx.moveTo(PAD.l, yPx(v));
-    ctx.lineTo(PAD.l+cW, yPx(v));
-    ctx.stroke();
-    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Mono,monospace';
-    ctx.fillText(v+'%', 2, yPx(v)+3);
-  });
+  const draw = (progress = 1) => {
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
 
-  // Draw each region
-  [0,1,2,3].forEach(ci=>{
-    ctx.beginPath();
-    ctx.strokeStyle = colors[ci]; ctx.lineWidth = 2; ctx.setLineDash([]);
-    pts.forEach((p,i)=>{
-      const x = xPx(p[0]), y = yPx(p[ci+1]);
-      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    });
-    ctx.stroke();
-
-    // Dots
-    pts.forEach(p=>{
+    ctx.strokeStyle = '#e3dccf';
+    ctx.lineWidth = 1;
+    [0,20,40,60].forEach(value=>{
       ctx.beginPath();
-      ctx.arc(xPx(p[0]), yPx(p[ci+1]), 3, 0, Math.PI*2);
-      ctx.fillStyle = colors[ci]; ctx.fill();
+      ctx.moveTo(PAD.l, yPx(value));
+      ctx.lineTo(PAD.l + chartW, yPx(value));
+      ctx.stroke();
+      ctx.fillStyle = '#a39e8c';
+      ctx.font = '9px DM Mono,monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(value + '%', 4, yPx(value) + 3);
     });
-  });
 
-  // X axis labels
-  ctx.fillStyle='#a39e8c'; ctx.font='9px DM Mono,monospace'; ctx.textAlign='center';
-  pts.forEach(p=>{ ctx.fillText(p[0]<0?Math.abs(p[0])+'SM':p[0], xPx(p[0]), PAD.t+H+15); });
+    const breakX = PAD.l + leftW;
+    ctx.setLineDash([4,4]);
+    ctx.strokeStyle = 'rgba(110,105,85,.28)';
+    ctx.beginPath();
+    ctx.moveTo(breakX, PAD.t);
+    ctx.lineTo(breakX, PAD.t + chartH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#a39e8c';
+    ctx.font = '9px DM Sans,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Rincian era modern', breakX + (rightW / 2), PAD.t - 2);
 
-  // Legend
-  ctx.textAlign='left';
-  [0,1,2,3].forEach((ci,i)=>{
-    const lx = PAD.l + i*(cW/4);
-    ctx.fillStyle=colors[ci]; ctx.fillRect(lx, PAD.t+H+24, 8, 8);
-    ctx.fillStyle='#6e6955'; ctx.font='10px DM Sans,sans-serif';
-    ctx.fillText(labels[ci], lx+12, PAD.t+H+32);
-  });
+    labelIndices.forEach(index => {
+      const year = pts[index][0];
+      const x = xPx(year);
+      ctx.strokeStyle = 'rgba(110,105,85,.10)';
+      ctx.beginPath();
+      ctx.moveTo(x, PAD.t);
+      ctx.lineTo(x, PAD.t + chartH);
+      ctx.stroke();
+    });
+
+    ctx.save();
+    const clipWidth = Math.max(1, chartW * progress);
+    ctx.beginPath();
+    ctx.rect(PAD.l - 4, PAD.t - 6, clipWidth + 8, chartH + 18);
+    ctx.clip();
+
+    ctx.lineWidth = 2.2;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    series.forEach(seriesItem=>{
+      ctx.beginPath();
+      ctx.strokeStyle = seriesItem.color;
+      pts.forEach((point,index)=>{
+        const x = xPx(point[0]);
+        const y = yPx(point[seriesItem.idx]);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      pts.forEach(point=>{
+        ctx.beginPath();
+        ctx.arc(xPx(point[0]), yPx(point[seriesItem.idx]), 2.8, 0, Math.PI * 2);
+        ctx.fillStyle = seriesItem.color;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.8)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      });
+    });
+    ctx.restore();
+
+    ctx.fillStyle = '#8f8876';
+    ctx.font = '9px DM Mono,monospace';
+    ctx.textAlign = 'center';
+    pts.forEach((point,index)=>{
+      if (!labelIndices.has(index)) return;
+      const year = point[0];
+      const x = xPx(year);
+      const label = year < 0 ? `${Math.abs(year)}SM` : `${year}`;
+      const isModern = year >= splitYear;
+      const yOffset = isModern && index % 2 === 1 ? 30 : 18;
+      ctx.fillText(label, x, PAD.t + chartH + yOffset);
+    });
+
+    const legendCols = W < 560 ? 2 : 4;
+    const legendGapX = legendCols === 2 ? 120 : chartW / legendCols;
+    series.forEach((seriesItem,index)=>{
+      const row = Math.floor(index / legendCols);
+      const col = index % legendCols;
+      const lx = PAD.l + col * legendGapX;
+      const ly = H_TOTAL - 28 + row * 18;
+      ctx.fillStyle = seriesItem.color;
+      ctx.fillRect(lx, ly - 8, 10, 10);
+      ctx.fillStyle = '#6e6955';
+      ctx.font = '10px DM Sans,sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(seriesItem.label, lx + 14, ly);
+    });
+  };
+
+  pulseSurface(canvas);
+  runTween('chart-gdp', 900, draw);
 }
 
-function drawTypeChart() {
-  const canvas = document.getElementById('chart-type');
+function drawAnimatedBarCanvas(canvas, {values, labels, colors, emptyText, tokenKey}) {
   const ctx = canvas.getContext('2d');
-  const W = canvas.parentElement.clientWidth - 40;
-  canvas.width = W; canvas.height = 220;
+  const W = Math.max(280, canvas.parentElement.clientWidth - 40);
+  const H = 220;
+  canvas.width = W;
+  canvas.height = H;
 
+  const draw = (progress = 1) => {
+    ctx.clearRect(0,0,W,H);
+    if (!values.length || !values.some(Boolean)) {
+      ctx.fillStyle = '#a39e8c';
+      ctx.font = '12px DM Sans,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(emptyText, W / 2, H / 2);
+      return;
+    }
+
+    const max = Math.max(...values, 1);
+    const bW = Math.max(18, Math.min(70, (W - 60) / values.length - 8));
+    const startX = Math.max(18, (W - (values.length * (bW + 8))) / 2);
+    const chartBottom = H - 30;
+    const chartSpan = H - 60;
+
+    ctx.strokeStyle = 'rgba(110,105,85,.18)';
+    ctx.beginPath();
+    ctx.moveTo(20, chartBottom + .5);
+    ctx.lineTo(W - 12, chartBottom + .5);
+    ctx.stroke();
+
+    values.forEach((value, i) => {
+      const x = startX + i * (bW + 8);
+      const current = value * progress;
+      const bH = (current / max) * chartSpan;
+      const y = chartBottom - bH;
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.beginPath();
+      ctx.roundRect(x, y, bW, bH, [4,4,0,0]);
+      ctx.fill();
+
+      if (progress > 0.16) {
+        ctx.fillStyle = '#3c3828';
+        ctx.font = 'bold 13px DM Sans,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(Math.round(current), x + bW / 2, y - 4);
+      }
+
+      ctx.fillStyle = '#a39e8c';
+      ctx.font = '9px DM Sans,sans-serif';
+      ctx.fillText(labels[i], x + bW / 2, H - 10);
+    });
+  };
+
+  pulseSurface(canvas);
+  runTween(tokenKey, 760, draw);
+}
+
+function drawTypeChart(data = DATA) {
   const typeCounts = {};
-  DATA.forEach(d=>d.types.forEach(t=>{typeCounts[t]=(typeCounts[t]||0)+1}));
+  data.forEach(d=>d.types.forEach(t=>{typeCounts[t]=(typeCounts[t]||0)+1}));
   const types = Object.keys(typeCounts);
-  const vals = types.map(t=>typeCounts[t]);
-  const cols = ['#8b2222','#1a6b3a','#8b6014','#1a4a8b','#6b1a8b','#1a6b6b'];
-
-  const max = Math.max(...vals);
-  const bW = Math.min(60, (W-60)/types.length - 8);
-  const startX = (W - (types.length*(bW+8)))/2;
-
-  vals.forEach((v,i)=>{
-    const x = startX + i*(bW+8);
-    const bH = (v/max)*(220-60);
-    const y = 220-30-bH;
-    ctx.fillStyle = cols[i%cols.length];
-    ctx.beginPath();
-    ctx.roundRect(x, y, bW, bH, [4,4,0,0]);
-    ctx.fill();
-
-    ctx.fillStyle='#3c3828'; ctx.font='bold 13px DM Sans,sans-serif'; ctx.textAlign='center';
-    ctx.fillText(v, x+bW/2, y-4);
-
-    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Sans,sans-serif';
-    const lbl = {militer:'Militer',komersial:'Komersial',religius:'Religius',hukum:'Hukum',teknologi:'Teknologi',finansial:'Finansial'}[types[i]]||types[i];
-    ctx.fillText(lbl, x+bW/2, 220-10);
+  drawAnimatedBarCanvas(document.getElementById('chart-type'), {
+    values: types.map(t=>typeCounts[t]),
+    labels: types.map(type => ({militer:'Militer',komersial:'Komersial',religius:'Religius',hukum:'Hukum',teknologi:'Teknologi',finansial:'Finansial'}[type] || type)),
+    colors: ['#8b2222','#1a6b3a','#8b6014','#1a4a8b','#6b1a8b','#1a6b6b'],
+    emptyText: 'Tidak ada tipe hegemoni untuk filter ini.',
+    tokenKey: 'chart-type'
   });
 }
 
-function drawEraChart() {
-  const canvas = document.getElementById('chart-era');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.parentElement.clientWidth - 40;
-  canvas.width = W; canvas.height = 220;
-
+function drawEraChart(data = DATA) {
   const eras = ERA_ORDER;
-  const vals = eras.map(e=>DATA.filter(d=>d.era===e).length);
-  const max = Math.max(...vals);
-  const cols = eras.map(e=>ERA_COLORS[e]||'#888');
-  const bW = Math.min(70, (W-60)/eras.length - 8);
-  const startX = (W - (eras.length*(bW+8)))/2;
-
-  vals.forEach((v,i)=>{
-    const x = startX + i*(bW+8);
-    const bH = (v/max)*(220-60);
-    const y = 220-30-bH;
-    ctx.fillStyle = cols[i];
-    ctx.beginPath();
-    ctx.roundRect(x, y, bW, bH, [4,4,0,0]);
-    ctx.fill();
-
-    ctx.fillStyle='#3c3828'; ctx.font='bold 13px DM Sans'; ctx.textAlign='center';
-    ctx.fillText(v, x+bW/2, y-4);
-
-    ctx.fillStyle='#a39e8c'; ctx.font='9px DM Sans';
-    const shortLabels = {kuno:'Kuno',klasik:'Klasik',pertengahan:'Pertengahan',"modern-awal":'Modern',industri:'Industri',kontemporer:'Kontemporer'};
-    ctx.fillText(shortLabels[eras[i]], x+bW/2, 220-10);
+  const vals = eras.map(e=>data.filter(d=>d.era===e).length);
+  drawAnimatedBarCanvas(document.getElementById('chart-era'), {
+    values: vals,
+    labels: eras.map(era => ({kuno:'Kuno',klasik:'Klasik',pertengahan:'Pertengahan',"modern-awal":'Modern',industri:'Industri',kontemporer:'Kontemporer'}[era])),
+    colors: eras.map(e=>ERA_COLORS[e]||'#888'),
+    emptyText: 'Tidak ada distribusi era untuk filter ini.',
+    tokenKey: 'chart-era'
   });
 }
 
 // ══════════════════════════════════════════════════════════════════
 //  COMPARISON / RADAR
 // ══════════════════════════════════════════════════════════════════
-let compRendered = false;
-function renderComparison() {
-  if (compRendered) return;
-  compRendered = true;
-
-  const sorted = [...DATA].sort((a,b)=>a.name.localeCompare(b.name));
-  ['cmp1','cmp2','cmp3'].forEach((id,i)=>{
-    const sel = document.getElementById(id);
-    sorted.forEach(d=>{
-      const opt = document.createElement('option');
-      opt.value = d.id; opt.textContent = d.name;
-      if (i===0 && d.id===12) opt.selected=true; // Roma
-      if (i===1 && d.id===39) opt.selected=true; // USA
-      if (i===2 && d.id===22) opt.selected=true; // Mongol
-      sel.appendChild(opt);
-    });
-  });
-
-  runComparison();
-}
-
-function runComparison() {
-  const ids = [
-    +document.getElementById('cmp1').value,
-    +document.getElementById('cmp2').value,
-    +document.getElementById('cmp3').value,
-  ].filter(Boolean);
-
-  const items = ids.map(id=>DATA.find(d=>d.id===id)).filter(Boolean);
-  const RADAR_COLS = ['#b5432d','#1a3a6b','#2d8b4a'];
-
-  // Draw radar SVG
-  const svg = document.getElementById('radar-svg');
-  const cx=240, cy=180, r=130;
-  const axes = ['militer','ekonomi','budaya','teknologi','administrasi'];
-  const axisLabels = ['Militer','Ekonomi','Budaya','Teknologi','Administrasi'];
-  const N = axes.length;
-
-  function ptAngle(i){ return (Math.PI*2/N)*i - Math.PI/2; }
-  function ptCoord(i, frac){ const a=ptAngle(i); return [cx+Math.cos(a)*r*frac, cy+Math.sin(a)*r*frac]; }
-
-  let html = '';
-
-  // Background circles
-  [.2,.4,.6,.8,1].forEach(frac=>{
-    const pts = axes.map((_,i)=>ptCoord(i,frac).join(',')).join(' ');
-    html += `<polygon points="${pts}" fill="none" stroke="#e3dccf" stroke-width="1"/>`;
-    html += `<text x="${cx}" y="${cy-r*frac-4}" text-anchor="middle" font-size="8" fill="#a39e8c" font-family="DM Mono">${Math.round(frac*100)}</text>`;
-  });
-
-  // Axis lines & labels
-  axes.forEach((_,i)=>{
-    const [x,y] = ptCoord(i,1);
-    html += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d8d0c0" stroke-width="1"/>`;
-    const [lx,ly] = ptCoord(i,1.18);
-    html += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#6e6955" font-weight="600" font-family="DM Sans">${axisLabels[i]}</text>`;
-  });
-
-  // Data polygons
-  items.forEach((item,ci)=>{
-    const pts = axes.map((ax,i)=>{
-      const frac = (item.power[ax]||0)/100;
-      return ptCoord(i,frac).join(',');
-    }).join(' ');
-    html += `<polygon points="${pts}" fill="${RADAR_COLS[ci]}22" stroke="${RADAR_COLS[ci]}" stroke-width="2"/>`;
-    axes.forEach((ax,i)=>{
-      const [px,py] = ptCoord(i,(item.power[ax]||0)/100);
-      html += `<circle cx="${px}" cy="${py}" r="4" fill="${RADAR_COLS[ci]}" stroke="white" stroke-width="1.5"/>`;
-    });
-  });
-
-  svg.innerHTML = html;
-
-  // Legend
-  document.getElementById('radar-legend').innerHTML = items.map((item,ci)=>
-    `<div class="rl-item"><div class="rl-dot" style="background:${RADAR_COLS[ci]}"></div>${item.name}</div>`
-  ).join('');
-
-  // Comparison table
-  const tableHtml = `<table style="width:100%;border-collapse:collapse">
-    <thead>
-      <tr>
-        <th style="padding:.5rem;text-align:left;font-size:10px;text-transform:uppercase;color:var(--ink4);border-bottom:2px solid var(--bg3)">Dimensi</th>
-        ${items.map((item,ci)=>`<th style="padding:.5rem;font-size:11px;color:${RADAR_COLS[ci]};border-bottom:2px solid var(--bg3)">${item.name}</th>`).join('')}
-      </tr>
-    </thead>
-    <tbody>
-      ${axes.map(ax=>`<tr>
-        <td style="padding:.5rem .5rem;font-size:11px;color:var(--ink3);border-bottom:1px solid var(--bg2);font-family:'DM Mono',monospace">${axisLabels[axes.indexOf(ax)]}</td>
-        ${items.map(item=>`<td style="padding:.5rem;font-size:12px;font-family:'DM Mono',monospace;font-weight:600;color:var(--ink);border-bottom:1px solid var(--bg2)">${item.power[ax]||0}</td>`).join('')}
-      </tr>`).join('')}
-      <tr style="background:var(--bg)">
-        <td style="padding:.625rem .5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">HCI</td>
-        ${items.map((item,ci)=>`<td style="padding:.625rem .5rem;font-size:14px;font-weight:700;color:${RADAR_COLS[ci]};font-family:'DM Mono',monospace">${item.hci}</td>`).join('')}
-      </tr>
-      <tr>
-        <td style="padding:.5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">Durasi</td>
-        ${items.map(item=>`<td style="padding:.5rem;font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">${item.duration} thn</td>`).join('')}
-      </tr>
-      <tr>
-        <td style="padding:.5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase">Luas</td>
-        ${items.map(item=>`<td style="padding:.5rem;font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">${item.area?item.area+'K km²':'—'}</td>`).join('')}
-      </tr>
-    </tbody>
-  </table>`;
-  document.getElementById('compare-table').innerHTML = tableHtml;
-}
-
-// ══════════════════════════════════════════════════════════════════
 //  CYCLE / HCI TABLE
 // ══════════════════════════════════════════════════════════════════
 let cycleRendered = false;
 function renderCycle() {
-  if (cycleRendered) return;
   cycleRendered = true;
 
   // HCI ranking table
@@ -1605,11 +2120,13 @@ function renderCycle() {
       <td class="rank">${i+1}</td>
       <td style="font-weight:600;color:${h.color}">${h.name}</td>
       <td style="font-size:10px;color:var(--ink4)">${ERA_LABELS[h.era]?.split('·')[0].trim()}</td>
-      <td><span class="score">${h.hci}</span><div class="score-bar-inline" style="width:${h.hci*0.6}px;background:${h.color}40;border:1px solid ${h.color}50"></div></td>
+      <td><span class="score">${h.hci}</span><div class="score-bar-inline" data-animate-width="${h.hci*0.6}px" style="width:0;background:${h.color}40;border:1px solid ${h.color}50"></div></td>
       <td style="font-family:'DM Mono',monospace;font-size:11px">${h.duration>=1000?(h.duration/1000).toFixed(1)+'K':h.duration} thn</td>
       <td style="font-size:10px;color:var(--ink3)">${h.types.join(' · ')}</td>
     </tr>`).join('')}
     </tbody>`;
+  animateStagger(tableEl, 'tbody tr', {className:'table-row-anim', step:12});
+  animateWidths(tableEl, '.score-bar-inline', {stagger:12});
 
   // Timeline SVG
   drawCycleSVG();
@@ -1620,7 +2137,7 @@ function drawCycleSVG() {
   const W = svg.parentElement.clientWidth - 20;
   svg.setAttribute('width', W);
 
-  const minYear = -3500, maxYear = 2030;
+  const minYear = -3500, maxYear = CURRENT_YEAR + 4;
   const totalYears = maxYear - minYear;
   const H = 520, PAD_L = 120, PAD_R = 20, PAD_T = 30, ROW_H = 10, ROW_GAP = 1;
   const USABLE_W = W - PAD_L - PAD_R;
@@ -1646,7 +2163,7 @@ function drawCycleSVG() {
   let html = '';
 
   // Grid century lines
-  for(let y=-3500; y<=2030; y+=500){
+  for(let y=-3500; y<=CURRENT_YEAR + 4; y+=500){
     const x = xPx(y);
     html += `<line x1="${x}" y1="${PAD_T-10}" x2="${x}" y2="${actualH-40}" stroke="#e3dccf" stroke-width="1"/>`;
     html += `<text x="${x}" y="${PAD_T-14}" text-anchor="middle" font-size="8" fill="#a39e8c" font-family="DM Mono,monospace">${y<0?Math.abs(y)+' SM':y}</text>`;
@@ -1659,7 +2176,7 @@ function drawCycleSVG() {
     {s:500,e:1400,label:'Pertengahan',col:'#4a2d7a'},
     {s:1400,e:1800,label:'Modern Awal',col:'#1a6b6b'},
     {s:1800,e:1945,label:'Industri',col:'#1a3a6b'},
-    {s:1945,e:2030,label:'Kontemporer',col:'#2d6b3a'},
+    {s:1945,e:CURRENT_YEAR + 4,label:'Kontemporer',col:'#2d6b3a'},
   ];
   eraBands.forEach(b=>{
     const x1=xPx(b.s), x2=xPx(b.e);
@@ -1675,22 +2192,24 @@ function drawCycleSVG() {
     const bW = Math.max(x2-x1, 2);
     const y = PAD_T + row*(ROW_H+ROW_GAP);
     const opacity = 0.75;
-    html += `<rect x="${x1}" y="${y}" width="${bW}" height="${ROW_H}" rx="2" fill="${h.color}" opacity="${opacity}" title="${h.name}">
+    const delay = Math.min(row * 14, 420);
+    html += `<rect class="cycle-bar-animated" style="animation-delay:${delay}ms" x="${x1}" y="${y}" width="${bW}" height="${ROW_H}" rx="2" fill="${h.color}" opacity="${opacity}" title="${h.name}">
       <title>${h.name} (${h.start<0?Math.abs(h.start)+' SM':h.start} – ${h.end<0?Math.abs(h.end)+' SM':h.end}) · HCI: ${h.hci}</title>
     </rect>`;
     // Label if wide enough
     if (bW > 40) {
       const label = h.name.length>16?h.name.slice(0,15)+'…':h.name;
-      html += `<text x="${x1+3}" y="${y+ROW_H-2}" font-size="6.5" fill="white" font-family="DM Sans,sans-serif" opacity="0.9">${label}</text>`;
+      html += `<text class="cycle-label-animated" style="animation-delay:${delay + 80}ms" x="${x1+3}" y="${y+ROW_H-2}" font-size="6.5" fill="white" font-family="DM Sans,sans-serif" opacity="0.9">${label}</text>`;
     }
   });
 
   // Today line
-  const todayX = xPx(2026);
+  const todayX = xPx(CURRENT_YEAR);
   html += `<line x1="${todayX}" y1="${PAD_T-10}" x2="${todayX}" y2="${actualH-40}" stroke="#b5862d" stroke-width="1.5" stroke-dasharray="4,3"/>`;
   html += `<text x="${todayX}" y="${PAD_T-14}" text-anchor="middle" font-size="8" fill="#b5862d" font-family="DM Sans">Sekarang</text>`;
 
   svg.innerHTML = html;
+  pulseSurface(svg);
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1698,12 +2217,12 @@ function drawCycleSVG() {
 // ══════════════════════════════════════════════════════════════════
 let theoryRendered = false;
 function renderTheory() {
-  if (theoryRendered) return;
   theoryRendered = true;
 
   const colMap = {'#1e3f7a':'var(--blue-bg)','#2d6b3a':'var(--green-bg)','#5c2d8a':'var(--purple-bg)','#9b3f22':'#fce8e0','#b5862d':'var(--gold-bg)','#1e6b6b':'var(--teal-bg)'};
 
-  document.getElementById('theory-grid').innerHTML = THEORIES.map(t=>{
+  const theoryGrid = document.getElementById('theory-grid');
+  theoryGrid.innerHTML = THEORIES.map(t=>{
     const bg = colMap[t.kwColor]||'var(--panel2)';
     const kwStyle = `background:${t.kwColor}15;color:${t.kwColor};border:1px solid ${t.kwColor}30`;
     return `<div class="theory-card">
@@ -1716,6 +2235,7 @@ function renderTheory() {
       </div>
     </div>`;
   }).join('');
+  animateStagger(theoryGrid, '.theory-card', {step:54});
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1723,11 +2243,226 @@ function renderTheory() {
 // ══════════════════════════════════════════════════════════════════
 renderAtlas();
 
-// Update sidebar stats
-const avgDur = Math.round(DATA.reduce((s,d)=>s+d.duration,0)/DATA.length);
-document.getElementById('s-avg').textContent = avgDur;
-document.getElementById('s-total').textContent = DATA.length;
-document.getElementById('result-count').textContent = `Menampilkan ${DATA.length} hegemoni`;
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (currentTab === 'analitik') renderAnalytics();
+    if (currentTab === 'komparasi') renderComparison();
+    if (currentTab === 'siklus' && cycleRendered) drawCycleSVG();
+  }, 120);
+});
+
+const COMPARE_AXES = ['militer','ekonomi','budaya','teknologi','administrasi'];
+const COMPARE_AXIS_LABELS = {
+  militer:'Militer',
+  ekonomi:'Ekonomi',
+  budaya:'Budaya',
+  teknologi:'Teknologi',
+  administrasi:'Administrasi'
+};
+const COMPARISON_COLORS = ['#b5432d','#1a3a6b','#2d8b4a'];
+
+function stabilizeComparisonLayout() {
+  const panel = document.getElementById('tab-komparasi');
+  const controls = panel?.querySelector('.compare-controls');
+  const nestedGrid = controls?.querySelector('.analytics-grid');
+  if (panel && controls && nestedGrid) panel.appendChild(nestedGrid);
+}
+
+function getDominantAxes(item) {
+  const maxPower = Math.max(...COMPARE_AXES.map(ax => item.power[ax] || 0));
+  return COMPARE_AXES
+    .filter(ax => (item.power[ax] || 0) === maxPower)
+    .map(ax => COMPARE_AXIS_LABELS[ax])
+    .join(' / ');
+}
+
+function syncComparisonSelects(sourceData) {
+  const selectIds = ['cmp1','cmp2','cmp3'];
+  const pool = sourceData.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  const previous = selectIds.map(id => +document.getElementById(id).value || null);
+  const fallbackIds = sourceData
+    .slice()
+    .sort((a,b)=>(b.hci-a.hci) || (b.duration-a.duration))
+    .map(item => item.id);
+  const used = new Set();
+
+  selectIds.forEach((id,index)=>{
+    const sel = document.getElementById(id);
+    const current = pool.some(item => item.id === previous[index]) ? previous[index] : null;
+    const desired = (current && !used.has(current) ? current : fallbackIds.find(candidate => !used.has(candidate))) || null;
+
+    sel.innerHTML = '';
+    sel.disabled = pool.length === 0;
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = pool.length ? `Pilih hegemoni ${index + 1}` : 'Tidak ada kandidat';
+    placeholder.selected = !desired;
+    sel.appendChild(placeholder);
+
+    pool.forEach(item=>{
+      const opt = document.createElement('option');
+      opt.value = item.id;
+      opt.textContent = item.name;
+      if (desired === item.id) {
+        opt.selected = true;
+        used.add(item.id);
+      }
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function renderComparison() {
+  stabilizeComparisonLayout();
+  const scopeData = filteredData();
+  document.getElementById('compare-scope').textContent = `${getScopeLabel()} • ${formatInt(scopeData.length)} kandidat`;
+  syncComparisonSelects(scopeData);
+  runComparison(scopeData);
+}
+
+function runComparison(sourceData = filteredData()) {
+  stabilizeComparisonLayout();
+
+  const pool = Array.isArray(sourceData) ? sourceData : filteredData();
+  const ids = [
+    +document.getElementById('cmp1').value,
+    +document.getElementById('cmp2').value,
+    +document.getElementById('cmp3').value,
+  ].filter(Boolean);
+  const items = [...new Set(ids)]
+    .map(id => pool.find(entry => entry.id === id) || DATA.find(entry => entry.id === id))
+    .filter(Boolean)
+    .slice(0,3);
+
+  const overviewEl = document.getElementById('compare-overview');
+  const legendEl = document.getElementById('radar-legend');
+  const tableEl = document.getElementById('compare-table');
+  const svg = document.getElementById('radar-svg');
+
+  if (!items.length) {
+    overviewEl.innerHTML = `<div class="compare-empty" style="grid-column:1/-1">Tidak ada kandidat komparasi pada filter ini. Longgarkan filter atau pencarian untuk membuka opsi perbandingan.</div>`;
+    legendEl.innerHTML = '';
+    tableEl.innerHTML = `<div class="compare-empty">Pilih minimal satu hegemoni untuk menampilkan profil komparatifnya.</div>`;
+    svg.innerHTML = `
+      <text x="240" y="172" text-anchor="middle" font-size="15" fill="#6e6955" font-family="DM Sans">Belum ada kandidat komparasi</text>
+      <text x="240" y="194" text-anchor="middle" font-size="11" fill="#a39e8c" font-family="DM Sans">Ubah filter atau pilih hegemoni dari dropdown.</text>`;
+    return;
+  }
+
+  const strongestHCI = items.slice().sort((a,b)=>b.hci-a.hci)[0];
+  const longest = items.slice().sort((a,b)=>b.duration-a.duration)[0];
+  const widest = items.filter(item=>item.area>0).slice().sort((a,b)=>b.area-a.area)[0] || null;
+  const minStart = Math.min(...items.map(item=>item.start));
+  const maxEnd = Math.max(...items.map(item=>item.end));
+  const avgHCI = Math.round(items.reduce((sum,item)=>sum+item.hci,0) / items.length);
+  const axisWins = items
+    .map(item => ({
+      item,
+      wins: COMPARE_AXES.filter(ax => {
+        const best = Math.max(...items.map(entry => entry.power[ax] || 0));
+        return (item.power[ax] || 0) === best;
+      }).length
+    }))
+    .sort((a,b)=>(b.wins-a.wins) || (b.item.hci-a.item.hci));
+  const dimensionLeader = axisWins[0];
+
+  overviewEl.innerHTML = `
+    <div class="overview-card" onclick="focusAtlasItem(${strongestHCI.id}, true)">
+      <span class="overview-label">Pemimpin HCI</span>
+      <span class="overview-value">${strongestHCI.hci}</span>
+      <div class="overview-note">${strongestHCI.name} memimpin pilihan aktif dan unggul pada ${axisWins.find(entry => entry.item.id === strongestHCI.id)?.wins || 0} dari 5 dimensi.</div>
+    </div>
+    <div class="overview-card" onclick="focusAtlasItem(${longest.id}, true)">
+      <span class="overview-label">Durasi Terpanjang</span>
+      <span class="overview-value">${compactNumber(longest.duration)}</span>
+      <div class="overview-note">${longest.name} bertahan paling lama dalam kelompok komparasi ini.</div>
+    </div>
+    <div class="overview-card"${widest ? ` onclick="focusAtlasItem(${widest.id}, true)"` : ''}>
+      <span class="overview-label">Wilayah Terluas</span>
+      <span class="overview-value">${widest ? formatArea(widest.area) : 'N/A'}</span>
+      <div class="overview-note">${widest ? `${widest.name} memiliki estimasi area terbesar di antara pilihan aktif.` : 'Belum ada estimasi area untuk pilihan yang sedang dibandingkan.'}</div>
+    </div>
+    <div class="overview-card">
+      <span class="overview-label">Bentang & Rerata</span>
+      <span class="overview-value">${compactNumber(maxEnd - minStart)}</span>
+      <div class="overview-note">Rentang gabungan ${formatYear(minStart)} sampai ${formatYear(maxEnd)} dengan rerata HCI ${avgHCI}.</div>
+    </div>`;
+  animateStagger(overviewEl, '.overview-card', {step:48});
+
+  const cx = 240;
+  const cy = 180;
+  const r = 130;
+  const axisCount = COMPARE_AXES.length;
+  const ptAngle = i => (Math.PI * 2 / axisCount) * i - Math.PI / 2;
+  const ptCoord = (i, frac) => {
+    const angle = ptAngle(i);
+    return [cx + Math.cos(angle) * r * frac, cy + Math.sin(angle) * r * frac];
+  };
+
+  let html = '';
+  [.2,.4,.6,.8,1].forEach(frac=>{
+    const pts = COMPARE_AXES.map((_,i)=>ptCoord(i,frac).join(',')).join(' ');
+    html += `<polygon points="${pts}" fill="none" stroke="#e3dccf" stroke-width="1"/>`;
+    html += `<text x="${cx}" y="${cy-r*frac-4}" text-anchor="middle" font-size="8" fill="#a39e8c" font-family="DM Mono">${Math.round(frac*100)}</text>`;
+  });
+  COMPARE_AXES.forEach((ax,i)=>{
+    const [x,y] = ptCoord(i,1);
+    html += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#d8d0c0" stroke-width="1"/>`;
+    const [lx,ly] = ptCoord(i,1.18);
+    html += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#6e6955" font-weight="600" font-family="DM Sans">${COMPARE_AXIS_LABELS[ax]}</text>`;
+  });
+  items.forEach((item,ci)=>{
+    const pts = COMPARE_AXES.map((ax,i)=>ptCoord(i,(item.power[ax] || 0) / 100).join(',')).join(' ');
+    html += `<polygon class="radar-animated" style="animation-delay:${ci * 90}ms" points="${pts}" fill="${COMPARISON_COLORS[ci]}22" stroke="${COMPARISON_COLORS[ci]}" stroke-width="2"/>`;
+    COMPARE_AXES.forEach((ax,i)=>{
+      const [px,py] = ptCoord(i,(item.power[ax] || 0) / 100);
+      html += `<circle class="radar-animated" style="animation-delay:${ci * 90 + i * 28}ms" cx="${px}" cy="${py}" r="4" fill="${COMPARISON_COLORS[ci]}" stroke="white" stroke-width="1.5"/>`;
+    });
+  });
+  svg.innerHTML = html;
+  pulseSurface(svg);
+
+  legendEl.innerHTML = items.map((item,ci)=>
+    `<div class="rl-item" onclick="focusAtlasItem(${item.id}, true)"><div class="rl-dot" style="background:${COMPARISON_COLORS[ci]}"></div>${item.name}</div>`
+  ).join('');
+  animateStagger(legendEl, '.rl-item', {step:34});
+
+  const row = (label, cells, accent = false) => `
+    <tr${accent ? ' style="background:var(--bg)"' : ''}>
+      <td style="padding:.55rem .5rem;font-size:10px;font-weight:700;color:var(--ink4);text-transform:uppercase;border-bottom:1px solid var(--bg2)">${label}</td>
+      ${cells.join('')}
+    </tr>`;
+  const cell = (content, color = 'var(--ink)', strong = false) =>
+    `<td style="padding:.55rem .5rem;font-size:${strong ? '13px' : '11px'};font-family:'DM Mono',monospace;font-weight:${strong ? '700' : '500'};color:${color};border-bottom:1px solid var(--bg2)">${content}</td>`;
+
+  tableEl.innerHTML = `<table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr>
+        <th style="padding:.5rem;text-align:left;font-size:10px;text-transform:uppercase;color:var(--ink4);border-bottom:2px solid var(--bg3)">Dimensi</th>
+        ${items.map((item,ci)=>`<th style="padding:.5rem;font-size:11px;color:${COMPARISON_COLORS[ci]};border-bottom:2px solid var(--bg3)">${item.name}</th>`).join('')}
+      </tr>
+    </thead>
+    <tbody>
+      ${COMPARE_AXES.map(ax => row(COMPARE_AXIS_LABELS[ax], items.map(item => cell(item.power[ax] || 0)))).join('')}
+      ${row('HCI', items.map((item,ci)=>cell(item.hci, COMPARISON_COLORS[ci], true)), true)}
+      ${row('Dimensi Terkuat', items.map(item => cell(getDominantAxes(item))))}
+      ${row('Durasi', items.map(item => cell(`${compactNumber(item.duration)} thn`)))}
+      ${row('Rentang', items.map(item => cell(`${formatYear(item.start)}–${formatYear(item.end)}`)))}
+      ${row('Kawasan', items.map(item => cell(REGION_LABELS[item.region] || item.region)))}
+      ${row('Era', items.map(item => cell(ERA_LABELS[item.era]?.split('·')[0].trim() || item.era)))}
+      ${row('Luas', items.map(item => cell(item.area ? `${formatArea(item.area)}K km²` : 'N/A')))}
+      ${row('Pemenang Dimensi', items.map(item => {
+        const wins = axisWins.find(entry => entry.item.id === item.id)?.wins || 0;
+        return cell(`${wins}/5`);
+      }))}
+    </tbody>
+  </table>
+  <div class="compare-note" style="margin-top:.8rem">Pilihan saat ini dipimpin oleh ${dimensionLeader.item.name} pada ${dimensionLeader.wins} dari 5 dimensi, sementara rentang historis gabungannya membentang dari ${formatYear(minStart)} hingga ${formatYear(maxEnd)}.</div>`;
+  animateStagger(tableEl, 'tbody tr', {className:'table-row-anim', step:18});
+}
 </script>
 </body>
 </html>
